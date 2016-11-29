@@ -11,10 +11,10 @@ import android.view.LayoutInflater;
  * Created by jianguog on 16/11/25.
  */
 
-public class ImageAdapter extends BaseAdapter {
+public class MainImageAdapter extends BaseAdapter {
     private Context mContext;
 
-    public ImageAdapter(Context c) {
+    public MainImageAdapter(Context c) {
         mContext = c;
     }
 
@@ -36,13 +36,11 @@ public class ImageAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
-            System.out.println("==============");
+            imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
+            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            //imageView.setPadding(10, 10, 10, 10);
         } else {
             imageView = (ImageView) convertView;
-            System.out.println("----------------");
         }
 
         imageView.setImageResource(mThumbIds[position]);
@@ -51,6 +49,6 @@ public class ImageAdapter extends BaseAdapter {
 
     // references to our images
     private Integer[] mThumbIds = {
-            R.drawable.sample_0, R.drawable.sample_2
+            R.drawable.bag, R.drawable.education
     };
 }

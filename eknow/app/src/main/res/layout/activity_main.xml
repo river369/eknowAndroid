@@ -11,33 +11,35 @@
     tools:context="eknow.com.eknow.MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/textView" />
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="@string/category"
+        android:id="@+id/category"
+        android:gravity="center_vertical|left"
+        android:background="@color/gray_bright"/>
 
     <GridView
         android:id="@+id/gridview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:numColumns="3"
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/category"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/textView1"
-        android:layout_below="@+id/gridview"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="41dp" />
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="@string/recommendation"
+        android:id="@+id/recommendation"
+        android:gravity="center_vertical|left"
+        android:background="@color/gray_bright"
+        android:layout_below="@+id/gridview"/>
+
 
 </RelativeLayout>

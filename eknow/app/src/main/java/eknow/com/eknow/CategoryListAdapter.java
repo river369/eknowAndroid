@@ -23,8 +23,8 @@ class CategoryListAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = (LayoutInflater) getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.category_list_row, parent, false);
-        TextView textView = (TextView) view.findViewById(R.id.textView1);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView1);
+        TextView textView = (TextView) view.findViewById(R.id.sellerName);
+        ImageView imageView = (ImageView) view.findViewById(R.id.serviceHeaderImage);
         textView.setText( getItem(position));
         return view;
     }

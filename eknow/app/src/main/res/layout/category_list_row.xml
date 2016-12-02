@@ -11,7 +11,7 @@
         android:textSize="16sp"
         android:textColor="@color/eknowTitle"
         android:gravity="center_vertical|left"
-        android:layout_marginLeft="6dp"/>
+        android:layout_marginLeft="10dp"/>
 
     <RatingBar
         android:id="@+id/rb_normal"
@@ -27,22 +27,34 @@
         android:progressTint="@color/Orange"
         />
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:id="@+id/serviceHeaderImage"-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:layout_below="@+id/title"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:src = "@drawable/tourism"-->
+        <!--/>-->
+
+    <pl.polidea.webimageview.WebImageView
         android:id="@+id/serviceHeaderImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_below="@+id/title"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/sample_0" />
+        />
+
 
     <TextView
         android:id="@+id/sellerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/serviceHeaderImage"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/serviceHeaderImage"
         android:text="卖家：abc" />
 

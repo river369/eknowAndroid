@@ -1,4 +1,4 @@
-package eknow.com.eknow;
+package eknow.com.eknow.test;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import eknow.com.eknow.CategoryListActivity;
+import eknow.com.eknow.R;
 import pl.polidea.webimageview.WebImageView;
 
 public class testActivity extends AppCompatActivity {

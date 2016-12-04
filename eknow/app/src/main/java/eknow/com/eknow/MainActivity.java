@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import eknow.com.eknow.service.ServicesListActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -20,15 +22,21 @@ public class MainActivity extends AppCompatActivity {
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                sendMessage();
+                sendMessage(position);
                 Toast.makeText(MainActivity.this, id + "  " + position, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     /** Called when the user clicks the Send button */
-    public void sendMessage() {
-        Intent intent = new Intent(this,  CategoryListActivity.class);
-        startActivity(intent);
+    public void sendMessage(int position) {
+        System.out.println("The position is " + position);
+        if (position == 1) {
+            Intent intent = new Intent(this,  CategoryListActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, ServicesListActivity.class);
+            startActivity(intent);
+        }
     }
 }

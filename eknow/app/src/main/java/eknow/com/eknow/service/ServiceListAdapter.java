@@ -17,8 +17,11 @@ public class ServiceListAdapter extends
 
     private List<ServiceInfo> services = new ArrayList<>();
 
-    public ServiceListAdapter(List<ServiceInfo> personList) {
-        this.services.addAll(personList);
+    public ServiceListAdapter(List<ServiceInfo> serviceList) {
+        this.services.addAll(serviceList);
+    }
+    public void addMoreSerices(List<ServiceInfo> serviceList){
+        this.services.addAll(serviceList);
     }
 
     @Override
@@ -49,6 +52,7 @@ public class ServiceListAdapter extends
 
     @Override
     public int getItemCount() {
+        //System.out.println("checking count ..." + services.size());
         return services.size();
     }
 

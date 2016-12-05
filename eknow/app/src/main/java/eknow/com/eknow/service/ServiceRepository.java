@@ -8,21 +8,25 @@ import java.util.List;
  */
 
 public class ServiceRepository {
-    public static List<ServiceInfo> getOriginalActorList() {
+    public static List<ServiceInfo> getOriginalServicesList() {
         final List<ServiceInfo> services = new ArrayList<>();
 
-        ServiceInfo s1 = new ServiceInfo();
-        s1.setSellerName("test1");
-        services.add(s1);
+        for (int i=0; i<10; i++) {
+            ServiceInfo s1 = new ServiceInfo();
+            s1.setSellerName("test"+i);
+            services.add(s1);
+        }
 
-        ServiceInfo s2 = new ServiceInfo();
-        s2.setSellerName("test2");
-        services.add(s2);
 
-        ServiceInfo s3 = new ServiceInfo();
-        s3.setSellerName("test3");
-        services.add(s3);
+        return services;
+    }
 
+    public static List<ServiceInfo> addMoreActorList(int currentPage) {
+        final List<ServiceInfo> services = new ArrayList<>();
+
+        ServiceInfo s4 = new ServiceInfo();
+        s4.setSellerName("test"+currentPage);
+        services.add(s4);
 
         return services;
     }

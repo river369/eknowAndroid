@@ -38,21 +38,22 @@ public abstract class EndlessRecyclerOnScrollListener extends
         System.out.println("previousTotal="+previousTotal);
         System.out.println("loading="+loading);
         System.out.println("currentPage="+currentPage);
-
         System.out.println("================]");
         if (loading) {
             if (totalItemCount > previousTotal) {
-                System.out.println("I am here 1");
+//                System.out.println("I am here 1");
                 loading = false;
                 previousTotal = totalItemCount;
             }
         }
-        if (!loading
-                && (totalItemCount - visibleItemCount) <= firstVisibleItem + 1) {
-            System.out.println("I am here 2");
-            currentPage++;
+        if (currentPage > 1 && !loading
+                && (totalItemCount - visibleItemCount) <= firstVisibleItem) {
+//            System.out.println("I am here 2");
             onLoadMore(currentPage);
+            currentPage++;
             loading = true;
+        } else if (currentPage == 1) {
+            currentPage++;
         }
     }
 

@@ -1,13 +1,10 @@
 package eknow.com.eknow.service;
 
-import android.database.Observable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
-import java.util.concurrent.TimeUnit;
 
 import eknow.com.eknow.R;
 
@@ -18,14 +15,14 @@ import eknow.com.eknow.R;
 public class ServicesListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ServiceListAdapter adapter;
+    private ServicesListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.service_list);
 
-        adapter = new ServiceListAdapter(ServiceRepository.getOriginalServicesList());
+        adapter = new ServicesListAdapter(ServicesRepository.getOriginalServicesList());
         recyclerView = (RecyclerView) findViewById(R.id.servicesList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -43,7 +40,7 @@ public class ServicesListActivity extends AppCompatActivity {
     }
 
     private void simulateLoadMoreData(int currentPage) {
-        adapter.addMoreSerices(ServiceRepository.addMoreActorList(currentPage));
+        adapter.addMoreSerices(ServicesRepository.addMoreActorList(currentPage));
         adapter.notifyDataSetChanged();
     }
 

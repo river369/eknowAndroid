@@ -7,13 +7,13 @@ import java.util.List;
  * Created by jianguog on 16/12/4.
  */
 
-public class ServiceRepository {
+public class ServicesRepository {
     public static List<ServiceInfo> getOriginalServicesList() {
         final List<ServiceInfo> services = new ArrayList<>();
 
-        for (int i=0; i<10; i++) {
+        for (int i=0; i<4; i++) {
             ServiceInfo s1 = new ServiceInfo();
-            s1.setSellerName("test"+i);
+            s1.setSellerName("init"+i);
             services.add(s1);
         }
 

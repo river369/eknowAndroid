@@ -6,6 +6,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 import eknow.com.eknow.R;
 
 /**
@@ -22,11 +24,14 @@ public class ServicesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.service_list);
 
-        adapter = new ServicesListAdapter(ServicesRepository.getOriginalServicesList());
+        adapter = new ServicesListAdapter(new ArrayList<ServiceInfo>());
+        final ServicesRepository repository = new ServicesRepository(this, adapter);
+
         recyclerView = (RecyclerView) findViewById(R.id.servicesList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+
         RecyclerView.ItemDecoration itemDecoration = new
                 DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
@@ -34,15 +39,10 @@ public class ServicesListActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                simulateLoadMoreData(currentPage);
+                repository.addMoreServicesList(currentPage);
             }
         });
+
+        repository.getFirstPageServicesList();
     }
-
-    private void simulateLoadMoreData(int currentPage) {
-        adapter.addMoreSerices(ServicesRepository.addMoreActorList(currentPage));
-        adapter.notifyDataSetChanged();
-    }
-
-
 }

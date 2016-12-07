@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** Called when the user clicks the Send button */
     public void sendMessage(int position) {
-        System.out.println("The position is " + position);
+        //System.out.println("The position is " + position);
         if (position == 1) {
             Intent intent = new Intent(this,  CategoryListActivity.class);
             startActivity(intent);

@@ -10,6 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="eknow.com.eknow.MainActivity">
 
+    <!--<include layout="@layout/header" />-->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -41,5 +43,5 @@
         android:background="@color/gray_bright"
         android:layout_below="@+id/gridview"/>
 
-
+    <!--<include layout="@layout/footer" />-->
 </RelativeLayout>

@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,6 +43,12 @@ public class ServicesListActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ServicesListAdapter(new ArrayList<ServiceInfo>());
+        adapter.setOnItemClickListener(new ServicesListAdapter.OnRecyclerViewItemClickListener(){
+            @Override
+            public void onItemClick(View view , String data){
+                Toast.makeText(ServicesListActivity.this, data, Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         queue = Volley.newRequestQueue(this);
@@ -52,14 +60,14 @@ public class ServicesListActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                getFirstPageServicesList("地球", "1", String.valueOf(currentPage));
+                getServicesList("地球", "1", String.valueOf(currentPage));
             }
         });
 
-        getFirstPageServicesList("地球", "1", "0");
+        getServicesList("地球", "1", "0");
     }
 
-    public void getFirstPageServicesList(String serviceArea, String serviceType, String pageIndex) {
+    public void getServicesList(String serviceArea, String serviceType, String pageIndex) {
         String url = EknowConstants.API_URL;
         System.out.println("page index is " + pageIndex);
 

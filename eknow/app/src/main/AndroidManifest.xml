@@ -20,7 +20,11 @@
         <activity android:name=".test.testActivity">
         </activity>
 
-        <activity android:name=".service.ServicesListActivity"></activity>
+        <activity android:name=".service.ServicesListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
 
     </application>
 

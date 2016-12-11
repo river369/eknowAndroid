@@ -14,7 +14,7 @@ import eknow.com.eknow.utils.ImageSingleton;
 
 
 public class ServicesListAdapter extends
-        RecyclerView.Adapter<ServicesListViewHolder> {
+        RecyclerView.Adapter<ServicesListViewHolder> implements View.OnClickListener{
 
     private List<ServiceInfo> services = new ArrayList<>();
 
@@ -29,12 +29,17 @@ public class ServicesListAdapter extends
     public ServicesListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View view = inflater.inflate(R.layout.service_list_row, parent, false);
+        view.setOnClickListener(this);
         return new ServicesListViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ServicesListViewHolder holder, int position) {
         final ServiceInfo service = services.get(position);
+        // bind something for item click
+        holder.itemView.setTag(service.getServiceId());
+
+        //bind other service info for show
         holder.title.setText("【" + service.getServiceArea() + "】" + service.getServiceName());
         holder.ratingBar.setRating((float)service.getStars());
         holder.sellerName.setText(service.getSellerName());
@@ -53,6 +58,22 @@ public class ServicesListAdapter extends
         return services.size();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            // The onclick call will be map to OnRecyclerViewItemClickListener.onItemClick as follow.
+            mOnItemClickListener.onItemClick(v,(String)v.getTag());
+        }
+    }
+
+    public static interface OnRecyclerViewItemClickListener {
+        void onItemClick(View view , String data);
+    }
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
 
 }
 

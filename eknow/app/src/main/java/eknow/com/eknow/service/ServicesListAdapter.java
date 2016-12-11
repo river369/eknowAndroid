@@ -4,15 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import eknow.com.eknow.EknowConstants;
 import eknow.com.eknow.R;
-import pl.polidea.webimageview.WebImageView;
+import eknow.com.eknow.utils.ImageSingleton;
+
 
 public class ServicesListAdapter extends
         RecyclerView.Adapter<ServicesListViewHolder> {
@@ -44,7 +43,9 @@ public class ServicesListAdapter extends
         holder.description.setText(service.getServiceBrief());
         String url = EknowConstants.SERVIC_MAIN_PIC_URL + service.getSellerId() + "/" + service.getServiceId() + "/main.png";
         //System.out.println(service + url);
-        holder.mainImage.setImageURL(url);
+        //holder.mainImage.setImageURL(url);
+        holder.mainImage.setImageUrl(url, ImageSingleton.getInstance().getImageLoader());
+        holder.mainImage.setErrorImageResId(R.drawable.head_default);
     }
 
     @Override

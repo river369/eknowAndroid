@@ -1,4 +1,4 @@
-package eknow.com.eknow.utils;
+package eknow.com.eknow;
 
 /**
  * Created by jianguog on 16/12/11.
@@ -7,10 +7,8 @@ package eknow.com.eknow.utils;
 import android.app.Application;
 import android.content.Context;
 
-import java.util.List;
-
-public class ImageApplication extends Application {
-    private static ImageApplication mInstance;
+public class MainApplication extends Application {
+    private static MainApplication mInstance;
     private static Context mAppContext;
 
     @Override
@@ -21,7 +19,7 @@ public class ImageApplication extends Application {
         this.setAppContext(getApplicationContext());
     }
 
-    public static ImageApplication getInstance(){
+    public static MainApplication getInstance(){
         return mInstance;
     }
     public static Context getAppContext() {

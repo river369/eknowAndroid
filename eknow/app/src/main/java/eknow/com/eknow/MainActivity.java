@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(int position) {
         //System.out.println("The position is " + position);
         if (position == 1) {
-            Intent intent = new Intent(this,  CategoryListActivity.class);
+            Intent intent = new Intent(this, ServicesListActivity.class);
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, ServicesListActivity.class);

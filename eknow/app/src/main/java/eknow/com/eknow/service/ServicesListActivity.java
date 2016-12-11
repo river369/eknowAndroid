@@ -73,7 +73,7 @@ public class ServicesListActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println(response.toString());
+                        //System.out.println(response.toString());
                         ServicesResponseJsonParser sjp = new ServicesResponseJsonParser(response);
                         final List<ServiceInfo> services = sjp.getServiceInfos();
                         adapter.addMoreSerices(services);

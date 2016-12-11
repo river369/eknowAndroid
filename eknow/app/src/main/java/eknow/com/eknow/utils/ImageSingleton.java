@@ -11,13 +11,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import eknow.com.eknow.MainApplication;
+
 public class ImageSingleton {
     private static ImageSingleton mInstance = null;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
 
     private ImageSingleton(){
-        mRequestQueue = Volley.newRequestQueue(ImageApplication.getAppContext());
+        mRequestQueue = Volley.newRequestQueue(MainApplication.getAppContext());
         mImageLoader = new ImageLoader(this.mRequestQueue, new ImageLoader.ImageCache() {
             private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
             public void putBitmap(String url, Bitmap bitmap) {

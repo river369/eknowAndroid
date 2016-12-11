@@ -42,25 +42,34 @@
     <!--android:src = "@drawable/tourism"-->
     <!--/>-->
 
-    <pl.polidea.webimageview.WebImageView
-        android:id="@+id/serviceHeaderImage"
+    <!--<pl.polidea.webimageview.WebImageView-->
+        <!--android:id="@+id/serviceMainImage"-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:layout_below="@+id/title"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginTop="2dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:src = "@drawable/tourism"-->
+        <!--/>-->
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/serviceMainImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_below="@+id/title"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="10dp"
-        android:src = "@drawable/tourism"
         />
-
 
     <TextView
         android:id="@+id/sellerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/serviceHeaderImage"
+        android:layout_alignTop="@+id/serviceMainImage"
         android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/serviceHeaderImage"
+        android:layout_toRightOf="@+id/serviceMainImage"
         android:text="卖家：abc" />
 
     <TextView
@@ -69,7 +78,7 @@
         android:layout_height="wrap_content"
         android:text="￥1000.00/小时"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/serviceHeaderImage"
+        android:layout_alignTop="@+id/serviceMainImage"
         android:layout_marginRight="10dp" />
 
     <TextView

@@ -14,7 +14,7 @@ public abstract class EndlessRecyclerOnScrollListener extends
     private boolean loading = true;
     int firstVisibleItem, visibleItemCount, totalItemCount;
 
-    private int currentPage = 1;
+    private int currentPage = 0;
 
     private LinearLayoutManager mLinearLayoutManager;
 
@@ -30,29 +30,26 @@ public abstract class EndlessRecyclerOnScrollListener extends
         visibleItemCount = recyclerView.getChildCount();
         totalItemCount = mLinearLayoutManager.getItemCount();
         firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
-
-        System.out.println("[================");
-        System.out.println("visibleItemCount="+visibleItemCount);
-        System.out.println("totalItemCount="+totalItemCount);
-        System.out.println("firstVisibleItem="+firstVisibleItem);
-        System.out.println("previousTotal="+previousTotal);
-        System.out.println("loading="+loading);
-        System.out.println("currentPage="+currentPage);
-        System.out.println("================]");
+//        System.out.println("[================");
+//        System.out.println("visibleItemCount="+visibleItemCount);
+//        System.out.println("totalItemCount="+totalItemCount);
+//        System.out.println("firstVisibleItem="+firstVisibleItem);
+//        System.out.println("previousTotal="+previousTotal);
+//        System.out.println("loading="+loading);
+//        System.out.println("currentPage="+currentPage);
+//        System.out.println("================]");
         if (loading) {
             if (totalItemCount > previousTotal) {
-//                System.out.println("I am here 1");
                 loading = false;
                 previousTotal = totalItemCount;
             }
         }
-        if (currentPage > 1 && !loading
+        if (currentPage > 0 && !loading
                 && (totalItemCount - visibleItemCount) <= firstVisibleItem) {
-//            System.out.println("I am here 2");
             onLoadMore(currentPage);
             currentPage++;
             loading = true;
-        } else if (currentPage == 1) {
+        } else if (currentPage == 0) {
             currentPage++;
         }
     }

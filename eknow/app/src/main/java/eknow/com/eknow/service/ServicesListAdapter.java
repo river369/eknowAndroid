@@ -4,11 +4,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import eknow.com.eknow.EknowConstants;
 import eknow.com.eknow.R;
+import pl.polidea.webimageview.WebImageView;
 
 public class ServicesListAdapter extends
         RecyclerView.Adapter<ServicesListViewHolder> {
@@ -32,11 +36,15 @@ public class ServicesListAdapter extends
     @Override
     public void onBindViewHolder(ServicesListViewHolder holder, int position) {
         final ServiceInfo service = services.get(position);
+        holder.title.setText("【" + service.getServiceArea() + "】" + service.getServiceName());
+        holder.ratingBar.setRating((float)service.getStars());
         holder.sellerName.setText(service.getSellerName());
-
-        //String url = "http://upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png";
-        String url = "http://oss.clcentury.com/yzphoto/pics/57fcf61485102170/580387eb370c1148/main.png";
-        holder.image.setImageURL(url);
+        String serviceType = service.getService_price_type() ==1 ? "/小时" : "/次";
+        holder.price.setText(String.valueOf(service.getService_price()) + serviceType);
+        holder.description.setText(service.getServiceBrief());
+        String url = EknowConstants.SERVIC_MAIN_PIC_URL + service.getSellerId() + "/" + service.getServiceId() + "/main.png";
+        //System.out.println(service + url);
+        holder.mainImage.setImageURL(url);
     }
 
     @Override

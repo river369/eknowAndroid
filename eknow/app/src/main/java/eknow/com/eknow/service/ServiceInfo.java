@@ -86,4 +86,19 @@ public class ServiceInfo {
     public void setStars(double stars) {
         this.stars = stars;
     }
+
+    @Override
+    public String toString() {
+        return "ServiceInfo{" +
+                "serviceId='" + serviceId + '\'' +
+                ", serviceArea='" + serviceArea + '\'' +
+                ", serviceName='" + serviceName + '\'' +
+                ", sellerId='" + sellerId + '\'' +
+                ", sellerName='" + sellerName + '\'' +
+                ", serviceBrief='" + serviceBrief + '\'' +
+                ", service_price_type=" + service_price_type +
+                ", service_price=" + service_price +
+                ", stars=" + stars +
+                '}';
+    }
 }

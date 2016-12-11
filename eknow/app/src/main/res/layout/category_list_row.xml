@@ -39,7 +39,7 @@
         <!--/>-->
 
     <pl.polidea.webimageview.WebImageView
-        android:id="@+id/serviceHeaderImage"
+        android:id="@+id/serviceMainImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_below="@+id/title"

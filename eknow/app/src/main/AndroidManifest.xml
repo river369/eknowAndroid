@@ -28,6 +28,12 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <activity android:name=".service.ServiceDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".service.ServicesListActivity" />
+        </activity>
+
     </application>
 
 

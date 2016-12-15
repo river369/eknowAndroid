@@ -5,6 +5,7 @@ package eknow.com.eknow.utils;
  */
 
 public class KeyConstants {
+    public static String serviceId = "service_id";
     public static String serviceArea = "service_area";
     public static String serviceType = "service_type";
 }

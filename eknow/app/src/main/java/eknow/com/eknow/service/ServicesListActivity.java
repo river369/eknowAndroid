@@ -7,7 +7,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -52,7 +51,8 @@ public class ServicesListActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new ServicesListAdapter.OnRecyclerViewItemClickListener(){
             @Override
             public void onItemClick(View view , String data){
-                Toast.makeText(ServicesListActivity.this, data, Toast.LENGTH_SHORT).show();
+                //the data is service id that is set in ServicesListAdapter.onBindViewHolder
+                goToServiceDetailsActivity(data);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -102,5 +102,13 @@ public class ServicesListActivity extends AppCompatActivity {
                 }
         );
         queue.add(jsonRequest);
+    }
+
+    /** Called when the user clicks the service in list*/
+    public void goToServiceDetailsActivity(String serviceId) {
+        Intent intent = new Intent(this, ServiceDetailsActivity.class);
+        intent.putExtra(KeyConstants.serviceId, serviceId);
+        startActivity(intent);
+        // Toast.makeText(ServicesListActivity.this, data, Toast.LENGTH_SHORT).show();
     }
 }

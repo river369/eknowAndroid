@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                sendMessage(position);
+                goToServiceListActivity(position);
                 Toast.makeText(MainActivity.this, id + "  " + position, Toast.LENGTH_SHORT).show();
             }
         });
@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /** Called when the user clicks the Send button */
-    public void sendMessage(int position) {
+    /** Called when the user clicks the category view */
+    public void goToServiceListActivity(int position) {
         Intent intent = new Intent(this, ServicesListActivity.class);
         intent.putExtra(KeyConstants.serviceArea, R.string.world);
         if (position == 0) {

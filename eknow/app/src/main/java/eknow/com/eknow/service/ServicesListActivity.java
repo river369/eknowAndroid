@@ -1,5 +1,6 @@
 package eknow.com.eknow.service;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -21,8 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import eknow.com.eknow.EknowConstants;
+import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.R;
+import eknow.com.eknow.utils.KeyConstants;
 
 /**
  * Created by jianguog on 16/11/28.
@@ -38,6 +40,10 @@ public class ServicesListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.service_list);
+
+        Intent intent=getIntent();
+        final String serviceArea =intent.getStringExtra(KeyConstants.serviceArea);
+        final String serviceType =intent.getStringExtra(KeyConstants.serviceType);
 
         recyclerView = (RecyclerView) findViewById(R.id.servicesList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -60,16 +66,16 @@ public class ServicesListActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                getServicesList("地球", "1", String.valueOf(currentPage));
+                getServicesList(serviceArea, serviceType, String.valueOf(currentPage));
             }
         });
 
-        getServicesList("地球", "1", "0");
+        getServicesList(serviceArea, serviceType, "0");
     }
 
     public void getServicesList(String serviceArea, String serviceType, String pageIndex) {
-        String url = EknowConstants.API_URL;
-        System.out.println("page index is " + pageIndex);
+        String url = EnvConstants.API_URL;
+        //System.out.println("page index is " + pageIndex);
 
         ServicesRequestBuilder srb = new ServicesRequestBuilder(serviceArea, serviceType, pageIndex);
         Map<String, String> params = srb.buildRequestParameters();

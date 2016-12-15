@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">易知海外</string>
 
+    <!-- UI messages -->
+    <string name="home">主页</string>
+    <string name="setting">设置</string>
+    <string name="changeRoleToSeller">切换为卖家</string>
+    <string name="changeRoleToCustomer">切换为买家</string>
     <string name="category">分类</string>
     <string name="recommendation">精品推荐</string>
+
+    <!-- Data String -->
+    <string name="world">地球</string>
+
 </resources>

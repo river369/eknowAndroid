@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import eknow.com.eknow.EknowConstants;
+import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.R;
 import eknow.com.eknow.utils.ImageSingleton;
 
@@ -46,7 +46,7 @@ public class ServicesListAdapter extends
         String serviceType = service.getService_price_type() ==1 ? "/小时" : "/次";
         holder.price.setText(String.valueOf(service.getService_price()) + serviceType);
         holder.description.setText(service.getServiceBrief());
-        String url = EknowConstants.SERVIC_MAIN_PIC_URL + service.getSellerId() + "/" + service.getServiceId() + "/main.png";
+        String url = EnvConstants.SERVIC_MAIN_PIC_URL + service.getSellerId() + "/" + service.getServiceId() + "/main.png";
         //System.out.println(service + url);
         //holder.mainImage.setImageURL(url);
         holder.mainImage.setImageUrl(url, ImageSingleton.getInstance().getImageLoader());

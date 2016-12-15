@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/search1"
+        android:title="test"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/changeRoleToSeller"
+        android:title="@string/changeRoleToSeller"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/setting"
+        android:title="@string/setting"
+        app:showAsAction="never" />
+
+</menu>

@@ -1,6 +1,5 @@
 package eknow.com.eknow.service;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,7 +23,7 @@ public class ServiceDetailsAdapter extends FragmentPagerAdapter {
 
     @Override
     public android.support.v4.app.Fragment getItem(int position) {
-        return ServiceDetailsFragment.newInstance(position + 1);
+        return ServiceDetailsContentFragment.newInstance(position + 1);
     }
 
     @Override

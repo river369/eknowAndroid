@@ -1,12 +1,14 @@
 package eknow.com.eknow.service;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import eknow.com.eknow.EnvConstants;
+import eknow.com.eknow.FragmentsFactory;
 import eknow.com.eknow.R;
 import eknow.com.eknow.utils.KeyConstants;
 
@@ -29,38 +32,37 @@ import eknow.com.eknow.utils.KeyConstants;
  * Created by jianguog on 16/11/28.
  */
 
-public class ServicesListActivity extends AppCompatActivity {
+public class ServicesListFragment extends Fragment {
 
+    View view;
     private RecyclerView recyclerView;
     private ServicesListAdapter adapter;
     private RequestQueue queue;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.service_list);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.service_list, container, false);
 
-        Intent intent=getIntent();
-        final String serviceArea =intent.getStringExtra(KeyConstants.serviceArea);
-        final String serviceType =intent.getStringExtra(KeyConstants.serviceType);
+        final String serviceArea =getArguments().getString(KeyConstants.serviceArea);
+        final String serviceType =getArguments().getString(KeyConstants.serviceType);
 
-        recyclerView = (RecyclerView) findViewById(R.id.servicesList);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView = (RecyclerView) view.findViewById(R.id.servicesList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ServicesListAdapter(new ArrayList<ServiceInfo>());
         adapter.setOnItemClickListener(new ServicesListAdapter.OnRecyclerViewItemClickListener(){
             @Override
             public void onItemClick(View view , String data){
                 //the data is service id that is set in ServicesListAdapter.onBindViewHolder
-                goToServiceDetailsActivity(data);
+                goToServiceDetailsFragment(data);
             }
         });
         recyclerView.setAdapter(adapter);
 
-        queue = Volley.newRequestQueue(this);
+        queue = Volley.newRequestQueue(getActivity());
 
         RecyclerView.ItemDecoration itemDecoration = new
-                DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+                DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
 
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
@@ -71,6 +73,8 @@ public class ServicesListActivity extends AppCompatActivity {
         });
 
         getServicesList(serviceArea, serviceType, "0");
+
+        return view;
     }
 
     public void getServicesList(String serviceArea, String serviceType, String pageIndex) {
@@ -105,10 +109,10 @@ public class ServicesListActivity extends AppCompatActivity {
     }
 
     /** Called when the user clicks the service in list*/
-    public void goToServiceDetailsActivity(String serviceId) {
-        Intent intent = new Intent(this, ServiceDetailsFragment.class);
-        intent.putExtra(KeyConstants.serviceId, serviceId);
-        //startActivity(intent);
+    public void goToServiceDetailsFragment(String serviceId) {
+        Bundle bundle = new Bundle();
+        bundle.putString(KeyConstants.serviceId, serviceId);
+        FragmentsFactory.getInstance().setServiceDetailsFragment(getActivity(), bundle);
         // Toast.makeText(ServicesListActivity.this, data, Toast.LENGTH_SHORT).show();
     }
 }

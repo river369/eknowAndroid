@@ -11,27 +11,21 @@
         android:theme="@style/AppTheme"
         android:name=".MainApplication">
 
-        <activity
-            android:name=".MainActivity">
+        <activity android:name=".MainActivity">
+
+        </activity>
+
+        <activity android:name=".EknowMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".test.testActivity">
-        </activity>
-
         <activity android:name=".service.ServicesListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-        </activity>
-
-        <activity android:name=".service.ServiceDetailsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".service.ServicesListActivity" />
         </activity>
 
     </application>

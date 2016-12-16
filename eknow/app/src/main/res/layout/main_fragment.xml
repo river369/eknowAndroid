@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="eknow.com.eknow.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/eknowTitle">
+
+        <ImageButton
+            android:id="@+id/homeBtn"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/map1"
+            android:paddingRight="5dp"
+            android:paddingTop="0dp" />
+        <!-- http://www.easyicon.net/1140378-map_icon.html -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地球"
+            android:textColor="@color/White"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="@string/home"
+            android:textColor="@color/White"
+            android:textSize="@dimen/activity_toolbar_font_size"
+            android:layout_gravity="center"
+           />
+
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="@string/category"
+        android:id="@+id/category"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/textview_horizontal_margin"
+        android:background="@color/gray_bright"
+        android:textStyle="bold"
+        android:layout_below="@+id/toolbar"/>
+
+    <GridView
+        android:id="@+id/categoryGridView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:numColumns="3"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:layout_below="@+id/category"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="@string/recommendation"
+        android:id="@+id/recommendation"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/textview_horizontal_margin"
+        android:background="@color/gray_bright"
+        android:textStyle="bold"
+        android:layout_below="@+id/categoryGridView"/>
+
+    <!--<include layout="@layout/footer" />-->
+</RelativeLayout>

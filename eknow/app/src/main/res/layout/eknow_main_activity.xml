@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!--<fragment-->
+        <!--android:id="@+id/id_fragment_main"-->
+        <!--android:name="eknow.com.eknow.main.MainFragment"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent" />-->
+
+    <!--<fragment-->
+        <!--android:layout_below="@id/id_fragment_main"-->
+        <!--android:id="@+id/id_fragment_service"-->
+        <!--android:name="eknow.com.eknow.service.ServicesListFragment"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent" />-->
+
+    <FrameLayout
+        android:id="@+id/id_eknow_main_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</RelativeLayout>

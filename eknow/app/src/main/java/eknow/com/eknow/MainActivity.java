@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     /** Called when the user clicks the category view */
     public void goToServiceListActivity(int position) {
         Intent intent = new Intent(this, ServicesListActivity.class);
-        intent.putExtra(KeyConstants.serviceArea, R.string.world);
+        intent.putExtra(KeyConstants.serviceArea, "地球");
         if (position == 0) {
             intent.putExtra(KeyConstants.serviceType, "1");
         } else if (position == 1) {

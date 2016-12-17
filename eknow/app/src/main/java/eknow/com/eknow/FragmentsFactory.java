@@ -1,15 +1,12 @@
 package eknow.com.eknow;
 
-import android.app.Activity;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 
-import eknow.com.eknow.main.MainFragment;
+import eknow.com.eknow.home.HomeFragment;
 import eknow.com.eknow.service.ServiceDetailsFragment;
 import eknow.com.eknow.service.ServicesListFragment;
 
@@ -19,7 +16,7 @@ import eknow.com.eknow.service.ServicesListFragment;
 
 public class FragmentsFactory {
 
-    static MainFragment main;
+    static HomeFragment home;
     static ServicesListFragment slf;
     static ServiceDetailsFragment sdf;
 
@@ -50,15 +47,14 @@ public class FragmentsFactory {
         if (null != oldFragment){
             transaction.addToBackStack(null);
         }
-
         transaction.commit();
     }
 
     public static void setMainFragment(FragmentActivity activity){
-        if (main == null){
-            main =  new MainFragment();
+        if (home == null){
+            home =  new HomeFragment();
         }
-        setFragment(activity, null, main, null);
+        setFragment(activity, null, home, null);
     }
 
     public static void setServicesListFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){

@@ -1,4 +1,4 @@
-package eknow.com.eknow.main;
+package eknow.com.eknow.home;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,9 +15,9 @@ import eknow.com.eknow.FragmentsFactory;
 import eknow.com.eknow.MainImageAdapter;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BackHandledFragment;
-import eknow.com.eknow.utils.KeyConstants;
+import eknow.com.eknow.KeyConstants;
 
-public class MainFragment  extends BackHandledFragment {
+public class HomeFragment extends BackHandledFragment {
 
     View view;
     Toolbar toolbar;
@@ -27,7 +27,7 @@ public class MainFragment  extends BackHandledFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        view = inflater.inflate(R.layout.main_fragment, container, false);
+        view = inflater.inflate(R.layout.home_fragment, container, false);
         addToolbar();
         addCategoryGridView();
         addImageButton();
@@ -35,7 +35,6 @@ public class MainFragment  extends BackHandledFragment {
     }
 
     void addToolbar() {
-
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.activity_main_toolbar);//设置右上角的填充菜单
         //toolbar.setNavigationIcon(R.mipmap.ic_launcher);//设置导航栏图标
@@ -79,7 +78,6 @@ public class MainFragment  extends BackHandledFragment {
                 Toast.makeText(getActivity(), "ImageButton is clicked!", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     /** Called when the user clicks the category view */

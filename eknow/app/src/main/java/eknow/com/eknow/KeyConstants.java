@@ -1,4 +1,4 @@
-package eknow.com.eknow.utils;
+package eknow.com.eknow;
 
 /**
  * Created by jianguog on 16/12/6.

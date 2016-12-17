@@ -25,7 +25,7 @@ import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BackHandledFragment;
-import eknow.com.eknow.utils.KeyConstants;
+import eknow.com.eknow.KeyConstants;
 
 /**
  * Created by jianguog on 16/11/28.

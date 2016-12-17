@@ -5,13 +5,13 @@
     android:layout_height="match_parent" >
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/mainToolbar"
+        android:id="@+id/mainToolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/eknowTitle">
 
         <ImageButton
-            android:id="@+id/mainBtn"
+            android:id="@+id/homeBtn"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:background="@null"
@@ -19,12 +19,30 @@
             android:src="@drawable/map1"
             android:paddingRight="5dp"
             android:paddingTop="0dp" />
+        <!-- http://www.easyicon.net/1140378-map_icon.html -->
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地球"
+            android:textColor="@color/White"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="@string/home"
+            android:textColor="@color/White"
+            android:textSize="@dimen/activity_toolbar_font_size"
+            android:layout_gravity="center"
+            />
     </android.support.v7.widget.Toolbar>
+
     <FrameLayout
         android:id="@+id/id_eknow_main_content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/mainToolbar"/>
+        android:layout_below="@+id/mainToolBar"/>
 
 </RelativeLayout>

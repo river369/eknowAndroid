@@ -33,7 +33,8 @@ public class FragmentsFactory {
         return mInstance;
     }
 
-    public static void setFragment(FragmentActivity activity, Fragment oldFragment, Fragment newFragment, Bundle bundle){
+    public static void setFragment(FragmentActivity activity,  int containerViewId,
+                                   Fragment oldFragment, Fragment newFragment, Bundle bundle){
         FragmentManager fm = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         if (bundle != null) {
@@ -43,7 +44,7 @@ public class FragmentsFactory {
         if (null != oldFragment){
             transaction.hide(oldFragment);
         }
-        transaction.add(R.id.id_eknow_main_content, newFragment);
+        transaction.add(containerViewId, newFragment);
         if (null != oldFragment){
             transaction.addToBackStack(null);
         }
@@ -54,21 +55,21 @@ public class FragmentsFactory {
         if (home == null){
             home =  new HomeFragment();
         }
-        setFragment(activity, null, home, null);
+        setFragment(activity, R.id.id_eknow_main_content, null, home, null);
     }
 
     public static void setServicesListFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
         if (slf == null){
             slf = new ServicesListFragment();
         }
-        setFragment(activity, oldFragment, slf , bundle);
+        setFragment(activity, R.id.id_eknow_service_content, oldFragment, slf , bundle);
     }
 
     public static void setServiceDetailsFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
         if (sdf == null){
             sdf = new ServiceDetailsFragment();
         }
-        setFragment(activity, oldFragment, sdf, bundle);
+        setFragment(activity, R.id.id_eknow_service_content, oldFragment, sdf, bundle);
     }
 
 

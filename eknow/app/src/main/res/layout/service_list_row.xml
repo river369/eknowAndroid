@@ -8,8 +8,8 @@
     android:paddingBottom="0dp">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
         android:id="@+id/title"
         android:text="【北京】京城顶级景区"
         android:textSize="16sp"
@@ -89,6 +89,7 @@
         android:layout_alignLeft="@+id/sellerName"
         android:layout_below="@+id/sellerName"
         android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
         />
 
 </RelativeLayout>

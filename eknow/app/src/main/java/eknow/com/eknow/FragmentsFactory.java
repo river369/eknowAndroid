@@ -1,10 +1,13 @@
 package eknow.com.eknow;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 
 import eknow.com.eknow.main.MainFragment;
 import eknow.com.eknow.service.ServiceDetailsFragment;
@@ -33,29 +36,43 @@ public class FragmentsFactory {
         return mInstance;
     }
 
-    public static void setFragment(Activity activity, Fragment fragment, Bundle bundle){
-        FragmentManager fm = activity.getFragmentManager();
+    public static void setFragment(FragmentActivity activity, Fragment oldFragment, Fragment newFragment, Bundle bundle){
+        FragmentManager fm = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         if (bundle != null) {
-            fragment.setArguments(bundle);
+            newFragment.setArguments(bundle);
         }
-        transaction.replace(R.id.id_eknow_main_content, fragment);
+
+        if (null != oldFragment){
+            transaction.hide(oldFragment);
+        }
+        transaction.add(R.id.id_eknow_main_content, newFragment);
+        if (null != oldFragment){
+            transaction.addToBackStack(null);
+        }
+
         transaction.commit();
     }
 
-    public static void setMainFragment(Activity activity){
-        main =  new MainFragment();
-        setFragment(activity, main, null);
+    public static void setMainFragment(FragmentActivity activity){
+        if (main == null){
+            main =  new MainFragment();
+        }
+        setFragment(activity, null, main, null);
     }
 
-    public static void setServicesListFragment(Activity activity, Bundle bundle){
-        slf = new ServicesListFragment();
-        setFragment(activity, slf , bundle);
+    public static void setServicesListFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
+        if (slf == null){
+            slf = new ServicesListFragment();
+        }
+        setFragment(activity, oldFragment, slf , bundle);
     }
 
-    public static void setServiceDetailsFragment(Activity activity, Bundle bundle){
-        sdf = new ServiceDetailsFragment();
-        setFragment(activity, sdf, bundle);
+    public static void setServiceDetailsFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
+        if (sdf == null){
+            sdf = new ServiceDetailsFragment();
+        }
+        setFragment(activity, oldFragment, sdf, bundle);
     }
 
 

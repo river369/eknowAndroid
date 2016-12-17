@@ -26,13 +26,14 @@ import java.util.Map;
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
 import eknow.com.eknow.R;
+import eknow.com.eknow.common.BackHandledFragment;
 import eknow.com.eknow.utils.KeyConstants;
 
 /**
  * Created by jianguog on 16/11/28.
  */
 
-public class ServicesListFragment extends Fragment {
+public class ServicesListFragment extends BackHandledFragment {
 
     View view;
     private RecyclerView recyclerView;
@@ -112,7 +113,7 @@ public class ServicesListFragment extends Fragment {
     public void goToServiceDetailsFragment(String serviceId) {
         Bundle bundle = new Bundle();
         bundle.putString(KeyConstants.serviceId, serviceId);
-        FragmentsFactory.getInstance().setServiceDetailsFragment(getActivity(), bundle);
+        FragmentsFactory.getInstance().setServiceDetailsFragment(getActivity(), this, bundle);
         // Toast.makeText(ServicesListActivity.this, data, Toast.LENGTH_SHORT).show();
     }
 }

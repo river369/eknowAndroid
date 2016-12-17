@@ -1,15 +1,14 @@
 package eknow.com.eknow.service;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import eknow.com.eknow.R;
+import eknow.com.eknow.common.BackHandledFragment;
 
 /**
  * Created by jianguog on 16/11/28.
@@ -18,7 +17,7 @@ import eknow.com.eknow.R;
  * http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0731/3247.html
  */
 
-public class ServiceDetailsFragment extends Fragment {
+public class ServiceDetailsFragment extends BackHandledFragment {
 
     View view;
 
@@ -31,8 +30,7 @@ public class ServiceDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.service_details_fragment, container, false);
-        AppCompatActivity aa = (AppCompatActivity)getActivity();
-        pagerAdapter = new ServiceDetailsAdapter(aa.getSupportFragmentManager(), getActivity());
+        pagerAdapter = new ServiceDetailsAdapter(getActivity().getSupportFragmentManager(), getActivity());
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         viewPager.setAdapter(pagerAdapter);
         tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);

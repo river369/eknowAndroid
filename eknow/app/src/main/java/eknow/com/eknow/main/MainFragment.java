@@ -1,6 +1,5 @@
 package eknow.com.eknow.main;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -15,10 +14,10 @@ import android.widget.Toast;
 import eknow.com.eknow.FragmentsFactory;
 import eknow.com.eknow.MainImageAdapter;
 import eknow.com.eknow.R;
-import eknow.com.eknow.service.ServicesListActivity;
+import eknow.com.eknow.common.BackHandledFragment;
 import eknow.com.eknow.utils.KeyConstants;
 
-public class MainFragment extends Fragment {
+public class MainFragment  extends BackHandledFragment {
 
     View view;
     Toolbar toolbar;
@@ -32,18 +31,6 @@ public class MainFragment extends Fragment {
         addToolbar();
         addCategoryGridView();
         addImageButton();
-//
-//        mLeftMenu = (ImageButton) view.findViewById(R.id.id_title_left_btn);
-//        mLeftMenu.setOnClickListener(new OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                Toast.makeText(getActivity(),
-//                        "i am an ImageButton in TitleFragment ! ",
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
         return view;
     }
 
@@ -104,6 +91,6 @@ public class MainFragment extends Fragment {
         } else if (position == 1) {
             bundle.putString(KeyConstants.serviceType, "2");
         }
-        FragmentsFactory.getInstance().setServicesListFragment(getActivity(), bundle);
+        FragmentsFactory.getInstance().setServicesListFragment(getActivity(), this, bundle);
     }
 }

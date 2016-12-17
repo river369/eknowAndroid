@@ -11,11 +11,7 @@
         android:theme="@style/AppTheme"
         android:name=".MainApplication">
 
-        <activity android:name=".MainActivity">
-
-        </activity>
-
-        <activity android:name=".EknowMainActivity"
+        <activity android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +19,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".service.ServicesListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+        <!--<activity android:name=".service.ServicesListActivity">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".MainActivity" />-->
+        <!--</activity>-->
 
     </application>
 

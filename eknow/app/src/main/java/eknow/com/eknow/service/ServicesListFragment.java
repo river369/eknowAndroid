@@ -1,7 +1,5 @@
 package eknow.com.eknow.service;
 
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,7 +40,7 @@ public class ServicesListFragment extends BackHandledFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.service_list, container, false);
+        view = inflater.inflate(R.layout.service_list_fragment, container, false);
 
         final String serviceArea =getArguments().getString(KeyConstants.serviceArea);
         final String serviceType =getArguments().getString(KeyConstants.serviceType);
@@ -114,6 +112,5 @@ public class ServicesListFragment extends BackHandledFragment {
         Bundle bundle = new Bundle();
         bundle.putString(KeyConstants.serviceId, serviceId);
         FragmentsFactory.getInstance().setServiceDetailsFragment(getActivity(), this, bundle);
-        // Toast.makeText(ServicesListActivity.this, data, Toast.LENGTH_SHORT).show();
     }
 }

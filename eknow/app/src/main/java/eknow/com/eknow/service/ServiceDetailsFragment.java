@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import eknow.com.eknow.R;
-import eknow.com.eknow.common.BackHandledFragment;
+import eknow.com.eknow.common.BaseFragment;
 
 /**
  * Created by jianguog on 16/11/28.
@@ -17,7 +17,7 @@ import eknow.com.eknow.common.BackHandledFragment;
  * http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0731/3247.html
  */
 
-public class ServiceDetailsFragment extends BackHandledFragment {
+public class ServiceDetailsFragment extends BaseFragment {
 
     View view;
 
@@ -29,6 +29,7 @@ public class ServiceDetailsFragment extends BackHandledFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((ServicesActivity)getActivity()).setToolbarTitle(R.string.serviceDetails);
         view = inflater.inflate(R.layout.service_details_fragment, container, false);
         pagerAdapter = new ServiceDetailsAdapter(getActivity().getSupportFragmentManager(), getActivity());
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);

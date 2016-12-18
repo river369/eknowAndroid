@@ -29,7 +29,7 @@ public class MainActivity extends FragmentActivity {
         FragmentsFactory.getInstance().setMainFragment(this);
     }
 
-        void addToolbar() {
+    void addToolbar() {
         toolbar = (Toolbar) findViewById(R.id.mainToolBar);
         toolbar.inflateMenu(R.menu.activity_main_toolbar);//设置右上角的填充菜单
         //toolbar.setNavigationIcon(R.mipmap.ic_launcher);//设置导航栏图标

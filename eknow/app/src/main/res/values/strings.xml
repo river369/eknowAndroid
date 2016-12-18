@@ -8,7 +8,8 @@
     <string name="changeRoleToCustomer">切换为买家</string>
     <string name="category">分类</string>
     <string name="recommendation">精品推荐</string>
-
+    <string name="servicesList">服务列表</string>
+    <string name="serviceDetails">服务详情</string>
     <!-- Data String -->
     <string name="world">地球</string>
 

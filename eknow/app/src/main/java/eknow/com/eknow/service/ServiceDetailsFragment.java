@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -63,6 +64,20 @@ public class ServiceDetailsFragment extends BaseFragment {
         pagerAdapter = new ServiceDetailsAdapter(getActivity().getSupportFragmentManager(), getActivity());
         viewPager = (ViewPager) view.findViewById(R.id.serviceDetailViewpager);
         viewPager.setAdapter(pagerAdapter);
+        final int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        ViewTreeObserver vto = viewPager.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            public void onGlobalLayout() {
+                viewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                View view = viewPager.getChildAt(viewPager.getCurrentItem());
+                view.measure(w, h);
+                ViewGroup.LayoutParams params = viewPager.getLayoutParams();
+                params.height = view.getMeasuredHeight();
+                System.out.println(params.height);
+                viewPager.setLayoutParams(params);
+            }
+        });
         tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
         //tabLayout.setTabMode(TabLayout.MODE_FIXED);

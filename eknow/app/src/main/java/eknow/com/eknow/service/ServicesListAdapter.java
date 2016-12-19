@@ -37,7 +37,7 @@ public class ServicesListAdapter extends
     public void onBindViewHolder(ServicesListViewHolder holder, int position) {
         final ServiceInfo service = services.get(position);
         // bind something for item click
-        holder.itemView.setTag(service.getServiceId());
+        holder.itemView.setTag(service.getSellerId() + "," + service.getServiceId());
 
         //bind other service info for show
         holder.title.setText("【" + service.getServiceArea() + "】" + service.getServiceName());

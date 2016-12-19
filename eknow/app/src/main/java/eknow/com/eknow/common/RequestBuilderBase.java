@@ -14,10 +14,10 @@ import java.util.Map;
 public abstract class RequestBuilderBase {
     Map<String, String> params = new HashMap<String, String>();
     Map<String, String> requestData = new HashMap<String, String>();
-    public abstract String getMethod();
+    String method;
 
     public Map<String, String> buildRequestParameters(){
-        params.put("method", getMethod());
+        params.put("method", method);
         String dataString = Base64.encodeToString(new JSONObject(requestData).toString().getBytes(), Base64.DEFAULT);
         params.put("data", dataString);
         return params;
@@ -25,5 +25,9 @@ public abstract class RequestBuilderBase {
 
     public Map<String, String> getRequestData() {
         return requestData;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 }

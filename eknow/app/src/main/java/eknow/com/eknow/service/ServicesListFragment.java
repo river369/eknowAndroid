@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,9 +24,11 @@ import java.util.Map;
 
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
+import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.KeyConstants;
+import eknow.com.eknow.common.EknowException;
 
 /**
  * Created by jianguog on 16/11/28.
@@ -54,7 +57,7 @@ public class ServicesListFragment extends BaseFragment {
         adapter.setOnItemClickListener(new ServicesListAdapter.OnRecyclerViewItemClickListener(){
             @Override
             public void onItemClick(View view , String data){
-                //the data is service id that is set in ServicesListAdapter.onBindViewHolder
+                //the data is "seller_id,service_id" that is set in ServicesListAdapter.onBindViewHolder
                 goToServiceDetailsFragment(data);
             }
         });
@@ -82,8 +85,8 @@ public class ServicesListFragment extends BaseFragment {
         String url = EnvConstants.API_URL;
         //System.out.println("page index is " + pageIndex);
 
-        ServicesRequestBuilder srb = new ServicesRequestBuilder(serviceArea, serviceType, pageIndex);
-        Map<String, String> params = srb.buildRequestParameters();
+        ServicesRequestBuilder srb = new ServicesRequestBuilder();
+        Map<String, String> params = srb.buildServicesListRequestParameters(serviceArea, serviceType, pageIndex);
 
         // Request a string response from the provided URL.
         JsonObjectRequest jsonRequest = new JsonObjectRequest(
@@ -93,10 +96,16 @@ public class ServicesListFragment extends BaseFragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         //System.out.println(response.toString());
-                        ServicesResponseJsonParser sjp = new ServicesResponseJsonParser(response);
-                        final List<ServiceInfo> services = sjp.getServiceInfos();
-                        adapter.addMoreSerices(services);
-                        adapter.notifyDataSetChanged();
+                        try {
+                            ServicesResponseJsonParser sjp = new ServicesResponseJsonParser(response);
+                            final List<ServiceInfo> services = sjp.getServiceInfos();
+                            adapter.addMoreSerices(services);
+                            adapter.notifyDataSetChanged();
+                        } catch (EknowException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -110,9 +119,11 @@ public class ServicesListFragment extends BaseFragment {
     }
 
     /** Called when the user clicks the service in list*/
-    public void goToServiceDetailsFragment(String serviceId) {
+    public void goToServiceDetailsFragment(String data) {
+        String[] dataArray = data.split(",");
         Bundle bundle = new Bundle();
-        bundle.putString(KeyConstants.serviceId, serviceId);
+        bundle.putString(KeyConstants.sellerId, dataArray[0]);
+        bundle.putString(KeyConstants.serviceId, dataArray[1]);
         FragmentsFactory.getInstance().setServiceDetailsFragment(getActivity(), this, bundle);
     }
 }

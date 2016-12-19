@@ -1,5 +1,7 @@
 package eknow.com.eknow.service;
 
+import java.util.Map;
+
 import eknow.com.eknow.common.RequestBuilderBase;
 
 /**
@@ -7,15 +9,23 @@ import eknow.com.eknow.common.RequestBuilderBase;
  */
 
 public class ServicesRequestBuilder extends RequestBuilderBase {
-    @Override
-    public String getMethod() {
-        return "getServices";
-    }
 
-    public ServicesRequestBuilder(String serviceArea, String serviceType, String pageIndex) {
+    public ServicesRequestBuilder() {
+    }
+    public Map<String, String> buildServicesListRequestParameters(String serviceArea, String serviceType, String pageIndex){
         getRequestData().put("serviceArea", serviceArea);
         getRequestData().put("serviceType", serviceType);
         getRequestData().put("pageIndex", pageIndex);
+        setMethod("getServices");
+        return buildRequestParameters();
     }
+
+    public Map<String, String>  buildServicePicturesRequestParameters(String sellerId, String serviceId){
+        getRequestData().put("sellerId", sellerId);
+        getRequestData().put("serviceId", serviceId);
+        setMethod("getServicePictures");
+        return buildRequestParameters();
+    }
+
 
 }

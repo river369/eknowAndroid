@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import eknow.com.eknow.EnvConstants;
+import eknow.com.eknow.common.EknowException;
 import eknow.com.eknow.common.ResponseJsonParserBase;
 
 /**
@@ -14,16 +16,16 @@ import eknow.com.eknow.common.ResponseJsonParserBase;
 
 public class ServicesResponseJsonParser extends ResponseJsonParserBase {
 
-    @Override
-    public String getDataType() {
-        return "services";
-    }
-
-    public ServicesResponseJsonParser(JSONObject response) {
+    public ServicesResponseJsonParser(JSONObject response) throws EknowException {
         super(response);
     }
 
-    public List<ServiceInfo> getServiceInfos(){
+    EknowException reportError(String method, String messages){
+        return new EknowException("Fail to parse service data in [" + method + "]. error is [" + messages + "]");
+    }
+
+    public List<ServiceInfo> getServiceInfos() throws EknowException {
+        setDataTag("services");
         List<ServiceInfo> services = new ArrayList<>();
         try {
             for (int i = 0; i < getData().length(); i++) {
@@ -42,7 +44,25 @@ public class ServicesResponseJsonParser extends ResponseJsonParserBase {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            throw reportError(Thread.currentThread().getStackTrace()[1].getMethodName(), e.getMessage());
         }
         return services;
     }
+
+    public String[] getServicePictures() throws EknowException {
+        setDataTag("servicePictures");
+        String[] servicePictures = new String[getData().length()];
+        try {
+            for (int i = 0; i < getData().length(); i++) {
+                String path = (String) getData().get(i);
+                //System.out.println(EnvConstants.OSS_BASE_URL + path);
+                servicePictures[i] = EnvConstants.OSS_BASE_URL + path;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw reportError(Thread.currentThread().getStackTrace()[1].getMethodName(), e.getMessage());
+        }
+        return servicePictures;
+    }
+
 }

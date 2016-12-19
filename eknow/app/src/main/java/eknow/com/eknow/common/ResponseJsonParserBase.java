@@ -9,21 +9,23 @@ import org.json.JSONObject;
  */
 
 public abstract class ResponseJsonParserBase {
-    //JSONObject response;
+    JSONObject response;
     int code;
     String msg;
     JSONArray data;
+    String dataTag;
 
-    public abstract String getDataType();
-
-    public ResponseJsonParserBase(JSONObject response) {
-        //this.response = response;
+    public ResponseJsonParserBase(JSONObject response) throws EknowException {
+        this.response = response;
         try {
             this.code = response.getInt("code");
             this.msg = response.getString("msg");
-            this.data = response.getJSONObject("data").getJSONArray(getDataType());
+            //this.data = response.getJSONObject("data").getJSONArray(dataTag);
         } catch (JSONException e) {
             e.printStackTrace();
+            throw new EknowException(
+                    "Fail to parse data from service as [" + response.toString() +
+                            "]. error is [" + e.getMessage() + "]");
         }
     }
 
@@ -43,8 +45,22 @@ public abstract class ResponseJsonParserBase {
         this.msg = msg;
     }
 
-    public JSONArray getData() {
-        return data;
+    public void setDataTag(String dataTag) {
+        this.dataTag = dataTag;
+    }
+
+    public JSONArray getData() throws EknowException{
+        if (this.data == null) {
+            try {
+                this.data = response.getJSONObject("data").getJSONArray(dataTag);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new EknowException(
+                        "Fail to parse data from service as [" + response.toString() +
+                                "]. error is [" + e.getMessage() + "]");
+            }
+        }
+        return this.data;
     }
     public void setData(JSONArray data) {
         this.data = data;

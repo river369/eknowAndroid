@@ -13,5 +13,4 @@ public class EnvConstants {
 
     public static String OSS_BASE_URL = "http://oss.clcentury.com/";
     public static String SERVIC_MAIN_PIC_URL = OSS_BASE_URL + "yzphoto/pics/";
-
 }

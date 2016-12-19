@@ -23,7 +23,8 @@ public class ServiceDetailsAdapter extends FragmentPagerAdapter {
 
     @Override
     public android.support.v4.app.Fragment getItem(int position) {
-        return ServiceDetailsContentFragment.newInstance(position + 1);
+        ServiceDetailsContentFragment sdcf = ServiceDetailsContentFragment.newInstance(position + 1);
+        return sdcf;
     }
 
     @Override

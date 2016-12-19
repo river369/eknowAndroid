@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/service_name_title"
+        android:text="@string/serviceName"
+        android:textSize="12sp"
+        android:textColor="@color/eknowTitle"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/service_name_content"
+        android:text="@string/serviceName"
+        android:textSize="10sp"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_name_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/service_brief_title"
+        android:text="@string/serviceBrief"
+        android:textSize="12sp"
+        android:textColor="@color/eknowTitle"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_name_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/service_brief_content"
+        android:text="@string/serviceName"
+        android:textSize="10sp"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_brief_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/service_description_title"
+        android:text="@string/serviceDescription"
+        android:textSize="12sp"
+        android:textColor="@color/eknowTitle"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_brief_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/service_description_content"
+        android:text="@string/serviceDescription"
+        android:textSize="10sp"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_description_title"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/service_info_title"
+        android:text="@string/serviceInfo"
+        android:textSize="12sp"
+        android:textColor="@color/eknowTitle"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_description_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/service_rating_title"
+        android:text="@string/serviceRating"
+        android:textSize="11sp"
+        android:background="@color/gray_bright"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_info_title"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator= "true"
+        android:rating = "3"
+        android:stepSize = "0.1"
+        android:layout_alignTop="@+id/service_rating_title"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="7dp"
+        android:progressTint="@color/Orange"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/service_type_title"
+        android:text="@string/serviceType"
+        android:textSize="11sp"
+        android:background="@color/gray_bright"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_rating_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/service_type_content"
+        android:text="@string/serviceType"
+        android:textSize="10sp"
+        android:gravity="center_vertical|right"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/service_type_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/service_area_title"
+        android:text="@string/serviceArea"
+        android:textSize="11sp"
+        android:background="@color/gray_bright"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_type_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/service_area_content"
+        android:text="@string/serviceArea"
+        android:textSize="10sp"
+        android:gravity="center_vertical|right"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/service_area_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/service_language_title"
+        android:text="@string/serviceLanguage"
+        android:textSize="11sp"
+        android:background="@color/gray_bright"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_area_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/service_language_content"
+        android:text="@string/serviceLanguage"
+        android:textSize="10sp"
+        android:gravity="center_vertical|right"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/service_language_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/service_price_title"
+        android:text="@string/servicePrice"
+        android:textSize="11sp"
+        android:background="@color/gray_bright"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/service_language_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/service_price_content"
+        android:text="@string/servicePrice"
+        android:textSize="10sp"
+        android:gravity="center_vertical|right"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/service_price_title"/>
+</RelativeLayout>

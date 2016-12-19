@@ -36,9 +36,12 @@ public class ServiceDetailsContentFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.service_details_content, container, false);
-        TextView textView = (TextView) view;
-        textView.setText("Fragment #" + mPage);
+        View view = inflater.inflate(R.layout.service_details_service_info, container, false);
+        TextView textView = (TextView) view.findViewById(R.id.service_price_content);
+        textView.setText("1111111");
+        //View view = inflater.inflate(R.layout.service_details_content, container, false);
+        //TextView textView = (TextView) view;
+        //textView.setText("Fragment #" + mPage);
         return view;
     }
 

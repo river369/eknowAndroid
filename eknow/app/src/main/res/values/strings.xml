@@ -10,6 +10,17 @@
     <string name="recommendation">精品推荐</string>
     <string name="servicesList">服务列表</string>
     <string name="serviceDetails">服务详情</string>
+
+    <string name="serviceName">服务名称</string>
+    <string name="serviceBrief">服务内容简介</string>
+    <string name="serviceDescription">服务内容详细信息</string>
+    <string name="serviceInfo">服务信息</string>
+    <string name="serviceRating">服务等级</string>
+    <string name="serviceType">服务类型</string>
+    <string name="serviceArea">服务地点</string>
+    <string name="serviceLanguage">服务语言</string>
+    <string name="servicePrice">服务价格</string>
+
     <!-- Data String -->
     <string name="world">地球</string>
 

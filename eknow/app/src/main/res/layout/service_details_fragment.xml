@@ -1,30 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true"
+    android:scrollbars = "vertical">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="80dp"-->
+                    <!--android:id="@+id/a001"-->
+                    <!--android:text="@string/servicePrice"-->
+                    <!--/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="80dp"-->
+                    <!--android:id="@+id/a003"-->
+                    <!--android:text="@string/servicePrice"-->
+                    <!--android:layout_below="@+id/a001"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="80dp"-->
+                    <!--android:id="@+id/a005"-->
+                    <!--android:text="@string/servicePrice"-->
+                    <!--android:layout_below="@+id/a003"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="80dp"-->
+                    <!--android:id="@+id/a007"-->
+                    <!--android:text="@string/servicePrice"-->
+                    <!--android:layout_below="@+id/a005"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="80dp"-->
+                    <!--android:id="@+id/a009"-->
+                    <!--android:text="@string/servicePrice"-->
+                    <!--android:layout_below="@+id/a007"/>-->
 
-    <eknow.com.eknow.common.ui.SlideShowView
-        android:id="@+id/serviceDetailSlideshowView"
-        android:layout_width="fill_parent"
-        android:layout_height="180dp"
-        android:layout_centerHorizontal="true" />
+                <eknow.com.eknow.common.ui.SlideShowView
+                    android:id="@+id/serviceDetailSlideshowView"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_centerHorizontal="true" />
 
-    <!--app:tabMode="scrollable"  这个属性我在代码中设置了-->
-    <!-- tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);-->
-    <android.support.design.widget.TabLayout
-        android:id="@+id/sliding_tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below = "@+id/slideServicePicturePager"
-        />
+                <!--app:tabMode="scrollable"  这个属性我在代码中设置了-->
+                <!-- tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);-->
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/sliding_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below = "@+id/serviceDetailSlideshowView"
+                    />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:background="@android:color/white" />
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/serviceDetailViewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dip"
+                    android:background="@android:color/white"
+                    android:layout_below = "@+id/sliding_tabs"/>
 
-</LinearLayout>
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="80dp"-->
+                    <!--android:id="@+id/a0011"-->
+                    <!--android:text="@string/servicePrice"-->
+                    <!--android:layout_below="@+id/serviceDetailViewpager"/>-->
+        </LinearLayout>
+</ScrollView>

@@ -56,15 +56,18 @@ public class ServiceDetailsFragment extends BaseFragment {
 
         final String sellerId =getArguments().getString(KeyConstants.sellerId);
         final String serviceId =getArguments().getString(KeyConstants.serviceId);
+
         ssv = (SlideShowView) view.findViewById(R.id.serviceDetailSlideshowView);
         getServicePictures(sellerId,serviceId);
 
         pagerAdapter = new ServiceDetailsAdapter(getActivity().getSupportFragmentManager(), getActivity());
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        viewPager = (ViewPager) view.findViewById(R.id.serviceDetailViewpager);
         viewPager.setAdapter(pagerAdapter);
         tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        //tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
         return view;
     }
 
@@ -84,6 +87,7 @@ public class ServiceDetailsFragment extends BaseFragment {
                         try {
                             ServicesResponseJsonParser sjp = new ServicesResponseJsonParser(response);
                             String[] imageUrls = sjp.getServicePictures();
+                            //System.out.println(String.valueOf(imageUrls.length));
                             ssv.setData(imageUrls);
                         } catch (EknowException e) {
                             e.printStackTrace();

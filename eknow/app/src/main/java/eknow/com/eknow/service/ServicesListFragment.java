@@ -56,9 +56,9 @@ public class ServicesListFragment extends BaseFragment {
         adapter = new ServicesListAdapter(new ArrayList<ServiceInfo>());
         adapter.setOnItemClickListener(new ServicesListAdapter.OnRecyclerViewItemClickListener(){
             @Override
-            public void onItemClick(View view , String data){
+            public void onItemClick(View view , ServiceInfo si){
                 //the data is "seller_id,service_id" that is set in ServicesListAdapter.onBindViewHolder
-                goToServiceDetailsFragment(data);
+                goToServiceDetailsFragment(si);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -84,7 +84,6 @@ public class ServicesListFragment extends BaseFragment {
     public void getServicesList(String serviceArea, String serviceType, String pageIndex) {
         String url = EnvConstants.API_URL;
         //System.out.println("page index is " + pageIndex);
-
         ServicesRequestBuilder srb = new ServicesRequestBuilder();
         Map<String, String> params = srb.buildServicesListRequestParameters(serviceArea, serviceType, pageIndex);
 
@@ -119,11 +118,9 @@ public class ServicesListFragment extends BaseFragment {
     }
 
     /** Called when the user clicks the service in list*/
-    public void goToServiceDetailsFragment(String data) {
-        String[] dataArray = data.split(",");
+    public void goToServiceDetailsFragment(ServiceInfo si) {
         Bundle bundle = new Bundle();
-        bundle.putString(KeyConstants.sellerId, dataArray[0]);
-        bundle.putString(KeyConstants.serviceId, dataArray[1]);
+        bundle.putSerializable(KeyConstants.sellerInfo,si);
         FragmentsFactory.getInstance().setServiceDetailsFragment(getActivity(), this, bundle);
     }
 }

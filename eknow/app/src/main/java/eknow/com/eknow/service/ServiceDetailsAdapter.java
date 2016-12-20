@@ -1,13 +1,10 @@
 package eknow.com.eknow.service;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jianguog on 16/12/15.
@@ -25,6 +22,11 @@ public class ServiceDetailsAdapter extends FragmentStatePagerAdapter {
     private ArrayList<Fragment> mFragmentList;
     public ServiceDetailsAdapter(FragmentManager fm) {
         super(fm);
+        //updateData();
+    }
+
+    public void setServiceInfo(ServiceInfo si) {
+        this.serviceInfo = si;
         updateData();
     }
 
@@ -36,27 +38,12 @@ public class ServiceDetailsAdapter extends FragmentStatePagerAdapter {
         setFragmentList(fragments);
     }
 
-
-//    @Override
-//    public android.support.v4.app.Fragment getItem(int position) {
-//        ServiceDetailsContentFragment sdcf = ServiceDetailsContentFragment.newInstance(position + 1, serviceInfo);
-//        return sdcf;
-//    }
-
-//    @Override
-//    public int getCount() {
-//        return PAGE_COUNT;
-//    }
-
     @Override
     public CharSequence getPageTitle(int position) {
         return tabTitles[position];
     }
 
-    public void setServiceInfo(ServiceInfo si) {
-        this.serviceInfo = si;
-        updateData();
-    }
+
 
 
     private void setFragmentList(ArrayList<Fragment> fragmentList) {

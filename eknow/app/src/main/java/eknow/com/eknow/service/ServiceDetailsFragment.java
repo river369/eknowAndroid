@@ -18,7 +18,6 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-import java.util.List;
 import java.util.Map;
 
 import eknow.com.eknow.EnvConstants;
@@ -55,14 +54,13 @@ public class ServiceDetailsFragment extends BaseFragment {
         queue = Volley.newRequestQueue(getActivity());
         view = inflater.inflate(R.layout.service_details_fragment, container, false);
 
-        final String sellerId =getArguments().getString(KeyConstants.sellerId);
-        final String serviceId =getArguments().getString(KeyConstants.serviceId);
-
+        final ServiceInfo si = (ServiceInfo)getArguments().getSerializable(KeyConstants.sellerInfo);
         ssv = (SlideShowView) view.findViewById(R.id.serviceDetailSlideshowView);
-        getServicePictures(sellerId,serviceId);
+        getServicePictures(si.getSellerId(), si.getServiceId());
 
         pagerAdapter = new ServiceDetailsAdapter(getActivity().getSupportFragmentManager());
-        getServiceInfoById(serviceId);
+        pagerAdapter.setServiceInfo(si);
+        //getServiceInfoById(serviceId);
 
         viewPager = (ViewPager) view.findViewById(R.id.serviceDetailViewpager);
         viewPager.setAdapter(pagerAdapter);

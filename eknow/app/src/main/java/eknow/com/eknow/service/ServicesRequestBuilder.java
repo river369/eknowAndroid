@@ -27,5 +27,10 @@ public class ServicesRequestBuilder extends RequestBuilderBase {
         return buildRequestParameters();
     }
 
+    public Map<String, String> buildServiceInfoByIdRequestParameters(String serviceId){
+        getRequestData().put("serviceId", serviceId);
+        setMethod("getServiceInfoById");
+        return buildRequestParameters();
+    }
 
 }

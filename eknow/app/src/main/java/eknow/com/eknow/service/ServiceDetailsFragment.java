@@ -61,7 +61,9 @@ public class ServiceDetailsFragment extends BaseFragment {
         ssv = (SlideShowView) view.findViewById(R.id.serviceDetailSlideshowView);
         getServicePictures(sellerId,serviceId);
 
-        pagerAdapter = new ServiceDetailsAdapter(getActivity().getSupportFragmentManager(), getActivity());
+        pagerAdapter = new ServiceDetailsAdapter(getActivity().getSupportFragmentManager());
+        getServiceInfoById(serviceId);
+
         viewPager = (ViewPager) view.findViewById(R.id.serviceDetailViewpager);
         viewPager.setAdapter(pagerAdapter);
         final int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -71,11 +73,13 @@ public class ServiceDetailsFragment extends BaseFragment {
             public void onGlobalLayout() {
                 viewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 View view = viewPager.getChildAt(viewPager.getCurrentItem());
-                view.measure(w, h);
-                ViewGroup.LayoutParams params = viewPager.getLayoutParams();
-                params.height = view.getMeasuredHeight();
-                System.out.println(params.height);
-                viewPager.setLayoutParams(params);
+                if (view != null) {
+                    view.measure(w, h);
+                    ViewGroup.LayoutParams params = viewPager.getLayoutParams();
+                    params.height = view.getMeasuredHeight();
+                    //System.out.println(params.height);
+                    viewPager.setLayoutParams(params);
+                }
             }
         });
         tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
@@ -104,6 +108,39 @@ public class ServiceDetailsFragment extends BaseFragment {
                             String[] imageUrls = sjp.getServicePictures();
                             //System.out.println(String.valueOf(imageUrls.length));
                             ssv.setData(imageUrls);
+                        } catch (EknowException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+        queue.add(jsonRequest);
+    }
+
+    public void getServiceInfoById(String serviceId) {
+        String url = EnvConstants.API_URL;
+        ServicesRequestBuilder srb = new ServicesRequestBuilder();
+        Map<String, String> params = srb.buildServiceInfoByIdRequestParameters(serviceId);
+
+        // Request a string response from the provided URL.
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(
+                Request.Method.POST, url,
+                new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //System.out.println(response.toString());
+                        try {
+                            ServicesResponseJsonParser sjp = new ServicesResponseJsonParser(response);
+                            ServiceInfo si = sjp.getServiceInfoById();
+                            pagerAdapter.setServiceInfo(si);
                         } catch (EknowException e) {
                             e.printStackTrace();
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();

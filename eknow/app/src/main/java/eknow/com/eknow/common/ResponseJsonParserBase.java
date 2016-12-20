@@ -12,7 +12,8 @@ public abstract class ResponseJsonParserBase {
     JSONObject response;
     int code;
     String msg;
-    JSONArray data;
+    JSONArray dataArray;
+    JSONObject dataObject;
     String dataTag;
 
     public ResponseJsonParserBase(JSONObject response) throws EknowException {
@@ -49,10 +50,10 @@ public abstract class ResponseJsonParserBase {
         this.dataTag = dataTag;
     }
 
-    public JSONArray getData() throws EknowException{
-        if (this.data == null) {
+    public JSONArray getDataArray() throws EknowException{
+        if (this.dataArray == null) {
             try {
-                this.data = response.getJSONObject("data").getJSONArray(dataTag);
+                this.dataArray = response.getJSONObject("data").getJSONArray(dataTag);
             } catch (JSONException e) {
                 e.printStackTrace();
                 throw new EknowException(
@@ -60,9 +61,20 @@ public abstract class ResponseJsonParserBase {
                                 "]. error is [" + e.getMessage() + "]");
             }
         }
-        return this.data;
+        return this.dataArray;
     }
-    public void setData(JSONArray data) {
-        this.data = data;
+
+    public JSONObject getDataObject() throws EknowException{
+        if (this.dataObject == null) {
+            try {
+                this.dataObject = response.getJSONObject("data").getJSONObject(dataTag);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new EknowException(
+                        "Fail to parse data from service as [" + response.toString() +
+                                "]. error is [" + e.getMessage() + "]");
+            }
+        }
+        return this.dataObject;
     }
 }

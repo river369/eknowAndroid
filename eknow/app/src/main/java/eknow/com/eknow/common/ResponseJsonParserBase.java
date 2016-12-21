@@ -50,6 +50,20 @@ public abstract class ResponseJsonParserBase {
         this.dataTag = dataTag;
     }
 
+    public boolean isTagExisted() throws EknowException{
+        try {
+            if (code != 0) {
+                return false;
+            }
+            JSONObject jo = response.getJSONObject("data");
+            return jo.has(dataTag);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new EknowException(
+                    "Fail to parse data from service as [" + response.toString() +
+                            "]. error is [" + e.getMessage() + "]");
+        }
+    }
     public JSONArray getDataArray() throws EknowException{
         if (this.dataArray == null) {
             try {

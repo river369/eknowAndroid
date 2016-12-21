@@ -17,7 +17,7 @@ public class ServiceInfo implements Serializable {
     private String serviceDescription;
     private int service_price_type;
     private double service_price;
-    private double stars;
+    private float stars;
     private String serviceTag;
     private String serviceLanguage;
 
@@ -85,11 +85,11 @@ public class ServiceInfo implements Serializable {
         this.service_price = service_price;
     }
 
-    public double getStars() {
+    public float getStars() {
         return stars;
     }
 
-    public void setStars(double stars) {
+    public void setStars(float stars) {
         this.stars = stars;
     }
 

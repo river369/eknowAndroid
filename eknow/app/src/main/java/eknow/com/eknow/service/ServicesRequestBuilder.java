@@ -33,4 +33,11 @@ public class ServicesRequestBuilder extends RequestBuilderBase {
         return buildRequestParameters();
     }
 
+    public Map<String, String>  buildAggregatedServiceDetailsRequestParameters(String sellerId, String serviceId){
+        getRequestData().put("sellerId", sellerId);
+        getRequestData().put("serviceId", serviceId);
+        setMethod("getAggregatedServiceDetails");
+        return buildRequestParameters();
+    }
+
 }

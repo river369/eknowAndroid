@@ -5,6 +5,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import eknow.com.eknow.user.UserInfo;
 
 /**
  * Created by jianguog on 16/12/15.
@@ -14,26 +17,30 @@ import java.util.ArrayList;
 
 public class ServiceDetailsAdapter extends FragmentStatePagerAdapter {
 
-    final int PAGE_COUNT = 4;
-    private String tabTitles[] = new String[]{"服务信息","服务攻略","服务评论","卖家信息"};
+    final int PAGE_COUNT = 3;
+    private String tabTitles[] = new String[]{"服务信息","服务评论","卖家信息"};
 
     ServiceInfo serviceInfo;
+    UserInfo sellerInfo;
+    List<CommentInfo> comments;
 
     private ArrayList<Fragment> mFragmentList;
     public ServiceDetailsAdapter(FragmentManager fm) {
         super(fm);
-        //updateData();
+        updateData();
     }
 
-    public void setServiceInfo(ServiceInfo si) {
-        this.serviceInfo = si;
+    public void setServiceDetailsInfo(ServiceInfo serviceInfo, UserInfo sellerInfo, List<CommentInfo> comments) {
+        this.serviceInfo = serviceInfo;
+        this.sellerInfo = sellerInfo;
+        this.comments = comments;
         updateData();
     }
 
     public void updateData() {
         ArrayList<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i< tabTitles.length; i++) {
-            fragments.add(ServiceDetailsContentFragment.newInstance(i, serviceInfo));
+            fragments.add(ServiceDetailsContentFragment.newInstance(i, this));
         }
 
         if(this.mFragmentList != null){
@@ -62,5 +69,17 @@ public class ServiceDetailsAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return mFragmentList.get(position);
+    }
+
+    public ServiceInfo getServiceInfo() {
+        return serviceInfo;
+    }
+
+    public UserInfo getSellerInfo() {
+        return sellerInfo;
+    }
+
+    public List<CommentInfo> getComments() {
+        return comments;
     }
 }

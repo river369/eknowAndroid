@@ -60,6 +60,7 @@ public class ServiceDetailsFragment extends BaseFragment {
 
         pagerAdapter = new ServiceDetailsAdapter(getActivity().getSupportFragmentManager());
 
+
         viewPager = (ViewPager) view.findViewById(R.id.serviceDetailViewpager);
         viewPager.setAdapter(pagerAdapter);
         final int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -82,8 +83,12 @@ public class ServiceDetailsFragment extends BaseFragment {
         tabLayout.setupWithViewPager(viewPager);
         //tabLayout.setTabMode(TabLayout.MODE_FIXED);
         //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        pagerAdapter.setServiceInfo(si);
+
+        //pagerAdapter.setServiceInfo(si);
         //getServiceInfoById(serviceId);
+        getAggregatedServiceDetails(si);
+
+
         return view;
     }
 
@@ -121,10 +126,43 @@ public class ServiceDetailsFragment extends BaseFragment {
         queue.add(jsonRequest);
     }
 
-    public void getServiceInfoById(String serviceId) {
+//    public void getServiceInfoById(String serviceId) {
+//        String url = EnvConstants.API_URL;
+//        ServicesRequestBuilder srb = new ServicesRequestBuilder();
+//        Map<String, String> params = srb.buildServiceInfoByIdRequestParameters(serviceId);
+//
+//        // Request a string response from the provided URL.
+//        JsonObjectRequest jsonRequest = new JsonObjectRequest(
+//                Request.Method.POST, url,
+//                new JSONObject(params),
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        //System.out.println(response.toString());
+//                        try {
+//                            ServicesResponseJsonParser sjp = new ServicesResponseJsonParser(response);
+//                            ServiceInfo si = sjp.getServiceInfoById();
+//                            pagerAdapter.setServiceInfo(si);
+//                        } catch (EknowException e) {
+//                            e.printStackTrace();
+//                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        error.printStackTrace();
+//                    }
+//                }
+//        );
+//        queue.add(jsonRequest);
+//    }
+
+    public void getAggregatedServiceDetails(final ServiceInfo si) {
         String url = EnvConstants.API_URL;
         ServicesRequestBuilder srb = new ServicesRequestBuilder();
-        Map<String, String> params = srb.buildServiceInfoByIdRequestParameters(serviceId);
+        Map<String, String> params = srb.buildAggregatedServiceDetailsRequestParameters(si.getSellerId(), si.getServiceId());
 
         // Request a string response from the provided URL.
         JsonObjectRequest jsonRequest = new JsonObjectRequest(
@@ -136,8 +174,8 @@ public class ServiceDetailsFragment extends BaseFragment {
                         //System.out.println(response.toString());
                         try {
                             ServicesResponseJsonParser sjp = new ServicesResponseJsonParser(response);
-                            ServiceInfo si = sjp.getServiceInfoById();
-                            pagerAdapter.setServiceInfo(si);
+                            AggregatedServiceDetailInfo ai = sjp.getAggregatedServiceDetails();
+                            pagerAdapter.setServiceDetailsInfo(si, ai.getSeller(), ai.getComments());
                         } catch (EknowException e) {
                             e.printStackTrace();
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();

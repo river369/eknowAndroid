@@ -21,6 +21,14 @@
     <string name="serviceLanguage">服务语言</string>
     <string name="servicePrice">服务价格</string>
 
+    <string name="sellerName">卖家昵称</string>
+    <string name="sellerSignature">个性签名</string>
+    <string name="sellerDescription">卖家介绍</string>
+    <string name="sellerInfo">卖家信息</string>
+    <string name="sellerRating">卖家等级</string>
+    <string name="sellerTag">卖家标签</string>
+    <string name="sellerHomepage">卖家主页</string>
+
     <!-- Data String -->
     <string name="world">地球</string>
 

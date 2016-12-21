@@ -9,6 +9,7 @@ import java.util.List;
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.common.EknowException;
 import eknow.com.eknow.common.ResponseJsonParserBase;
+import eknow.com.eknow.user.UserInfo;
 
 /**
  * Created by jianguog on 16/12/11.
@@ -45,7 +46,7 @@ public class ServicesResponseJsonParser extends ResponseJsonParserBase {
                 si.setServiceBrief(jo.getString("service_brief"));
                 si.setService_price_type(jo.getInt("service_price_type"));
                 si.setService_price(jo.getDouble("service_price"));
-                si.setStars(jo.getDouble("stars"));
+                si.setStars((float)jo.getDouble("stars"));
                 si.setServiceTag(jo.getString("tag"));
                 si.setServiceDescription(jo.getString("description"));
                 si.setServiceLanguage(jo.getString("service_language"));
@@ -65,6 +66,9 @@ public class ServicesResponseJsonParser extends ResponseJsonParserBase {
      */
     public String[] getServicePictures() throws EknowException {
         setDataTag("servicePictures");
+        if (!isTagExisted()) {
+            return null;
+        }
         String[] servicePictures = new String[getDataArray().length()];
         try {
             for (int i = 0; i < getDataArray().length(); i++) {
@@ -100,7 +104,7 @@ public class ServicesResponseJsonParser extends ResponseJsonParserBase {
             si.setServiceBrief(jo.getString("service_brief"));
             si.setService_price_type(jo.getInt("service_price_type"));
             si.setService_price(jo.getDouble("service_price"));
-            si.setStars(jo.getDouble("stars"));
+            si.setStars((float)jo.getDouble("stars"));
         } catch (JSONException e) {
             e.printStackTrace();
             throw reportError(Thread.currentThread().getStackTrace()[1].getMethodName(), e.getMessage());
@@ -108,5 +112,41 @@ public class ServicesResponseJsonParser extends ResponseJsonParserBase {
         return si;
     }
 
+    /**
+     * get the seller info, and comments info
+     *
+     * @return
+     * @throws EknowException
+     */
+    public AggregatedServiceDetailInfo getAggregatedServiceDetails() throws EknowException {
+        UserInfo seller = new UserInfo();
+        List<CommentInfo> comments = new ArrayList<>();
+
+        try {
+            setDataTag("sellerInfo");
+            JSONObject jo = getDataObject();
+            seller.setName(jo.getString("name"));
+            seller.setSignature(jo.getString("signature"));
+            seller.setDescription(jo.getString("description"));
+            seller.setStars((float)jo.getDouble("stars"));
+
+            setDataTag("comments");
+            if (isTagExisted()) {
+                for (int i = 0; i < getDataArray().length(); i++) {
+                    jo = (JSONObject) getDataArray().get(i);
+                    CommentInfo ci = new CommentInfo();
+                    ci.setCreation_date(jo.getString("customer_name"));
+                    ci.setComments(jo.getString("comments"));
+                    ci.setStars((float)jo.getDouble("stars"));
+                    ci.setCreation_date(jo.getString("creation_date"));
+                    comments.add(ci);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw reportError(Thread.currentThread().getStackTrace()[1].getMethodName(), e.getMessage());
+        }
+        return new AggregatedServiceDetailInfo(seller, comments);
+    }
 
 }

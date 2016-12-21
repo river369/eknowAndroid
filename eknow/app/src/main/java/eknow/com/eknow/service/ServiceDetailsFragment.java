@@ -59,8 +59,6 @@ public class ServiceDetailsFragment extends BaseFragment {
         getServicePictures(si.getSellerId(), si.getServiceId());
 
         pagerAdapter = new ServiceDetailsAdapter(getActivity().getSupportFragmentManager());
-        pagerAdapter.setServiceInfo(si);
-        //getServiceInfoById(serviceId);
 
         viewPager = (ViewPager) view.findViewById(R.id.serviceDetailViewpager);
         viewPager.setAdapter(pagerAdapter);
@@ -84,7 +82,8 @@ public class ServiceDetailsFragment extends BaseFragment {
         tabLayout.setupWithViewPager(viewPager);
         //tabLayout.setTabMode(TabLayout.MODE_FIXED);
         //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-
+        pagerAdapter.setServiceInfo(si);
+        //getServiceInfoById(serviceId);
         return view;
     }
 

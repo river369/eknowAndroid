@@ -66,9 +66,9 @@ public class FragmentsFactory {
     }
 
     public static void setServiceDetailsFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
-        if (sdf == null){
+        //if (sdf == null){
             sdf = new ServiceDetailsFragment();
-        }
+        //}
         setFragment(activity, R.id.id_eknow_service_content, oldFragment, sdf, bundle);
     }
 

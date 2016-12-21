@@ -35,7 +35,13 @@ public class ServiceDetailsAdapter extends FragmentStatePagerAdapter {
         for (int i = 0; i< tabTitles.length; i++) {
             fragments.add(ServiceDetailsContentFragment.newInstance(i, serviceInfo));
         }
-        setFragmentList(fragments);
+
+        if(this.mFragmentList != null){
+            mFragmentList.clear();
+        }
+        this.mFragmentList = fragments;
+        notifyDataSetChanged();
+
     }
 
     @Override
@@ -44,19 +50,9 @@ public class ServiceDetailsAdapter extends FragmentStatePagerAdapter {
     }
 
 
-
-
-    private void setFragmentList(ArrayList<Fragment> fragmentList) {
-        if(this.mFragmentList != null){
-            mFragmentList.clear();
-        }
-        this.mFragmentList = fragmentList;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getCount() {
-        return this.mFragmentList.size();
+        return tabTitles.length;
     }
 
     public int getItemPosition(Object object) {

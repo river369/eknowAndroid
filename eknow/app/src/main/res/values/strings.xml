@@ -29,6 +29,11 @@
     <string name="sellerTag">卖家标签</string>
     <string name="sellerHomepage">卖家主页</string>
 
+    <string name="commentCustomerName">评论者</string>
+    <string name="commentRating">打分</string>
+    <string name="commentContent">意见</string>
+    <string name="commentDate">日期</string>
+
     <!-- Data String -->
     <string name="world">地球</string>
 

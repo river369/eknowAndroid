@@ -135,10 +135,10 @@ public class ServicesResponseJsonParser extends ResponseJsonParserBase {
                 for (int i = 0; i < getDataArray().length(); i++) {
                     jo = (JSONObject) getDataArray().get(i);
                     CommentInfo ci = new CommentInfo();
-                    ci.setCreation_date(jo.getString("customer_name"));
+                    ci.setCustomerName(jo.getString("customer_name"));
                     ci.setComments(jo.getString("comments"));
                     ci.setStars((float)jo.getDouble("stars"));
-                    ci.setCreation_date(jo.getString("creation_date"));
+                    ci.setCreationDate(jo.getString("creation_date"));
                     comments.add(ci);
                 }
             }

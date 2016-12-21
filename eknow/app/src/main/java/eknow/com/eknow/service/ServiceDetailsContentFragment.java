@@ -10,8 +10,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.R;
@@ -46,8 +52,8 @@ public class ServiceDetailsContentFragment extends Fragment {
         if (mPage == 0) {
             return buildServiceInfo(inflater,container,savedInstanceState);
         }
-        if (mPage == 1) { // To be change
-            return buildSellerInfo(inflater,container,savedInstanceState);
+        if (mPage == 1) {
+            return buildCommentInfo(inflater,container,savedInstanceState);
         }
         if (mPage == 2) {
             return buildSellerInfo(inflater,container,savedInstanceState);
@@ -94,6 +100,29 @@ public class ServiceDetailsContentFragment extends Fragment {
             descText.setText(sellerInfo.getDescription());
             RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
             ratingBar.setRating((float)sellerInfo.getStars());
+        }
+        return view;
+    }
+
+    View buildCommentInfo(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        View view = inflater.inflate(R.layout.service_details_comments_info, container, false);
+        List<CommentInfo> comments = serviceDetailsAdapter.getComments();
+        if (comments != null && comments.size() > 0) {
+            ListView listView = (ListView)view.findViewById(R.id.service_detail_comments_list);
+            List<HashMap<String,Object>> data = new ArrayList<HashMap<String,Object>>();
+            for(CommentInfo comment:comments){
+                HashMap<String,Object>map = new HashMap<String,Object>();
+                map.put("name", comment.getCustomerName());
+                map.put("rating", comment.getStars());
+                map.put("comment", comment.getComments());
+                map.put("date", comment.getCreationDate());
+                data.add(map);
+            }
+            SimpleAdapter adapter = new SimpleAdapter(getActivity(), data, R.layout.service_details_comments_item_info,
+                    new String[]{"name","rating","comment","date"},
+                    new int[]{R.id.comment_customer_content, R.id.comment_rating_content,
+                            R.id.comment_content_content, R.id.comment_date_content});
+            listView.setAdapter(adapter);
         }
         return view;
     }

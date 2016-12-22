@@ -1,7 +1,9 @@
 package eknow.com.eknow.service;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
+//import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.common.EknowException;
+import eknow.com.eknow.common.ui.DividerItemDecoration;
 
 /**
  * Created by jianguog on 16/11/28.
@@ -65,8 +68,11 @@ public class ServicesListFragment extends BaseFragment {
 
         queue = Volley.newRequestQueue(getActivity());
 
-        RecyclerView.ItemDecoration itemDecoration = new
-                DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        //RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST,
+                new ColorDrawable(getResources().getColor(R.color.gray_bright)));
+        itemDecoration.setHeight(15);
+
         recyclerView.addItemDecoration(itemDecoration);
 
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {

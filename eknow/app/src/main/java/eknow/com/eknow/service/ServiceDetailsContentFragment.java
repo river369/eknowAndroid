@@ -4,20 +4,28 @@ package eknow.com.eknow.service;
  * Created by jianguog on 16/12/15.
  */
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.R;
@@ -84,6 +92,49 @@ public class ServiceDetailsContentFragment extends Fragment {
             //System.out.println(servicePrice);
             TextView priceText = (TextView) view.findViewById(R.id.service_price_content);
             priceText.setText(servicePrice);
+
+            //LinearLayout layout = (LinearLayout) view.findViewById(R.id.serviceTagLayout);
+            String tags = serviceInfo.getServiceTag();
+            if(tags != null && tags.length() > 0 && !tags.equalsIgnoreCase(" ")) {
+                String[] tagsArray = tags.split(",");
+                GridView gridView = (GridView) view.findViewById(R.id.serviceTagGridView);
+                gridView.setAdapter(new TagButtonAdaptor(getActivity(), tagsArray));
+//                gridView.setOnItemClickListener(new OnItemClickListener() {
+//                    public void onItemClick(AdapterView<?> parent, View v,
+//                                            int position, long id) {
+//                        Toast.makeText(
+//                                getApplicationContext(),
+//                                ((TextView) v.findViewById(R.id.grid_item_label))
+//                                        .getText(), Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                });
+
+//                int start = 0 ;
+//                LinearLayout row = null;
+//                for (int i = 0; i < tagsArray.length ; i++) {
+//                    if (i == start * 3) {
+//                        start++;
+//                        row = new LinearLayout(getActivity());
+//                        row.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                                ViewGroup.LayoutParams.WRAP_CONTENT));
+//
+//                        layout.addView(row);
+//                    }
+//                    Button btn = new Button(getActivity());
+//                    btn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+//                            ViewGroup.LayoutParams.WRAP_CONTENT));
+//
+//                    btn.setTextSize(10);
+//                    btn.setTextColor(getResources().getColor(R.color.eknowTitle));
+//                    btn.setBackgroundResource(R.drawable.button_bg_stroke);
+//                    btn.setText(tagsArray[i]);
+//                    row.addView(btn);
+//                }
+            } else {
+                TextView tagText = (TextView) view.findViewById(R.id.service_tag_title);
+                tagText.setText("");
+            }
         }
         return view;
     }
@@ -100,6 +151,16 @@ public class ServiceDetailsContentFragment extends Fragment {
             descText.setText(sellerInfo.getDescription());
             RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
             ratingBar.setRating((float)sellerInfo.getStars());
+
+            String tags = sellerInfo.getTag();
+            if(tags != null && tags.length() > 0 && !tags.equalsIgnoreCase(" ")) {
+                String[] tagsArray = tags.split(",");
+                GridView gridView = (GridView) view.findViewById(R.id.sellerTagGridView);
+                gridView.setAdapter(new TagButtonAdaptor(getActivity(), tagsArray));
+            } else {
+                TextView tagText = (TextView) view.findViewById(R.id.seller_tag_title);
+                tagText.setText("");
+            }
         }
         return view;
     }

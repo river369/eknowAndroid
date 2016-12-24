@@ -1,4 +1,4 @@
-package eknow.com.eknow;
+package eknow.com.eknow.home;
 
 import android.content.Context;
 import android.view.View;
@@ -7,14 +7,17 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.view.LayoutInflater;
+
+import eknow.com.eknow.R;
+
 /**
  * Created by jianguog on 16/11/25.
  */
 
-public class MainImageAdapter extends BaseAdapter {
+public class HomeImageAdapter extends BaseAdapter {
     private Context mContext;
 
-    public MainImageAdapter(Context c) {
+    public HomeImageAdapter(Context c) {
         mContext = c;
     }
 

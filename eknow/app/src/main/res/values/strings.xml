@@ -20,6 +20,7 @@
     <string name="serviceArea">服务地点</string>
     <string name="serviceLanguage">服务语言</string>
     <string name="servicePrice">服务价格</string>
+    <string name="serviceTag">服务标签</string>
 
     <string name="sellerName">卖家昵称</string>
     <string name="sellerSignature">个性签名</string>

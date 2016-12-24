@@ -6,7 +6,9 @@
     <ListView
         android:id="@+id/service_detail_comments_list"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_marginRight="@dimen/content_margin_right">
     </ListView>
 
 </LinearLayout>

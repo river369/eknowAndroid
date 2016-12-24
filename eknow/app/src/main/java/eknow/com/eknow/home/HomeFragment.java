@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import eknow.com.eknow.MainImageAdapter;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.KeyConstants;
@@ -34,7 +33,7 @@ public class HomeFragment extends BaseFragment {
 
     public void addCategoryGridView() {
         gridview = (GridView) view.findViewById(R.id.categoryGridView);
-        gridview.setAdapter(new MainImageAdapter(getActivity()));
+        gridview.setAdapter(new HomeImageAdapter(getActivity()));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //goToServiceListFragment(position);

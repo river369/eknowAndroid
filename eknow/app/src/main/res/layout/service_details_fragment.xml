@@ -54,15 +54,14 @@
                     android:id="@+id/sliding_tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below = "@+id/serviceDetailSlideshowView"
-                    />
+                    android:layout_below = "@+id/serviceDetailSlideshowView" />
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/serviceDetailViewpager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
-                    android:layout_below = "@+id/sliding_tabs"/>
+                    android:layout_below = "@+id/sliding_tabs" />
 
                 <!--<TextView-->
                     <!--android:layout_width="match_parent"-->

@@ -129,6 +129,7 @@ public class ServicesResponseJsonParser extends ResponseJsonParserBase {
             seller.setSignature(jo.getString("signature"));
             seller.setDescription(jo.getString("description"));
             seller.setStars((float)jo.getDouble("stars"));
+            seller.setTag(jo.getString("tag"));
 
             setDataTag("comments");
             if (isTagExisted()) {

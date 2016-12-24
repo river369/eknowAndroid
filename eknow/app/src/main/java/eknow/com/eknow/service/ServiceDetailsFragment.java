@@ -68,15 +68,15 @@ public class ServiceDetailsFragment extends BaseFragment {
         ViewTreeObserver vto = viewPager.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
-                viewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                View view = viewPager.getChildAt(viewPager.getCurrentItem());
-                if (view != null) {
-                    view.measure(w, h);
-                    ViewGroup.LayoutParams params = viewPager.getLayoutParams();
-                    params.height = view.getMeasuredHeight();
-                    //System.out.println(params.height);
-                    viewPager.setLayoutParams(params);
-                }
+            viewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            View view = viewPager.getChildAt(viewPager.getCurrentItem());
+            if (view != null) {
+                view.measure(w, h);
+                ViewGroup.LayoutParams params = viewPager.getLayoutParams();
+                params.height = view.getMeasuredHeight()+800;
+                //System.out.println(params.height);
+                viewPager.setLayoutParams(params);
+            }
             }
         });
         tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);

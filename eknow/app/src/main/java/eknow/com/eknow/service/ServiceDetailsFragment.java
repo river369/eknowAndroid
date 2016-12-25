@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 import java.util.Map;
 
 import eknow.com.eknow.EnvConstants;
+import eknow.com.eknow.FragmentsFactory;
 import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
@@ -54,13 +56,15 @@ public class ServiceDetailsFragment extends BaseFragment {
         queue = Volley.newRequestQueue(getActivity());
         view = inflater.inflate(R.layout.service_details_fragment, container, false);
 
+        //get service info from requester
         final ServiceInfo si = (ServiceInfo)getArguments().getSerializable(KeyConstants.sellerInfo);
+
+        // build picture slide view
         ssv = (SlideShowView) view.findViewById(R.id.serviceDetailSlideshowView);
         getServicePictures(si.getSellerId(), si.getServiceId());
 
+        // build tab and slide pagers
         pagerAdapter = new ServiceDetailsAdapter(getActivity().getSupportFragmentManager());
-
-
         viewPager = (ViewPager) view.findViewById(R.id.serviceDetailViewpager);
         viewPager.setAdapter(pagerAdapter);
         final int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -83,13 +87,27 @@ public class ServiceDetailsFragment extends BaseFragment {
         tabLayout.setupWithViewPager(viewPager);
         //tabLayout.setTabMode(TabLayout.MODE_FIXED);
         //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-
         //pagerAdapter.setServiceInfo(si);
         //getServiceInfoById(serviceId);
         getAggregatedServiceDetails(si);
 
+        // build buy button
+        Button button = (Button) view.findViewById(R.id.service_buy_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                goToServiceBuyFragment(si);
+                //Toast.makeText(getActivity(), si.getSellerId(), Toast.LENGTH_LONG).show();
+            }
+        });
 
         return view;
+    }
+
+    public void goToServiceBuyFragment(ServiceInfo si) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KeyConstants.sellerInfo,si);
+        FragmentsFactory.getInstance().setServiceBuyFragment(getActivity(), this, bundle);
     }
 
     public void getServicePictures(String sellerId, String serviceId) {

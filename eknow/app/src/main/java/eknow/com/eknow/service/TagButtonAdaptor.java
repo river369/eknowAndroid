@@ -39,7 +39,7 @@ public class TagButtonAdaptor extends BaseAdapter {
             // get layout from mobile.xml
             gridView = inflater.inflate(R.layout.tag_button, null);
 
-            Button button = (Button) gridView.findViewById(R.id.tag_button);
+            Button button = (Button) gridView.findViewById(R.id.id_tag_button);
             button.setText(tagValues[position]);
 
         } else {

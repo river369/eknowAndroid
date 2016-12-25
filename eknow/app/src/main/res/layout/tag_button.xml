@@ -8,8 +8,8 @@
         android:text="Button"
         android:layout_width="match_parent"
         android:layout_height="20sp"
-        android:id="@+id/tag_button"
-        android:background="@drawable/button_bg_stroke"
+        android:id="@+id/id_tag_button"
+        android:background="@drawable/tag_button_bg"
         android:textSize="10sp"
         android:textColor="@color/eknowTitle"/>
 

@@ -127,7 +127,7 @@ public class ServiceDetailsContentFragment extends Fragment {
 //
 //                    btn.setTextSize(10);
 //                    btn.setTextColor(getResources().getColor(R.color.eknowTitle));
-//                    btn.setBackgroundResource(R.drawable.button_bg_stroke);
+//                    btn.setBackgroundResource(R.drawable.tag_button_bg);
 //                    btn.setText(tagsArray[i]);
 //                    row.addView(btn);
 //                }

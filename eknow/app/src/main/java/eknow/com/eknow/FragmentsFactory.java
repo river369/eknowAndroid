@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import eknow.com.eknow.home.HomeFragment;
+import eknow.com.eknow.service.ServiceBuyFragment;
 import eknow.com.eknow.service.ServiceDetailsFragment;
 import eknow.com.eknow.service.ServicesListFragment;
 
@@ -19,6 +20,7 @@ public class FragmentsFactory {
     static HomeFragment home;
     static ServicesListFragment slf;
     static ServiceDetailsFragment sdf;
+    static ServiceBuyFragment sbf;
 
     private static FragmentsFactory mInstance = null;
 
@@ -67,9 +69,16 @@ public class FragmentsFactory {
 
     public static void setServiceDetailsFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
         //if (sdf == null){
-            sdf = new ServiceDetailsFragment();
+        sdf = new ServiceDetailsFragment();
         //}
         setFragment(activity, R.id.id_eknow_service_content, oldFragment, sdf, bundle);
+    }
+
+    public static void setServiceBuyFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
+        if (sbf == null){
+            sbf = new ServiceBuyFragment();
+        }
+        setFragment(activity, R.id.id_eknow_service_content, oldFragment, sbf, bundle);
     }
 
 

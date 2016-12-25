@@ -10,7 +10,10 @@
     <string name="recommendation">精品推荐</string>
     <string name="servicesList">服务列表</string>
     <string name="serviceDetails">服务详情</string>
+    <string name="serviceBuySummary">购买服务</string>
 
+
+    <string name="serviceId">服务编号</string>
     <string name="serviceName">服务名称</string>
     <string name="serviceBrief">服务内容简介</string>
     <string name="serviceDescription">服务内容详细信息</string>
@@ -34,6 +37,17 @@
     <string name="commentRating">打分</string>
     <string name="commentContent">意见</string>
     <string name="commentDate">日期</string>
+
+    <string name="serviceBuy">购买</string>
+    <string name="serviceHoursCount">服务、咨询时长</string>
+    <string name="serviceTotalPrice">服务总价格(￥)</string>
+    <string name="serviceQuestion">咨询话题</string>
+    <string name="serviceStartDate">预计消费日期</string>
+    <string name="servicePeopleCount">预计消费人数</string>
+    <string name="serviceLicenseRead">点击阅读购买服务声明</string>
+    <string name="serviceLicenseAgree">我同意上述服务声明</string>
+    <string name="servicePay">去付款</string>
+
 
     <!-- Data String -->
     <string name="world">地球</string>

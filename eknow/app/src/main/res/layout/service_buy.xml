@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:scrollbars = "vertical">
+    android:scrollbars = "vertical"
+    android:background="@color/White">
+
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -185,7 +187,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:id="@+id/service_hour_title"
             android:text="@string/serviceHoursCount"
             android:textSize="12sp"
@@ -195,7 +197,7 @@
             android:layout_marginRight="@dimen/content_margin_right"
             android:layout_below="@+id/service_price_content"/>
 
-        <Button android:id="@+id/minusHour"
+        <Button android:id="@+id/service_hour_minus"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="-"
@@ -216,11 +218,11 @@
             android:textSize="11sp"
             android:text="1"
             android:gravity="center_vertical|center_horizontal"
-            android:layout_toRightOf="@+id/minusHour"
-            android:layout_alignBottom="@+id/minusHour"
+            android:layout_toRightOf="@+id/service_hour_minus"
+            android:layout_alignBottom="@+id/service_hour_minus"
             />
 
-        <Button android:id="@+id/addHour"
+        <Button android:id="@+id/service_hour_add"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="+"
@@ -232,8 +234,6 @@
             android:layout_marginRight="@dimen/content_margin_right"
             android:layout_below="@+id/service_hour_title"
             android:background="@drawable/text_bg"/>
-
-
 
         <TextView
             android:layout_width="match_parent"
@@ -344,7 +344,7 @@
             android:layout_marginRight="@dimen/content_margin_right"
             android:layout_below="@+id/service_date_content"/>
 
-        <Button android:id="@+id/minusPeople"
+        <Button android:id="@+id/service_people_minus"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="-"
@@ -365,11 +365,11 @@
             android:textSize="11sp"
             android:text="1"
             android:gravity="center_vertical|center_horizontal"
-            android:layout_toRightOf="@+id/minusPeople"
-            android:layout_alignBottom="@+id/minusPeople"
+            android:layout_toRightOf="@+id/service_people_minus"
+            android:layout_alignBottom="@+id/service_people_minus"
           />
 
-        <Button android:id="@+id/addPeople"
+        <Button android:id="@+id/service_people_add"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="+"

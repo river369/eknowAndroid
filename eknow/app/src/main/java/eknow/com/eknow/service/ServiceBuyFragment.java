@@ -2,41 +2,30 @@ package eknow.com.eknow.service;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.Map;
 
-import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.R;
 import eknow.com.eknow.ValueConstants;
 import eknow.com.eknow.common.BaseFragment;
-import eknow.com.eknow.common.EknowException;
-import eknow.com.eknow.common.ui.SlideShowView;
 
 /**
  * Created by jianguog on 16/11/28.
@@ -48,6 +37,10 @@ import eknow.com.eknow.common.ui.SlideShowView;
 public class ServiceBuyFragment extends BaseFragment {
 
     View view;
+    EditText serviceHourText;
+    EditText servicePeopleText;
+    EditText totalPriceText;
+
 
     private RequestQueue queue;
 
@@ -73,13 +66,52 @@ public class ServiceBuyFragment extends BaseFragment {
             String servicePrice = String.valueOf(serviceInfo.getService_price()) + servicePriceType;
             TextView priceText = (TextView) view.findViewById(R.id.service_price_content);
             priceText.setText(servicePrice);
-            EditText totalPriceText = (EditText) view.findViewById(R.id.service_total_price_content);
+
+            TextView serviceHoursTitleText = (TextView) view.findViewById(R.id.service_hour_title);
+            serviceHourText = (EditText) view.findViewById(R.id.service_hour_content);
+            serviceHourText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    modifyTotalPrice(serviceInfo.getService_price());
+                }
+            });
+            Button serviceHourAddButton = (Button) view.findViewById(R.id.service_hour_add);
+            serviceHourAddButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    modifyHour(serviceHourText, "add");
+                }
+            });
+            Button serviceHourMinusButton = (Button) view.findViewById(R.id.service_hour_minus);
+            serviceHourMinusButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    modifyHour(serviceHourText, "minus");
+                }
+            });
+
+            if(serviceInfo.getService_price_type() == 2){
+                serviceHoursTitleText.setVisibility(View.INVISIBLE);
+                serviceHourText.setVisibility(View.INVISIBLE);
+                serviceHourAddButton.setVisibility(View.INVISIBLE);
+                serviceHourMinusButton.setVisibility(View.INVISIBLE);
+                TextView totalPriceTitle = (TextView) view.findViewById(R.id.service_total_price_title);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)totalPriceTitle.getLayoutParams();
+                params.addRule(RelativeLayout.BELOW, R.id.service_price_content);
+                totalPriceTitle.setLayoutParams(params);
+            }
+
+            totalPriceText = (EditText) view.findViewById(R.id.service_total_price_content);
             totalPriceText.setText(String.valueOf(serviceInfo.getService_price()));
 
-//            DatePicker datePicker = (DatePicker) view.findViewById(R.id.service_date_content);
-//            long currentDate = System.currentTimeMillis();
-//            datePicker.setMinDate(currentDate);
-//            datePicker.setMaxDate(currentDate + 90 * 24 * 3600 * 1000);
             final EditText serviceDateEtxt = (EditText) view.findViewById(R.id.service_date_content);
             serviceDateEtxt.setInputType(InputType.TYPE_NULL);
             serviceDateEtxt.setOnTouchListener(new View.OnTouchListener() {
@@ -106,6 +138,54 @@ public class ServiceBuyFragment extends BaseFragment {
                 }
             });
         }
+
+
+        servicePeopleText = (EditText) view.findViewById(R.id.service_people_content);
+        Button servicePeopleAddButton = (Button) view.findViewById(R.id.service_people_add);
+        servicePeopleAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                modifyHour(servicePeopleText, "add");
+            }
+        });
+        Button servicePeopleMinusButton = (Button) view.findViewById(R.id.service_people_minus);
+        servicePeopleMinusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                modifyHour(servicePeopleText, "minus");
+            }
+        });
         return view;
+    }
+
+    void modifyHour(EditText editText, String action) {
+        String hourString = editText.getText().toString();
+        int hourInt = Integer.parseInt(hourString);
+        if (action.equalsIgnoreCase("add")){
+            hourInt++;
+        } else if (action.equalsIgnoreCase("minus")){
+            hourInt--;
+        }
+        if (hourInt > 0){
+            editText.setText(String.valueOf(hourInt));
+        } else {
+            editText.setText(hourString);
+        }
+    }
+
+    void modifyTotalPrice(double price){
+        String hourString = serviceHourText.getText().toString();
+        int hourInt = 1;
+        try {
+            hourInt = Integer.parseInt(hourString);
+        } catch (Exception e){
+            serviceHourText.setText("1");
+        }
+        if (hourInt <= 0){
+            hourInt = 1;
+            serviceHourText.setText("1");
+        }
+        double priceTotal = price * hourInt;
+        totalPriceText.setText(String.valueOf(priceTotal));
     }
 }

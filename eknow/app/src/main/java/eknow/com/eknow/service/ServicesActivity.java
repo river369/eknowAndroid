@@ -17,6 +17,9 @@ import eknow.com.eknow.common.BackHandlerHelper;
 
 /**
  * Created by jianguog on 16/11/28.
+ *
+ * TO BE Deprecated!!!!!
+ *
  */
 
 public class ServicesActivity extends FragmentActivity {

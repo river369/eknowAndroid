@@ -46,7 +46,10 @@ public class ServicesListFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((ServicesActivity)getActivity()).setToolbarTitle(R.string.servicesList);
+        ((MainActivity)getActivity()).addTopReturnToolbar();
+        ((MainActivity)getActivity()).setToolbarTitle(R.string.servicesList);
+        ((MainActivity)getActivity()).setBottomBarVisible(false);
+        ((MainActivity)getActivity()).selectTopBarToBeVisible("return");
 
         view = inflater.inflate(R.layout.service_list_fragment, container, false);
 
@@ -128,5 +131,12 @@ public class ServicesListFragment extends BaseFragment {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KeyConstants.sellerInfo,si);
         FragmentsFactory.getInstance().setServiceDetailsFragment(getActivity(), this, bundle);
+    }
+
+    @Override
+    public void onDestroyView() {
+        ((MainActivity)getActivity()).setBottomBarVisible(true);
+        ((MainActivity)getActivity()).selectTopBarToBeVisible("home");
+        super.onDestroyView();
     }
 }

@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import eknow.com.eknow.KeyConstants;
+import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.ValueConstants;
 import eknow.com.eknow.common.BaseFragment;
@@ -46,7 +47,7 @@ public class ServiceBuyFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((ServicesActivity) getActivity()).setToolbarTitle(R.string.serviceBuySummary);
+        ((MainActivity) getActivity()).setToolbarTitle(R.string.serviceBuySummary);
         view = inflater.inflate(R.layout.service_buy, container, false);
 
         final ServiceInfo serviceInfo = (ServiceInfo) getArguments().getSerializable(KeyConstants.sellerInfo);

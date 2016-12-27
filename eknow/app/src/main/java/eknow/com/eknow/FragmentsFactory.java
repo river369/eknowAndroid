@@ -79,22 +79,20 @@ public class FragmentsFactory {
         if (slf == null){
             slf = new ServicesListFragment();
         }
-        setFragment(activity, R.id.id_eknow_service_content, oldFragment, slf , bundle);
+        setFragment(activity, R.id.id_eknow_main_content, oldFragment, slf , bundle);
     }
 
     public static void setServiceDetailsFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
         //if (sdf == null){
         sdf = new ServiceDetailsFragment();
         //}
-        setFragment(activity, R.id.id_eknow_service_content, oldFragment, sdf, bundle);
+        setFragment(activity, R.id.id_eknow_main_content, oldFragment, sdf, bundle);
     }
 
     public static void setServiceBuyFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
         if (sbf == null){
             sbf = new ServiceBuyFragment();
         }
-        setFragment(activity, R.id.id_eknow_service_content, oldFragment, sbf, bundle);
+        setFragment(activity, R.id.id_eknow_main_content, oldFragment, sbf, bundle);
     }
-
-
 }

@@ -20,8 +20,11 @@ import eknow.com.eknow.home.HomeFragment;
  */
 
 public class MainActivity extends FragmentActivity{
-    Toolbar toolbar;
-    ImageButton imageButton;
+    // 2 kinds of top tool bar
+    Toolbar homeToolbar;
+    Toolbar returnToolbar;
+
+    // the bottom tool bar
     private TextView tabDiscover;
     private TextView tabCreate;
     private TextView tabMine;
@@ -32,21 +35,29 @@ public class MainActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main_activity);
-        addToolbar();
-        addImageButton();
-        //setBottomBar(false);
+        homeToolbar = (Toolbar) findViewById(R.id.main_top_menu);
+        returnToolbar = (Toolbar) findViewById(R.id.return_top_menu);
         bindBottomView();
         home = FragmentsFactory.getInstance().setMainFragment(this);
     }
 
-    void addToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.mainToolBar);
-        toolbar.inflateMenu(R.menu.activity_main_toolbar);//设置右上角的填充菜单
+    // Build Top Tool Bar
+    public void selectTopBarToBeVisible(String type) {
+        homeToolbar.setVisibility(View.INVISIBLE);
+        returnToolbar.setVisibility(View.INVISIBLE);
+        if (type.equalsIgnoreCase("home")){
+            homeToolbar.setVisibility(View.VISIBLE);
+        } else if (type.equalsIgnoreCase("return")) {
+            returnToolbar.setVisibility(View.VISIBLE);
+        }
+    }
+    public void addTopMainToolbar() {
+        homeToolbar.inflateMenu(R.menu.activity_main_toolbar);//设置右上角的填充菜单
         //toolbar.setNavigationIcon(R.mipmap.ic_launcher);//设置导航栏图标
         //toolbar.setLogo(R.mipmap.ic_launcher);//设置app logo
         //toolbar.setTitle("Title");//设置主标题
         //toolbar.setSubtitle("Subtitle");//设置子标题
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        homeToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int menuItemId = item.getItemId();
@@ -63,10 +74,8 @@ public class MainActivity extends FragmentActivity{
                 return true;
             }
         });
-    }
 
-    public void addImageButton() {
-        imageButton = (ImageButton) findViewById(R.id.homeBtn);
+        ImageButton imageButton = (ImageButton) findViewById(R.id.homeBtn);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -75,17 +84,37 @@ public class MainActivity extends FragmentActivity{
         });
     }
 
-    public void setBottomBar(boolean visable) {
+    public void addTopReturnToolbar() {
+        ImageButton imageButton = (ImageButton) findViewById(R.id.serviceToolbarBtn);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                onBackPressed();
+                //Toast.makeText(ServicesActivity.this, "ImageButton is clicked!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void setToolbarTitle(int textId) {
+        TextView title = (TextView) findViewById(R.id.serviceToolbarTitle);
+        title.setText(textId);
+    }
+
+    // Build bottom Bar
+    public void setBottomBarVisible(boolean visable) {
         LinearLayout ll = (LinearLayout) findViewById(R.id.main_bottom_menu);
-        if (!visable) {
+        if (visable) {
+            ll.setVisibility(View.VISIBLE);
+        } else {
             ll.setVisibility(View.INVISIBLE);
         }
     }
 
-
     //UI组件初始化与事件绑定
     private void bindBottomView() {
         tabDiscover = (TextView)this.findViewById(R.id.tab_discover);
+        tabDiscover.setSelected(true);
         tabCreate = (TextView)this.findViewById(R.id.tab_create);
         tabMine = (TextView)this.findViewById(R.id.tab_mine);
 
@@ -122,19 +151,20 @@ public class MainActivity extends FragmentActivity{
     }
 
     //重置所有文本的选中状态
-    public void selected(){
+    void selected(){
         tabDiscover.setSelected(false);
         tabCreate.setSelected(false);
         tabMine.setSelected(false);
     }
 
     //隐藏所有Fragment
-    public void hideAllFragment(FragmentTransaction transaction){
+    void hideAllFragment(FragmentTransaction transaction){
         if(home!=null){
             transaction.hide(home);
         }
     }
 
+    // Handle return actions
     private long lastBackPress;
     @Override
     public void onBackPressed() {

@@ -24,6 +24,7 @@ import java.util.Map;
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
 import eknow.com.eknow.KeyConstants;
+import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.common.EknowException;
@@ -52,7 +53,7 @@ public class ServiceDetailsFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((ServicesActivity)getActivity()).setToolbarTitle(R.string.serviceDetails);
+        ((MainActivity)getActivity()).setToolbarTitle(R.string.serviceDetails);
         queue = Volley.newRequestQueue(getActivity());
         view = inflater.inflate(R.layout.service_details_fragment, container, false);
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/usercolor" android:state_selected="true"/>
+    <item android:drawable="@drawable/usergray"/>
+
+    <!--http://www.easyicon.net/29354-user_icon.html-->
+    <!--http://www.easyicon.net/508417-offline_user_icon.html-->
+</selector>

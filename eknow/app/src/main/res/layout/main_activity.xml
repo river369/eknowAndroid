@@ -45,4 +45,51 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/mainToolBar"/>
 
+    <LinearLayout
+        android:id="@+id/main_bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_toolbar_height"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tab_discover"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_menu_bg"
+            android:drawablePadding="1dp"
+            android:drawableTop="@drawable/tab_menu_discover"
+            android:gravity="center"
+            android:textColor="@drawable/tab_menu_text"
+            android:text="@string/discoverEknow"
+            android:paddingTop="@dimen/content_padding_top"/>
+
+        <TextView
+            android:id="@+id/tab_create"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_menu_bg"
+            android:drawablePadding="1dp"
+            android:drawableTop="@drawable/tab_menu_create"
+            android:gravity="center"
+            android:textColor="@drawable/tab_menu_text"
+            android:text="@string/createEknow"
+            android:paddingTop="@dimen/content_padding_top"/>
+
+        <TextView
+            android:id="@+id/tab_mine"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_menu_bg"
+            android:drawablePadding="1dp"
+            android:drawableTop="@drawable/tab_menu_mine"
+            android:gravity="center"
+            android:textColor="@drawable/tab_menu_text"
+            android:text="@string/mine"
+            android:paddingTop="@dimen/content_padding_top"/>
+
+    </LinearLayout>
 </RelativeLayout>

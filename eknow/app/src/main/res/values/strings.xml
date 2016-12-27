@@ -6,6 +6,11 @@
     <string name="setting">设置</string>
     <string name="changeRoleToSeller">切换为卖家</string>
     <string name="changeRoleToCustomer">切换为买家</string>
+    <string name="discoverEknow">求易知</string>
+    <string name="createEknow">发易知</string>
+    <string name="mine">我的</string>
+
+
     <string name="category">分类</string>
     <string name="recommendation">精品推荐</string>
     <string name="servicesList">服务列表</string>

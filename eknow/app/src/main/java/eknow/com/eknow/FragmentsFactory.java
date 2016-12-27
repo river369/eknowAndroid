@@ -37,6 +37,11 @@ public class FragmentsFactory {
 
     public static void setFragment(FragmentActivity activity,  int containerViewId,
                                    Fragment oldFragment, Fragment newFragment, Bundle bundle){
+        setFragment(activity,  containerViewId, oldFragment, newFragment,  bundle, true);
+    }
+    public static void setFragment(FragmentActivity activity,  int containerViewId,
+                                   Fragment oldFragment, Fragment newFragment, Bundle bundle,
+                                   boolean reAdd){
         FragmentManager fm = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         if (bundle != null) {
@@ -46,18 +51,28 @@ public class FragmentsFactory {
         if (null != oldFragment){
             transaction.hide(oldFragment);
         }
-        transaction.add(containerViewId, newFragment);
+        if (reAdd) {
+            transaction.add(containerViewId, newFragment);
+        }
         if (null != oldFragment){
             transaction.addToBackStack(null);
         }
         transaction.commit();
     }
 
-    public static void setMainFragment(FragmentActivity activity){
+    public static void showFragment(FragmentActivity activity,Fragment newFragment){
+        FragmentManager fm = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.show(newFragment);
+        transaction.commit();
+    }
+
+    public static HomeFragment setMainFragment(FragmentActivity activity){
         if (home == null){
             home =  new HomeFragment();
         }
         setFragment(activity, R.id.id_eknow_main_content, null, home, null);
+        return home;
     }
 
     public static void setServicesListFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){

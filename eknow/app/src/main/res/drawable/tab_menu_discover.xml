@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/homecolor" android:state_selected="true"/>
+    <item android:drawable="@drawable/homegray"/>
+    <!--http://www.easyicon.net/1108666-home_icon.html-->
+    <!--http://www.easyicon.net/515713-home_icon.html-->
+</selector>

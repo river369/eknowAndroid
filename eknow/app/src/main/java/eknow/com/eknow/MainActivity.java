@@ -2,22 +2,30 @@ package eknow.com.eknow;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import eknow.com.eknow.common.BackHandlerHelper;
+import eknow.com.eknow.home.HomeFragment;
 
 /**
  * Created by jianguog on 16/11/28.
  */
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity{
     Toolbar toolbar;
     ImageButton imageButton;
+    private TextView tabDiscover;
+    private TextView tabCreate;
+    private TextView tabMine;
+    HomeFragment home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +34,9 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.main_activity);
         addToolbar();
         addImageButton();
-        FragmentsFactory.getInstance().setMainFragment(this);
+        //setBottomBar(false);
+        bindBottomView();
+        home = FragmentsFactory.getInstance().setMainFragment(this);
     }
 
     void addToolbar() {
@@ -63,6 +73,66 @@ public class MainActivity extends FragmentActivity {
                 Toast.makeText(MainActivity.this, "ImageButton is clicked!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void setBottomBar(boolean visable) {
+        LinearLayout ll = (LinearLayout) findViewById(R.id.main_bottom_menu);
+        if (!visable) {
+            ll.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
+    //UI组件初始化与事件绑定
+    private void bindBottomView() {
+        tabDiscover = (TextView)this.findViewById(R.id.tab_discover);
+        tabCreate = (TextView)this.findViewById(R.id.tab_create);
+        tabMine = (TextView)this.findViewById(R.id.tab_mine);
+
+        tabDiscover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                selected();
+                tabDiscover.setSelected(true);
+                if(home ==null){
+                    home = FragmentsFactory.getInstance().setMainFragment(MainActivity.this);
+                }else{
+                    FragmentsFactory.getInstance().showFragment(MainActivity.this, home);
+                }
+                Toast.makeText(MainActivity.this, "tabDiscover is clicked!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        tabCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                selected();
+                tabCreate.setSelected(true);
+                Toast.makeText(MainActivity.this, "tabCreate is clicked!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        tabMine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                selected();
+                tabMine.setSelected(true);
+                Toast.makeText(MainActivity.this, "tabMine is clicked!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    //重置所有文本的选中状态
+    public void selected(){
+        tabDiscover.setSelected(false);
+        tabCreate.setSelected(false);
+        tabMine.setSelected(false);
+    }
+
+    //隐藏所有Fragment
+    public void hideAllFragment(FragmentTransaction transaction){
+        if(home!=null){
+            transaction.hide(home);
+        }
     }
 
     private long lastBackPress;

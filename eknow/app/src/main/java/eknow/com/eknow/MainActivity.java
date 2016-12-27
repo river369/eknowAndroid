@@ -1,5 +1,7 @@
 package eknow.com.eknow;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import eknow.com.eknow.common.BackHandlerHelper;
 import eknow.com.eknow.home.HomeFragment;
+import eknow.com.eknow.user.AccessUtil;
 
 /**
  * Created by jianguog on 16/11/28.
@@ -136,7 +139,16 @@ public class MainActivity extends FragmentActivity{
             public void onClick(View arg0) {
                 selected();
                 tabCreate.setSelected(true);
-                Toast.makeText(MainActivity.this, "tabCreate is clicked!", Toast.LENGTH_SHORT).show();
+                SharedPreferences preferences=getSharedPreferences(KeyConstants.sharedPreferenceName, Context.MODE_PRIVATE);
+                if (preferences == null) {
+                    Toast.makeText(MainActivity.this, "Fail to get SharedPreferences!", Toast.LENGTH_LONG).show();
+                }
+                String token = AccessUtil.getToken(preferences);
+                Toast.makeText(MainActivity.this, "tabCreate is clicked!"+token, Toast.LENGTH_SHORT).show();
+//                SharedPreferences.Editor editor=preferences.edit();
+//                String name="xixi";
+//                editor.putString("name", name);
+//                editor.commit();
             }
         });
         tabMine.setOnClickListener(new View.OnClickListener() {

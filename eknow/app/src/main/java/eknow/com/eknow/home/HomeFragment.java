@@ -1,10 +1,7 @@
 package eknow.com.eknow.home;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,7 +13,6 @@ import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.KeyConstants;
-import eknow.com.eknow.service.ServicesActivity;
 
 public class HomeFragment extends BaseFragment {
     View view;

@@ -11,26 +11,14 @@ public abstract class BaseFragment extends Fragment implements FragmentBackHandl
     public BaseFragment() {
     }
 
-        @Override
+    @Override
     public final boolean onBackPressed() {
-        return interceptBackPressed()
-                || (getBackHandleViewPager() == null
-                ? BackHandlerHelper.handleBackPress(this)
-                : BackHandlerHelper.handleBackPress(getBackHandleViewPager()));
+          return BackHandlerHelper.handleBackPress(this);
     }
 
-    public boolean interceptBackPressed() {
-        return false;
-    }
-
-    /**
-     * 2.1 版本已经不在需要单独对ViewPager处理
-     *
-     * @deprecated
-     */
-    @Deprecated
-    public ViewPager getBackHandleViewPager() {
+    public String getMyTag() {
         return null;
-    }
+    };
+
 
 }

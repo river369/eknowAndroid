@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import eknow.com.eknow.common.BackHandlerHelper;
+import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.home.HomeFragment;
 import eknow.com.eknow.user.AccessUtil;
 
@@ -32,6 +33,8 @@ public class MainActivity extends FragmentActivity{
     private TextView tabCreate;
     private TextView tabMine;
     HomeFragment home;
+    BaseFragment currentFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class MainActivity extends FragmentActivity{
         returnToolbar = (Toolbar) findViewById(R.id.return_top_menu);
         bindBottomView();
         home = FragmentsFactory.getInstance().setMainFragment(this);
+        currentFragment = home;
     }
 
     // Build Top Tool Bar
@@ -124,8 +128,9 @@ public class MainActivity extends FragmentActivity{
         tabDiscover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                selected();
+                unsetAllSelected();
                 tabDiscover.setSelected(true);
+                currentFragment = home;
                 if(home ==null){
                     home = FragmentsFactory.getInstance().setMainFragment(MainActivity.this);
                 }else{
@@ -137,14 +142,19 @@ public class MainActivity extends FragmentActivity{
         tabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                selected();
-                tabCreate.setSelected(true);
+
                 SharedPreferences preferences=getSharedPreferences(KeyConstants.sharedPreferenceName, Context.MODE_PRIVATE);
-                if (preferences == null) {
+                if (preferences == null ) {
                     Toast.makeText(MainActivity.this, "Fail to get SharedPreferences!", Toast.LENGTH_LONG).show();
                 }
                 String token = AccessUtil.getToken(preferences);
-                Toast.makeText(MainActivity.this, "tabCreate is clicked!"+token, Toast.LENGTH_SHORT).show();
+                if (token == null){
+                    FragmentsFactory.getInstance().setSignInFragment(MainActivity.this, currentFragment, null);
+                } else {
+                    unsetAllSelected();
+                    tabCreate.setSelected(true);
+                }
+                //Toast.makeText(MainActivity.this, "tabCreate is clicked!"+token, Toast.LENGTH_SHORT).show();
 //                SharedPreferences.Editor editor=preferences.edit();
 //                String name="xixi";
 //                editor.putString("name", name);
@@ -154,7 +164,7 @@ public class MainActivity extends FragmentActivity{
         tabMine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                selected();
+                unsetAllSelected();
                 tabMine.setSelected(true);
                 Toast.makeText(MainActivity.this, "tabMine is clicked!", Toast.LENGTH_SHORT).show();
             }
@@ -163,7 +173,7 @@ public class MainActivity extends FragmentActivity{
     }
 
     //重置所有文本的选中状态
-    void selected(){
+    void unsetAllSelected(){
         tabDiscover.setSelected(false);
         tabCreate.setSelected(false);
         tabMine.setSelected(false);
@@ -174,6 +184,10 @@ public class MainActivity extends FragmentActivity{
         if(home!=null){
             transaction.hide(home);
         }
+    }
+
+    public BaseFragment getCurrentFragment(){
+        return currentFragment;
     }
 
     // Handle return actions

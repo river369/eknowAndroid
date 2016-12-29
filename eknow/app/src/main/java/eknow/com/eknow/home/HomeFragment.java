@@ -66,6 +66,10 @@ public class HomeFragment extends BaseFragment {
         super.onHiddenChanged(hidden);
     }
 
+    public String getMyTag() {
+        return "home";
+    };
+
 // To be deprecated
 //    public void goToServiceListActivity(int position) {
 //        Intent intent = new Intent(getActivity(), ServicesActivity.class);

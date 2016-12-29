@@ -12,7 +12,7 @@ import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
 
-public class SignInFragment extends BaseFragment {
+public class SignOnFragment extends BaseFragment {
     View view;
 
     @Override
@@ -22,9 +22,9 @@ public class SignInFragment extends BaseFragment {
         ((MainActivity)getActivity()).setTopReturnBarVisiability(View.VISIBLE);
         ((MainActivity)getActivity()).setToolbarTitle(R.string.signIn);
 
-        view = inflater.inflate(R.layout.sign_in, container, false);
+        view = inflater.inflate(R.layout.sign_on, container, false);
 
-        Button signInButton = (android.widget.Button) view.findViewById(R.id.signin);
+        Button signInButton = (Button) view.findViewById(R.id.signin);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,13 +32,6 @@ public class SignInFragment extends BaseFragment {
             }
         });
 
-        TextView signOn = (TextView) view.findViewById(R.id.signOn);
-        signOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentsFactory.getInstance().setSignOnFragment(getActivity(), SignInFragment.this, null);
-            }
-        });
         return view;
     }
 }

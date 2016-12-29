@@ -105,36 +105,4 @@
         android:text="@string/signIn"
         android:textColor="@color/White"
         android:textStyle="bold"/>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal"
-        android:padding="10sp" >
-        <!-- 找回密码 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="@dimen/content_margin_left"
-            android:layout_marginTop="@dimen/content_margin_top"
-            android:text="找回密码"
-            android:textSize="15sp"
-            android:textColor="@color/eknowTitle"
-            android:textStyle="bold" />
-        <!-- 立即注册 -->
-        <TextView
-            android:id="@+id/signOn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/content_margin_right"
-            android:layout_marginTop="@dimen/content_margin_top"
-            android:layout_weight="0.03"
-            android:text="立即注册"
-            android:textSize="15sp"
-            android:textColor="@color/eknowTitle"
-            android:textStyle="bold" />
-    </RelativeLayout>
 </LinearLayout>

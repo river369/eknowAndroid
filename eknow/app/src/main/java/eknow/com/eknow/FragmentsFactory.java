@@ -6,10 +6,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.home.HomeFragment;
 import eknow.com.eknow.service.ServiceBuyFragment;
 import eknow.com.eknow.service.ServiceDetailsFragment;
 import eknow.com.eknow.service.ServicesListFragment;
+import eknow.com.eknow.user.SignInFragment;
+import eknow.com.eknow.user.SignOnFragment;
 
 /**
  * Created by jianguog on 16/12/16.
@@ -21,6 +24,9 @@ public class FragmentsFactory {
     static ServicesListFragment slf;
     static ServiceDetailsFragment sdf;
     static ServiceBuyFragment sbf;
+    static SignInFragment signIn;
+    static SignOnFragment signOn;
+    static int containerViewId = R.id.id_eknow_main_content;
 
     private static FragmentsFactory mInstance = null;
 
@@ -35,11 +41,11 @@ public class FragmentsFactory {
         return mInstance;
     }
 
-    public static void setFragment(FragmentActivity activity,  int containerViewId,
+    public static void setFragment(FragmentActivity activity,
                                    Fragment oldFragment, Fragment newFragment, Bundle bundle){
-        setFragment(activity,  containerViewId, oldFragment, newFragment,  bundle, true);
+        setFragment(activity, oldFragment, newFragment,  bundle, true);
     }
-    public static void setFragment(FragmentActivity activity,  int containerViewId,
+    public static void setFragment(FragmentActivity activity,
                                    Fragment oldFragment, Fragment newFragment, Bundle bundle,
                                    boolean reAdd){
         FragmentManager fm = activity.getSupportFragmentManager();
@@ -55,8 +61,14 @@ public class FragmentsFactory {
             transaction.add(containerViewId, newFragment);
         }
         if (null != oldFragment){
-            transaction.addToBackStack(null);
+            transaction.addToBackStack(((BaseFragment)oldFragment).getMyTag());
         }
+        transaction.commit();
+    }
+    public static void setFragmentTo(FragmentActivity activity, Fragment oldFragment){
+        FragmentManager fm = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        fm.popBackStackImmediate(((BaseFragment)oldFragment).getMyTag(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
         transaction.commit();
     }
 
@@ -71,7 +83,7 @@ public class FragmentsFactory {
         if (home == null){
             home =  new HomeFragment();
         }
-        setFragment(activity, R.id.id_eknow_main_content, null, home, null);
+        setFragment(activity, null, home, null);
         return home;
     }
 
@@ -79,20 +91,33 @@ public class FragmentsFactory {
         if (slf == null){
             slf = new ServicesListFragment();
         }
-        setFragment(activity, R.id.id_eknow_main_content, oldFragment, slf , bundle);
+        setFragment(activity, oldFragment, slf , bundle);
     }
 
     public static void setServiceDetailsFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
         //if (sdf == null){
         sdf = new ServiceDetailsFragment();
         //}
-        setFragment(activity, R.id.id_eknow_main_content, oldFragment, sdf, bundle);
+        setFragment(activity, oldFragment, sdf, bundle);
     }
 
     public static void setServiceBuyFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
         if (sbf == null){
             sbf = new ServiceBuyFragment();
         }
-        setFragment(activity, R.id.id_eknow_main_content, oldFragment, sbf, bundle);
+        setFragment(activity, oldFragment, sbf, bundle);
+    }
+
+    public static void setSignInFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
+        if (signIn == null){
+            signIn = new SignInFragment();
+        }
+        setFragment(activity, oldFragment, signIn, bundle);
+    }
+    public static void setSignOnFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
+        if (signOn == null){
+            signOn = new SignOnFragment();
+        }
+        setFragment(activity, oldFragment, signOn, bundle);
     }
 }

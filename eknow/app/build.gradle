@@ -33,4 +33,7 @@ dependencies {
     //compile files('libs/android-image-cache-library-2.0.jar')
     //compile files('libs/disklrucache-2.0.2.jar')
     compile files('libs/universal-image-loader-1.8.6-with-sources.jar')
+    //https://github.com/river369/android-validation-komensky
+    compile 'eu.inmite.android.lib:android-validation-komensky:0.9.4@aar'
+
 }

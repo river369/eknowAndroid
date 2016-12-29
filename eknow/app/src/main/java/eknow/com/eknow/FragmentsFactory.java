@@ -11,7 +11,6 @@ import eknow.com.eknow.home.HomeFragment;
 import eknow.com.eknow.service.ServiceBuyFragment;
 import eknow.com.eknow.service.ServiceDetailsFragment;
 import eknow.com.eknow.service.ServicesListFragment;
-import eknow.com.eknow.user.SignInFragment;
 import eknow.com.eknow.user.SignOnFragment;
 
 /**

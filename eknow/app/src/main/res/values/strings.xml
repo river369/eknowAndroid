@@ -62,26 +62,9 @@
 
 
     <!-- Validation -->
-    <string name="validation_name">Please, enter the name</string>
-    <string name="validation_name_length">Please, enter the name with at least 3 characters</string>
-    <string name="validation_participants">Please, enter the number of participants</string>
-    <string name="validation_valid_email">Please, enter valid email address</string>
-    <string name="validation_date">Date must be in future</string>
-    <string name="validation_type">Please, select type</string>
-    <string name="validation_address">Fill in the address</string>
-    <string name="validation_success">Validation succeeded! \nThat was easy, wasn\'t it?</string>
-
-    <string name="demo_menu_live_validation_enable">Enable live validation</string>
-    <string name="demo_menu_live_validation_disable">Disable live validation</string>
-    <string name="demo_email_hint">E-mail address</string>
-    <string name="demo_email">Email</string>
-    <string name="demo_address">Address</string>
-    <string name="demo_type">Type</string>
-    <string name="demo_pick_date">Pick Date</string>
-    <string name="demo_date">Date</string>
-    <string name="demo_participants_hint"># of participants</string>
-    <string name="demo_number_of_participants">Participants</string>
-    <string name="demo_name">Name</string>
+    <string name="validation_phone">手机号码不能为空</string>
+    <string name="validation_phone_length">手机号码位数不足</string>
+    <string name="validation_password">密码不能为空</string>
 
 
     <!-- Data String -->

@@ -45,15 +45,6 @@ public class MainActivity extends FragmentActivity{
     }
 
     // Build Top Tool Bar
-    public void selectTopBarToBeVisible(String type) {
-        homeToolbar.setVisibility(View.INVISIBLE);
-        returnToolbar.setVisibility(View.INVISIBLE);
-        if (type.equalsIgnoreCase("home")){
-            homeToolbar.setVisibility(View.VISIBLE);
-        } else if (type.equalsIgnoreCase("return")) {
-            returnToolbar.setVisibility(View.VISIBLE);
-        }
-    }
     public void addTopMainToolbar() {
         homeToolbar.inflateMenu(R.menu.activity_main_toolbar);//设置右上角的填充菜单
         //toolbar.setNavigationIcon(R.mipmap.ic_launcher);//设置导航栏图标
@@ -96,7 +87,20 @@ public class MainActivity extends FragmentActivity{
                 //Toast.makeText(ServicesActivity.this, "ImageButton is clicked!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
+    // To be deprecate
+    public void hideAllTopBar() {
+        homeToolbar.setVisibility(View.INVISIBLE);
+        returnToolbar.setVisibility(View.INVISIBLE);
+    }
+    public void setTopMainBarVisiabiltiy(int visablability){
+        hideAllTopBar();
+        homeToolbar.setVisibility(visablability);
+    }
+    public void setTopReturnBarVisiability(int visablability){
+        hideAllTopBar();
+        returnToolbar.setVisibility(visablability);
     }
 
     public void setToolbarTitle(int textId) {
@@ -105,13 +109,9 @@ public class MainActivity extends FragmentActivity{
     }
 
     // Build bottom Bar
-    public void setBottomBarVisible(boolean visable) {
+    public void setBottomBarVisibility(int visablability) {
         LinearLayout ll = (LinearLayout) findViewById(R.id.main_bottom_menu);
-        if (visable) {
-            ll.setVisibility(View.VISIBLE);
-        } else {
-            ll.setVisibility(View.INVISIBLE);
-        }
+        ll.setVisibility(visablability);
     }
 
     //UI组件初始化与事件绑定

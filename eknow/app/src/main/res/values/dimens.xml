@@ -9,6 +9,7 @@
 
     <dimen name="content_margin_left">15dp</dimen>
     <dimen name="content_margin_right">15dp</dimen>
+    <dimen name="content_margin_top">15dp</dimen>
     <dimen name="content_margin_right_star">20dp</dimen>
 
     <dimen name="content_padding_left">10dp</dimen>

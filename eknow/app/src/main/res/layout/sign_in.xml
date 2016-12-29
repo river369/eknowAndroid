@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_bright">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="left|top"
+        android:text="@string/securityMessage"
+        android:textColor="@color/eknowTitle"
+        android:textSize="13sp"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_marginRight="@dimen/content_margin_right"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/selectRegionNumberHint"
+        android:textSize="12sp"
+        android:textColor="@color/eknowTitle"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_marginRight="@dimen/content_margin_right" />
+
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/spinner"
+
+        android:entries="@array/regionsPhoneNumber"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_marginRight="@dimen/content_margin_right"
+        android:paddingLeft="@dimen/content_padding_left"
+        android:paddingRight="@dimen/content_padding_right"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/inputPhoneNumberHint"
+        android:textSize="12sp"
+        android:textColor="@color/eknowTitle"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_marginRight="@dimen/content_margin_right" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:inputType="numberDecimal"
+        android:id="@+id/signin_phone_number"
+        android:background="@drawable/text_bg"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textSize="11sp"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_marginRight="@dimen/content_margin_right"
+        android:paddingLeft="@dimen/content_padding_left"
+        android:paddingRight="@dimen/content_padding_right"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/inputPasswordHint"
+        android:textSize="12sp"
+        android:textColor="@color/eknowTitle"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_marginRight="@dimen/content_margin_right" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:inputType="textPassword"
+        android:id="@+id/signin_password"
+        android:background="@drawable/text_bg"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textSize="11sp"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_marginRight="@dimen/content_margin_right"
+        android:paddingLeft="@dimen/content_padding_left"
+        android:paddingRight="@dimen/content_padding_right"/>
+
+    <Button
+        android:id="@+id/signin"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/eknowTitle"
+        android:gravity="center"
+        android:text="@string/signIn"
+        android:textColor="@color/White"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:padding="10sp" >
+        <!-- 找回密码 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="@dimen/content_margin_left"
+            android:layout_marginTop="@dimen/content_margin_top"
+            android:text="找回密码"
+            android:textSize="15sp"
+            android:textColor="@color/eknowTitle"
+            android:textStyle="bold" />
+        <!-- 立即注册 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="@dimen/content_margin_right"
+            android:layout_marginTop="@dimen/content_margin_top"
+            android:layout_weight="0.03"
+            android:text="立即注册"
+            android:textSize="15sp"
+            android:textColor="@color/eknowTitle"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</LinearLayout>

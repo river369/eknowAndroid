@@ -10,13 +10,11 @@
     <string name="createEknow">发易知</string>
     <string name="mine">我的</string>
 
-
     <string name="category">分类</string>
     <string name="recommendation">精品推荐</string>
     <string name="servicesList">服务列表</string>
     <string name="serviceDetails">服务详情</string>
     <string name="serviceBuySummary">购买服务</string>
-
 
     <string name="serviceId">服务编号</string>
     <string name="serviceName">服务名称</string>
@@ -53,8 +51,22 @@
     <string name="serviceLicenseAgree">我同意上述服务声明</string>
     <string name="servicePay">去付款</string>
 
-
+    <string name="signIn">登录</string>
+    <string name="securityMessage">提示:保护您个人信息的隐私和安全是易知海外的头等大事。我们加密存储、传输您的个人信息。在未经您书面授权的情况下，我们不会将您的个人资料透露给第三方。</string>
+    <string name="selectRegionNumber">地区号:</string>
+    <string name="inputPhoneNumber">手机号码:</string>
+    <string name="inputPassword">密码:</string>
+    <string name="selectRegionNumberHint">请选择地区号:</string>
+    <string name="inputPhoneNumberHint">请输入手机号码:</string>
+    <string name="inputPasswordHint">请输入密码:</string>
     <!-- Data String -->
     <string name="world">地球</string>
+
+    <string-array name="regionsPhoneNumber">
+        <item>北京</item>
+        <item>上海 </item>
+        <item>广州</item>
+        <item>深圳</item>
+    </string-array>
 
 </resources>

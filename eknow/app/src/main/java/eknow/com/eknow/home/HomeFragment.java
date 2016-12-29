@@ -1,5 +1,6 @@
 package eknow.com.eknow.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         ((MainActivity)getActivity()).addTopMainToolbar();
-        ((MainActivity)getActivity()).selectTopBarToBeVisible("home");
+        ((MainActivity)getActivity()).setTopMainBarVisiabiltiy(View.VISIBLE);
         view = inflater.inflate(R.layout.home_fragment, container, false);
         addCategoryGridView();
         return view;
@@ -52,7 +53,20 @@ public class HomeFragment extends BaseFragment {
         FragmentsFactory.getInstance().setServicesListFragment(getActivity(), this ,bundle);
     }
 
-    // To be deprecated
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (hidden) {
+            ((MainActivity)getActivity()).setTopMainBarVisiabiltiy(View.INVISIBLE);
+            ((MainActivity)getActivity()).setBottomBarVisibility(View.INVISIBLE);
+        } else {
+            ((MainActivity)getActivity()).setTopMainBarVisiabiltiy(View.VISIBLE);
+            ((MainActivity)getActivity()).setBottomBarVisibility(View.VISIBLE);
+        }
+        super.onHiddenChanged(hidden);
+    }
+
+// To be deprecated
 //    public void goToServiceListActivity(int position) {
 //        Intent intent = new Intent(getActivity(), ServicesActivity.class);
 //        intent.putExtra(KeyConstants.serviceArea, "地球");

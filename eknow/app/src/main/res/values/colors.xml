@@ -145,6 +145,8 @@
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
 
-    <color name="eknowTitle">#33CEC8</color>
+    <!--<color name="eknowTitle">#33CEC8</color>-->
+    <color name="eknowTitle">#01A4B5</color>
+
 
 </resources>

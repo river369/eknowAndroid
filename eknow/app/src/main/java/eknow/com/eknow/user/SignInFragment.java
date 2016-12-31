@@ -1,6 +1,8 @@
 package eknow.com.eknow.user;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,30 +21,21 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
+import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
 
 import eknow.com.eknow.common.EknowException;
-import eknow.com.eknow.service.ServiceInfo;
-import eknow.com.eknow.service.ServicesRequestBuilder;
-import eknow.com.eknow.service.ServicesResponseJsonParser;
+import eknow.com.eknow.utils.SharedPreferenceUtil;
 import eu.inmite.android.lib.validations.form.FormValidator;
-import eu.inmite.android.lib.validations.form.annotations.DateInFuture;
-import eu.inmite.android.lib.validations.form.annotations.Joined;
 import eu.inmite.android.lib.validations.form.annotations.MinLength;
-import eu.inmite.android.lib.validations.form.annotations.MinValue;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
-import eu.inmite.android.lib.validations.form.annotations.RegExp;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
-
-import static eu.inmite.android.lib.validations.form.annotations.RegExp.EMAIL;
 
 public class SignInFragment extends BaseFragment {
     View view;
@@ -121,7 +114,7 @@ public class SignInFragment extends BaseFragment {
         phoneRegion = phoneRegion.substring(phoneRegion.indexOf("+"));
         String phoneNumber = phoneNumberText.getText().toString();
         String password = passwordText.getText().toString();
-        UserAccessInfo userAccessInfo = new UserAccessInfo(userType, phoneRegion, phoneNumber, password);
+        final UserAccessInfo userAccessInfo = new UserAccessInfo(userType, phoneRegion, phoneNumber, password);
         UsersRequestBuilder urb = new UsersRequestBuilder();
         Map<String, String> params = urb.buildSignInRequestParameters(userAccessInfo);
 
@@ -137,6 +130,9 @@ public class SignInFragment extends BaseFragment {
                             UsersResponseJsonParser ujp = new UsersResponseJsonParser(response);
                             int ret = ujp.getCode();
                             if(ret == 0) {
+                                String token = ujp.getToken();
+                                SharedPreferenceUtil.setToken(token, userAccessInfo.getPhoneRegion() + userAccessInfo.getPhoneNumber());
+                                Toast.makeText(getActivity(), "登录成功！", Toast.LENGTH_SHORT).show();
                                 FragmentsFactory.setFragmentTo(getActivity(),((MainActivity)getActivity()).getCurrentFragment());
                             } else {
                                 errorMessageText.setText(ujp.getMsg());

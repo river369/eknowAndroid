@@ -1,4 +1,4 @@
-package eknow.com.eknow.user;
+package eknow.com.eknow.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,13 +6,16 @@ import android.content.SharedPreferences;
 import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.common.EknowException;
+import eknow.com.eknow.user.AccessToken;
 
 /**
  * Created by jianguog on 16/12/27.
  */
 
-public class AccessUtil {
-    public static String getToken(SharedPreferences preferences) {
+public class SharedPreferenceUtil {
+    public static SharedPreferences preferences;
+
+    public static String getToken() {
         if (preferences == null) {
            return null;
         }
@@ -34,4 +37,16 @@ public class AccessUtil {
         }
         return null;
     }
+
+    public static void setToken(String token, String currentPhone) {
+        if (preferences == null) {
+            return;
+        }
+        SharedPreferences.Editor editor=preferences.edit();
+        AccessToken accessToken = new AccessToken(System.currentTimeMillis(), token);
+        editor.putString(KeyConstants.sharedPreferenceCurrentPhone, currentPhone);
+        editor.putString(currentPhone, accessToken.toString());
+        editor.commit();
+    }
+    
 }

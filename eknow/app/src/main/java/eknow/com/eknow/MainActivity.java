@@ -17,7 +17,7 @@ import android.widget.Toast;
 import eknow.com.eknow.common.BackHandlerHelper;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.home.HomeFragment;
-import eknow.com.eknow.user.AccessUtil;
+import eknow.com.eknow.utils.SharedPreferenceUtil;
 
 /**
  * Created by jianguog on 16/11/28.
@@ -35,7 +35,6 @@ public class MainActivity extends FragmentActivity{
     HomeFragment home;
     BaseFragment currentFragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +45,8 @@ public class MainActivity extends FragmentActivity{
         bindBottomView();
         home = FragmentsFactory.getInstance().setMainFragment(this);
         currentFragment = home;
+        SharedPreferenceUtil.preferences =
+                getSharedPreferences(KeyConstants.sharedPreferenceName, Context.MODE_PRIVATE);
     }
 
     // Build Top Tool Bar
@@ -142,23 +143,14 @@ public class MainActivity extends FragmentActivity{
         tabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
-                SharedPreferences preferences=getSharedPreferences(KeyConstants.sharedPreferenceName, Context.MODE_PRIVATE);
-                if (preferences == null ) {
-                    Toast.makeText(MainActivity.this, "Fail to get SharedPreferences!", Toast.LENGTH_LONG).show();
-                }
-                String token = AccessUtil.getToken(preferences);
+                String token = SharedPreferenceUtil.getToken();
                 if (token == null){
+                    Toast.makeText(MainActivity.this, "请登录后使用此功能。", Toast.LENGTH_SHORT).show();
                     FragmentsFactory.getInstance().setSignInFragment(MainActivity.this, currentFragment, null);
                 } else {
                     unsetAllSelected();
                     tabCreate.setSelected(true);
                 }
-                //Toast.makeText(MainActivity.this, "tabCreate is clicked!"+token, Toast.LENGTH_SHORT).show();
-//                SharedPreferences.Editor editor=preferences.edit();
-//                String name="xixi";
-//                editor.putString("name", name);
-//                editor.commit();
             }
         });
         tabMine.setOnClickListener(new View.OnClickListener() {

@@ -6,10 +6,13 @@
     <string name="setting">设置</string>
     <string name="changeRoleToSeller">切换为卖家</string>
     <string name="changeRoleToCustomer">切换为买家</string>
+    <string name="back">返回</string>
+
     <string name="discoverEknow">求易知</string>
     <string name="createEknow">发易知</string>
     <string name="mine">我的</string>
 
+    <!-- Service Pages messages -->
     <string name="category">分类</string>
     <string name="recommendation">精品推荐</string>
     <string name="servicesList">服务列表</string>
@@ -51,6 +54,7 @@
     <string name="serviceLicenseAgree">我同意上述服务声明</string>
     <string name="servicePay">去付款</string>
 
+    <!-- Users Pages -->
     <string name="signIn">登录</string>
     <string name="securityMessage">提示:保护您个人信息的隐私和安全是易知海外的头等大事。我们加密存储、传输您的个人信息。在未经您书面授权的情况下，我们不会将您的个人资料透露给第三方。</string>
     <string name="selectRegionNumber">地区号:</string>
@@ -59,13 +63,9 @@
     <string name="selectRegionNumberHint">请选择地区号:</string>
     <string name="inputPhoneNumberHint">请输入手机号码:</string>
     <string name="inputPasswordHint">请输入密码:</string>
-
-
-    <!-- Validation -->
     <string name="validation_phone">手机号码不能为空</string>
     <string name="validation_phone_length">手机号码位数不足</string>
     <string name="validation_password">密码不能为空</string>
-
 
     <!-- Data String -->
     <string name="world">地球</string>

@@ -1,8 +1,7 @@
 package eknow.com.eknow.user;
 
+import android.app.Dialog;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +42,17 @@ public class SignInFragment extends BaseFragment {
         ((MainActivity)getActivity()).setToolbarTitle(R.string.signIn);
 
         view = inflater.inflate(R.layout.sign_in, container, false);
+        final TextView phoneRegion = (EditText) view.findViewById(R.id.signin_phone_region);
+        phoneRegion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new SelectPhoneRegionDialog(getActivity(), R.style.MyDialog, phoneRegion);
+                dialog.show();
+            }
+        });
+
+        phoneNumber = (EditText) view.findViewById(R.id.signin_phone_number);
+        password = (EditText) view.findViewById(R.id.signin_password);
 
         Button signInButton = (android.widget.Button) view.findViewById(R.id.signin);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -58,8 +68,6 @@ public class SignInFragment extends BaseFragment {
             }
         });
 
-        phoneNumber = (EditText) view.findViewById(R.id.signin_phone_number);
-        password = (EditText) view.findViewById(R.id.signin_password);
         //phoneNumber.setError();
         TextView signOn = (TextView) view.findViewById(R.id.signOn);
         signOn.setOnClickListener(new View.OnClickListener() {

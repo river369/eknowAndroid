@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/regionListItem"
+    android:paddingBottom="4dip"
+    android:paddingLeft="20dip"
+    android:paddingRight="12dip">
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:id="@+id/itemTitle"
+        android:textSize="16dip"
+        android:textColor="@color/eknowTitle"
+        android:gravity="center_vertical" />
+
+</LinearLayout>  

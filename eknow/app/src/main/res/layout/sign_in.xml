@@ -96,6 +96,18 @@
             android:paddingLeft="@dimen/content_padding_left"
             android:paddingRight="@dimen/content_padding_right"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/errorMessages"
+            android:text=""
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
+            android:textColor="@color/Red"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="@dimen/content_margin_left"
+            android:layout_marginRight="@dimen/content_margin_right" />
+
         <Button
             android:id="@+id/signin"
             android:layout_width="fill_parent"
@@ -103,7 +115,7 @@
             android:layout_marginBottom="14dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="5dp"
             android:background="@color/eknowTitle"
             android:gravity="center"
             android:text="@string/signIn"

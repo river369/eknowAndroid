@@ -15,6 +15,7 @@ public abstract class ResponseJsonParserBase {
     JSONArray dataArray;
     JSONObject dataObject;
     String dataTag;
+    final String root = "data";
 
     public ResponseJsonParserBase(JSONObject response) throws EknowException {
         this.response = response;
@@ -55,7 +56,7 @@ public abstract class ResponseJsonParserBase {
             if (code != 0) {
                 return false;
             }
-            JSONObject jo = response.getJSONObject("data");
+            JSONObject jo = response.getJSONObject(root);
             return jo.has(dataTag);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -67,7 +68,7 @@ public abstract class ResponseJsonParserBase {
     public JSONArray getDataArray() throws EknowException{
         if (this.dataArray == null) {
             try {
-                this.dataArray = response.getJSONObject("data").getJSONArray(dataTag);
+                this.dataArray = response.getJSONObject(root).getJSONArray(dataTag);
             } catch (JSONException e) {
                 e.printStackTrace();
                 throw new EknowException(
@@ -81,7 +82,7 @@ public abstract class ResponseJsonParserBase {
     public JSONObject getDataObject() throws EknowException{
         if (this.dataObject == null) {
             try {
-                this.dataObject = response.getJSONObject("data").getJSONObject(dataTag);
+                this.dataObject = response.getJSONObject(root).getJSONObject(dataTag);
             } catch (JSONException e) {
                 e.printStackTrace();
                 throw new EknowException(
@@ -90,5 +91,16 @@ public abstract class ResponseJsonParserBase {
             }
         }
         return this.dataObject;
+    }
+
+    public String getDataValueByKey(String key) throws EknowException{
+        try {
+            return response.getJSONObject(root).getString(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new EknowException(
+                    "Fail to parse data from service as [" + response.toString() +
+                            "]. error is [" + e.getMessage() + "]");
+        }
     }
 }

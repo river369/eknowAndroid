@@ -39,14 +39,24 @@ public class SharedPreferenceUtil {
     }
 
     public static void setToken(String token, String currentPhone) {
-        if (preferences == null) {
-            return;
-        }
+        if (preferences == null) return;
         SharedPreferences.Editor editor=preferences.edit();
         AccessToken accessToken = new AccessToken(System.currentTimeMillis(), token);
         editor.putString(KeyConstants.sharedPreferenceCurrentPhone, currentPhone);
         editor.putString(currentPhone, accessToken.toString());
         editor.commit();
     }
-    
+
+    public static void cleanToken() {
+        if (preferences == null) return;
+        String currentPhone = preferences.getString(KeyConstants.sharedPreferenceCurrentPhone, "");
+        if (currentPhone == null || currentPhone.equalsIgnoreCase("")){
+            return;
+        }
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putString(KeyConstants.sharedPreferenceCurrentPhone, "");
+        editor.putString(currentPhone,"");
+        editor.commit();
+    }
+
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.home.HomeFragment;
+import eknow.com.eknow.service.ServiceAddFragment;
 import eknow.com.eknow.service.ServiceBuyFragment;
 import eknow.com.eknow.service.ServiceDetailsFragment;
 import eknow.com.eknow.service.ServicesListFragment;
@@ -24,6 +25,7 @@ public class FragmentsFactory {
     static ServicesListFragment slf;
     static ServiceDetailsFragment sdf;
     static ServiceBuyFragment sbf;
+    static ServiceAddFragment saf;
     static SignInFragment signIn;
     static SignOnFragment signOn;
     static int containerViewId = R.id.id_eknow_main_content;
@@ -120,4 +122,12 @@ public class FragmentsFactory {
         }
         setFragment(activity, oldFragment, signOn, bundle);
     }
+
+    public static void setServiceAddFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
+        if (saf == null){
+            saf = new ServiceAddFragment();
+        }
+        setFragment(activity, oldFragment, saf, bundle);
+    }
+
 }

@@ -18,18 +18,24 @@
     <string name="servicesList">服务列表</string>
     <string name="serviceDetails">服务详情</string>
     <string name="serviceBuySummary">购买服务</string>
+    <string name="serviceAdd">发布易知服务</string>
 
     <string name="serviceId">服务编号</string>
     <string name="serviceName">服务名称</string>
     <string name="serviceBrief">服务内容简介</string>
+    <string name="brief">内容简介</string>
     <string name="serviceDescription">服务内容详细信息</string>
     <string name="serviceInfo">服务信息</string>
     <string name="serviceRating">服务等级</string>
     <string name="serviceType">服务类型</string>
     <string name="serviceArea">服务地点</string>
     <string name="serviceLanguage">服务语言</string>
+    <string name="servicePriceType">收费类型</string>
     <string name="servicePrice">服务价格</string>
+    <string name="serviceUnitPrice">费用单价</string>
     <string name="serviceTag">服务标签</string>
+    <string name="serviceSelectTag">点击选取或填写标签</string>
+
 
     <string name="sellerName">卖家昵称</string>
     <string name="sellerSignature">个性签名</string>
@@ -53,6 +59,11 @@
     <string name="serviceLicenseRead">点击阅读购买服务声明</string>
     <string name="serviceLicenseAgree">我同意上述服务声明</string>
     <string name="servicePay">去付款</string>
+
+    <string name="serviceStatus">服务状态</string>
+    <string name="serviceUploadMainPic">请点击图标上传服务主图片, 主图片显示于求易知列表.</string>
+    <string name="serviceUploadPics">请点击图标上传服务详情图片, 最多上传5张.</string>
+
 
     <!-- Users Pages -->
     <string name="signIn">登录</string>

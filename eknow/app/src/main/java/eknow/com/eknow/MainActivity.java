@@ -150,6 +150,7 @@ public class MainActivity extends FragmentActivity{
                 } else {
                     unsetAllSelected();
                     tabCreate.setSelected(true);
+                    FragmentsFactory.getInstance().setServiceAddFragment(MainActivity.this, currentFragment, null);
                 }
             }
         });
@@ -158,6 +159,7 @@ public class MainActivity extends FragmentActivity{
             public void onClick(View arg0) {
                 unsetAllSelected();
                 tabMine.setSelected(true);
+                SharedPreferenceUtil.cleanToken();
                 Toast.makeText(MainActivity.this, "tabMine is clicked!", Toast.LENGTH_SHORT).show();
             }
         });

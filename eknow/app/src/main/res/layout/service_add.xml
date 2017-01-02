@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars = "vertical"
+    android:background="@color/White">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/service_status"
+            android:text="@string/serviceStatus"
+            android:textSize="12sp"
+            android:textColor="@color/eknowTitle"
+            android:gravity="center_vertical|left"
+            android:paddingLeft="@dimen/content_margin_left"
+            android:layout_marginRight="@dimen/content_margin_right"
+            android:background="@color/gray_bright" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/service_upload_main_picture_title"
+            android:text="@string/serviceUploadMainPic"
+            android:textSize="12sp"
+            android:textColor="@color/eknowTitle"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="@dimen/content_margin_left"
+            android:layout_marginRight="@dimen/content_margin_right" />
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/serviceMainImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/service_upload_pictures_title"
+            android:text="@string/serviceUploadPics"
+            android:textSize="12sp"
+            android:textColor="@color/eknowTitle"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="@dimen/content_margin_left"
+            android:layout_marginRight="@dimen/content_margin_right" />
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/servicePictures"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TableLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="2">
+            <TableRow android:layout_marginBottom="@dimen/content_margin_bottom">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/service_type_title"
+                    android:text="@string/serviceType"
+                    android:textSize="12sp"
+                    android:textColor="@color/eknowTitle"
+                    android:gravity="center_vertical|left"
+                    android:layout_marginLeft="@dimen/content_margin_left"
+                    android:layout_marginRight="@dimen/content_margin_right" />
+
+                <RadioGroup
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <RadioButton
+                        android:id="@+id/btn_0"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:text="最新信息"
+                        android:textSize="14sp"
+                        android:textColor="@drawable/tab_menu_text"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:button="@null"
+                        android:background="@drawable/ratio" />
+                    <RadioButton
+                        android:id="@+id/btn_1"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:text="在线专家"
+                        android:textSize="14sp"
+                        android:textColor="@drawable/tab_menu_text"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:background="@drawable/ratio"/>
+                </RadioGroup>
+            </TableRow>
+            <TableRow android:layout_marginBottom="@dimen/content_margin_bottom">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/service_area_title"
+                    android:text="@string/serviceArea"
+                    android:textSize="12sp"
+                    android:textColor="@color/eknowTitle"
+                    android:gravity="center_vertical|left"
+                    android:layout_marginLeft="@dimen/content_margin_left"
+                    android:layout_marginRight="@dimen/content_margin_right" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="中国大陆 +86"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/signin_phone_region"
+                    android:background="@drawable/text_bg"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:layout_marginRight="@dimen/content_margin_right"
+                    android:layout_span="2"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginBottom="@dimen/content_margin_bottom">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/service_langugage_title"
+                    android:text="@string/serviceType"
+                    android:textSize="12sp"
+                    android:textColor="@color/eknowTitle"
+                    android:gravity="center_vertical|left"
+                    android:layout_marginLeft="@dimen/content_margin_left"
+                    android:layout_marginRight="@dimen/content_margin_right" />
+
+                <RadioGroup
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <RadioButton
+                        android:id="@+id/btn_3"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:text="最新信息"
+                        android:textSize="14sp"
+                        android:textColor="@drawable/tab_menu_text"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:button="@null"
+                        android:background="@drawable/ratio" />
+                    <RadioButton
+                        android:id="@+id/btn_4"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:text="在线专家"
+                        android:textSize="14sp"
+                        android:textColor="@drawable/tab_menu_text"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:background="@drawable/ratio"/>
+                </RadioGroup>
+            </TableRow>
+            <TableRow android:layout_marginBottom="@dimen/content_margin_bottom">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/service_name_title"
+                    android:text="@string/serviceName"
+                    android:textSize="12sp"
+                    android:textColor="@color/eknowTitle"
+                    android:gravity="center_vertical|left"
+                    android:layout_marginLeft="@dimen/content_margin_left"
+                    android:layout_marginRight="@dimen/content_margin_right" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:id="@+id/service_name_content"
+                    android:background="@drawable/text_bg"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:textSize="11sp"
+                    android:gravity="center_vertical|left"
+                    android:layout_marginRight="@dimen/content_margin_right"
+                    android:layout_span="2"/>
+            </TableRow>
+
+            <TableRow android:layout_marginBottom="@dimen/content_margin_bottom">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/service_brief_title"
+                    android:text="@string/brief"
+                    android:textSize="12sp"
+                    android:textColor="@color/eknowTitle"
+                    android:gravity="center_vertical|left"
+                    android:layout_marginLeft="@dimen/content_margin_left" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:id="@+id/service_brief_content"
+                    android:background="@drawable/text_bg"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:textSize="11sp"
+                    android:gravity="center_vertical|left"
+                    android:layout_marginRight="@dimen/content_margin_right"
+                    android:layout_span="2"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginBottom="@dimen/content_margin_bottom">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/service__title"
+                    android:text="@string/servicePriceType"
+                    android:textSize="12sp"
+                    android:textColor="@color/eknowTitle"
+                    android:gravity="center_vertical|left"
+                    android:layout_marginLeft="@dimen/content_margin_left"
+                    android:layout_marginRight="@dimen/content_margin_right" />
+
+                <RadioGroup
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <RadioButton
+                        android:id="@+id/btn_5"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:text="最新信息"
+                        android:textSize="14sp"
+                        android:textColor="@drawable/tab_menu_text"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:button="@null"
+                        android:background="@drawable/ratio" />
+                    <RadioButton
+                        android:id="@+id/btn_6"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:text="在线专家"
+                        android:textSize="14sp"
+                        android:textColor="@drawable/tab_menu_text"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:background="@drawable/ratio"/>
+                </RadioGroup>
+            </TableRow>
+            <TableRow android:layout_marginBottom="@dimen/content_margin_bottom">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/service_price_title"
+                    android:text="@string/serviceUnitPrice"
+                    android:textSize="12sp"
+                    android:textColor="@color/eknowTitle"
+                    android:gravity="center_vertical|left"
+                    android:layout_marginLeft="@dimen/content_margin_left" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="number"
+                    android:id="@+id/service_price_content"
+                    android:background="@drawable/text_bg"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:textSize="11sp"
+                    android:gravity="center_vertical|left"
+                    android:layout_marginRight="@dimen/content_margin_right"
+                    android:layout_span="2"/>
+            </TableRow>
+
+        </TableLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:id="@+id/service_description_title"
+            android:text="@string/serviceDescription"
+            android:textSize="12sp"
+            android:textColor="@color/eknowTitle"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="@dimen/content_margin_left" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="textMultiLine"
+            android:id="@+id/service_description_content"
+            android:background="@drawable/text_bg"
+            android:textSize="11sp"
+            android:gravity="top|left"
+            android:layout_marginRight="@dimen/content_margin_right"
+            android:layout_marginLeft="@dimen/content_margin_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:id="@+id/service_select_tag_title"
+            android:text="@string/serviceSelectTag"
+            android:textSize="12sp"
+            android:textColor="@color/eknowTitle"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="@dimen/content_margin_left" />
+
+        <me.gujun.android.taggroup.TagGroup
+            android:id="@+id/tag_group"
+            style="@style/TagGroup"
+            app:atg_isAppendMode="true"
+            android:layout_marginRight="@dimen/content_margin_right"
+            android:layout_marginLeft="@dimen/content_margin_left"
+            android:layout_marginBottom="@dimen/content_margin_bottom"/>
+        <!--https://github.com/2dxgujun/AndroidTagGroup-->
+        
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:id="@+id/service_license_agree"
+            android:text="@string/serviceLicenseAgree"
+            android:textColor="@color/eknowTitle"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="@dimen/content_margin_left"
+            android:layout_marginRight="@dimen/content_margin_right" />
+
+
+    </LinearLayout>
+</ScrollView>

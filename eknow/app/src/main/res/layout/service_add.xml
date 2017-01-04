@@ -55,13 +55,30 @@
             android:layout_marginLeft="@dimen/content_margin_left"
             android:layout_marginRight="@dimen/content_margin_right" />
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/servicePictures"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="10dp"/>
+        <!--<GridView-->
+            <!--android:id="@+id/service_upload_pictures"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="230dp"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:background="@color/White"-->
+            <!--android:horizontalSpacing="5dp"-->
+            <!--android:verticalSpacing="5dp"-->
+            <!--android:numColumns="4"-->
+            <!--android:columnWidth="110dp"-->
+            <!--android:stretchMode="columnWidth"-->
+            <!--android:gravity="center" >-->
+        <!--</GridView>-->
+
+        <GridView
+            android:id="@+id/service_upload_pictures"
+            android:layout_width="290dp"
+            android:layout_height="350dp"
+            android:layout_marginLeft="5dp"
+            android:horizontalSpacing="3dp"
+            android:numColumns="4"
+            android:scrollbars="none"
+            android:verticalSpacing="5dp" >
+        </GridView>
 
         <TableLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -337,13 +354,13 @@
             android:gravity="center_vertical|left"
             android:layout_marginLeft="@dimen/content_margin_left" />
 
-        <me.gujun.android.taggroup.TagGroup
-            android:id="@+id/tag_group"
-            style="@style/TagGroup"
-            app:atg_isAppendMode="true"
-            android:layout_marginRight="@dimen/content_margin_right"
-            android:layout_marginLeft="@dimen/content_margin_left"
-            android:layout_marginBottom="@dimen/content_margin_bottom"/>
+        <!--<me.gujun.android.taggroup.TagGroup-->
+            <!--android:id="@+id/tag_group"-->
+            <!--style="@style/TagGroup"-->
+            <!--app:atg_isAppendMode="true"-->
+            <!--android:layout_marginRight="@dimen/content_margin_right"-->
+            <!--android:layout_marginLeft="@dimen/content_margin_left"-->
+            <!--android:layout_marginBottom="@dimen/content_margin_bottom"/>-->
         <!--https://github.com/2dxgujun/AndroidTagGroup-->
         
         <CheckBox

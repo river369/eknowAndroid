@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:melove="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:orientation="vertical" >
+        <eknow.com.eknow.common.ui.MLImageView
+            android:layout_margin="5dp"
+            android:id="@+id/imageView1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:src="@drawable/addpic"
+            android:scaleType="centerInside"
+            melove:ml_border_color="@color/WhiteSmoke"
+            melove:ml_border_width="3dp"
+            melove:ml_press_alpha="50"
+            melove:ml_press_color="#00ff00"
+            melove:ml_radius="8dp"
+            melove:ml_shape_type="rectangle"
+            />
+        <!--https://github.com/lzan13/MLImageViewDemo/blob/master/app/src/main/res/layout/activity_main.xml-->
+    </RelativeLayout>
+</LinearLayout>

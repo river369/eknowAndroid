@@ -19,6 +19,20 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".common.photo.activity.AlbumActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".common.photo.activity.ImageFile" >
+        </activity>
+        <activity
+            android:name=".common.photo.activity.ShowAllPhoto" >
+        </activity>
+        <activity
+            android:name=".common.photo.activity.GalleryActivity">
+        </activity>
+
     </application>
 
 

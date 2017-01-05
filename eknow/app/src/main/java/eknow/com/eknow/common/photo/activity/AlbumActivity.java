@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.common.photo.adapter.AlbumGridViewAdapter;
 import eknow.com.eknow.common.photo.util.AlbumHelper;
 import eknow.com.eknow.common.photo.util.Bimp;
@@ -68,12 +68,12 @@ public class AlbumActivity extends Activity {
 		IntentFilter filter = new IntentFilter("data.broadcast.action");  
 		registerReceiver(broadcastReceiver, filter);  
         bitmap = BitmapFactory.decodeResource(getResources(),Res.getDrawableID("plugin_camera_no_pictures"));
-        init();
+		init();
 		initListener();
 		//这个函数主要用来控制预览和完成按钮的状态
 		isShowOkBt();
 	}
-	
+
 	BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {  
 		  
         @Override  
@@ -93,15 +93,14 @@ public class AlbumActivity extends Activity {
 				startActivity(intent);
 			}
 		}
-
 	}
 
 	// 完成按钮的监听
 	private class AlbumSendListener implements OnClickListener {
 		public void onClick(View v) {
 			//overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
-			intent.setClass(mContext, MainActivity.class);
-			startActivity(intent);
+			//intent.setClass(mContext, MainActivity.class);
+			//startActivity(intent);
 			finish();
 		}
 
@@ -119,18 +118,18 @@ public class AlbumActivity extends Activity {
 	private class CancelListener implements OnClickListener {
 		public void onClick(View v) {
 			Bimp.tempSelectBitmap.clear();
-			intent.setClass(mContext, MainActivity.class);
-			startActivity(intent);
+			//intent.setClass(mContext, MainActivity.class);
+			//startActivity(intent);
+			finish();
 		}
 	}
 
-	
 
 	// 初始化，给一些对象赋值
 	private void init() {
 		helper = AlbumHelper.getHelper();
 		helper.init(getApplicationContext());
-		
+
 		contentList = helper.getImagesBucketList(false);
 		dataList = new ArrayList<ImageItem>();
 		for(int i = 0; i<contentList.size(); i++){
@@ -141,43 +140,38 @@ public class AlbumActivity extends Activity {
 		cancel = (Button) findViewById(Res.getWidgetID("cancel"));
 		cancel.setOnClickListener(new CancelListener());
 		back.setOnClickListener(new BackListener());
+		back.setVisibility(View.GONE);
 		preview = (Button) findViewById(Res.getWidgetID("preview"));
 		preview.setOnClickListener(new PreviewListener());
 		intent = getIntent();
 		Bundle bundle = intent.getExtras();
 		gridView = (GridView) findViewById(Res.getWidgetID("myGrid"));
-		gridImageAdapter = new AlbumGridViewAdapter(this,dataList,
-				Bimp.tempSelectBitmap);
+		gridImageAdapter = new AlbumGridViewAdapter(this,dataList, Bimp.tempSelectBitmap);
 		gridView.setAdapter(gridImageAdapter);
 		tv = (TextView) findViewById(Res.getWidgetID("myText"));
 		gridView.setEmptyView(tv);
 		okButton = (Button) findViewById(Res.getWidgetID("ok_button"));
-		okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size()
-				+ "/"+PublicWay.num+")");
+		okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 	}
 
 	private void initListener() {
-
 		gridImageAdapter
 				.setOnItemClickListener(new AlbumGridViewAdapter.OnItemClickListener() {
 
 					@Override
-					public void onItemClick(final ToggleButton toggleButton,
-							int position, boolean isChecked,Button chooseBt) {
+					public void onItemClick(final ToggleButton toggleButton, int position, boolean isChecked, Button chooseBt) {
 						if (Bimp.tempSelectBitmap.size() >= PublicWay.num) {
 							toggleButton.setChecked(false);
 							chooseBt.setVisibility(View.GONE);
 							if (!removeOneData(dataList.get(position))) {
-								Toast.makeText(AlbumActivity.this, Res.getString("only_choose_num"),
-										200).show();
+								Toast.makeText(AlbumActivity.this, Res.getString("only_choose_num"), Toast.LENGTH_LONG).show();
 							}
 							return;
 						}
 						if (isChecked) {
 							chooseBt.setVisibility(View.VISIBLE);
 							Bimp.tempSelectBitmap.add(dataList.get(position));
-							okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size()
-									+ "/"+PublicWay.num+")");
+							okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 						} else {
 							Bimp.tempSelectBitmap.remove(dataList.get(position));
 							chooseBt.setVisibility(View.GONE);
@@ -228,9 +222,15 @@ public class AlbumActivity extends Activity {
 		return false;
 
 	}
-@Override
-protected void onRestart() {
-	isShowOkBt();
-	super.onRestart();
-}
+	@Override
+	protected void onRestart() {
+		isShowOkBt();
+		super.onRestart();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		unregisterReceiver(broadcastReceiver);
+	}
 }

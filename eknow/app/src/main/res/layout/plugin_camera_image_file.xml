@@ -8,11 +8,11 @@
         android:id="@+id/headview"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        android:background="@drawable/plugin_camera_title_bar" 
+
         android:gravity="center_vertical"
         >
-        
-        <TextView
+		<!--android:background="@drawable/plugin_camera_title_bar"-->
+		<TextView
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content" 
        		android:layout_height="wrap_content" 

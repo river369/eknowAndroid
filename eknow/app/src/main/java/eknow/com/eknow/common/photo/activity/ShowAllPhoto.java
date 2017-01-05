@@ -124,8 +124,7 @@ public class ShowAllPhoto extends Activity {
 		progressBar = (ProgressBar) findViewById(Res.getWidgetID("showallphoto_progressbar"));
 		progressBar.setVisibility(View.GONE);
 		gridView = (GridView) findViewById(Res.getWidgetID("showallphoto_myGrid"));
-		gridImageAdapter = new AlbumGridViewAdapter(this,dataList,
-				Bimp.tempSelectBitmap);
+		gridImageAdapter = new AlbumGridViewAdapter(this,dataList, Bimp.tempSelectBitmap);
 		gridView.setAdapter(gridImageAdapter);
 		okButton = (Button) findViewById(Res.getWidgetID("showallphoto_ok_button"));
 	}
@@ -140,7 +139,7 @@ public class ShowAllPhoto extends Activity {
 						if (Bimp.tempSelectBitmap.size() >= PublicWay.num&&isChecked) {
 							button.setVisibility(View.GONE);
 							toggleButton.setChecked(false);
-							Toast.makeText(ShowAllPhoto.this, Res.getString("only_choose_num"), 200)
+							Toast.makeText(ShowAllPhoto.this, Res.getString("only_choose_num"), Toast.LENGTH_LONG)
 									.show();
 							return;
 						}
@@ -164,14 +163,16 @@ public class ShowAllPhoto extends Activity {
 			@Override
 			public void onClick(View v) {
 				okButton.setClickable(false);
+
 //				if (PublicWay.photoService != null) {
 //					PublicWay.selectedDataList.addAll(Bimp.tempSelectBitmap);
 //					Bimp.tempSelectBitmap.clear();
 //					PublicWay.photoService.onActivityResult(0, -2,
 //							intent);
 //				}
-				intent.setClass(mContext, MainActivity.class);
-				startActivity(intent);
+				//intent.setClass(mContext, MainActivity.class);
+				//startActivity(intent);
+
 				// Intent intent = new Intent();
 				// Bundle bundle = new Bundle();
 				// bundle.putStringArrayList("selectedDataList",
@@ -222,6 +223,12 @@ public class ShowAllPhoto extends Activity {
 		// TODO Auto-generated method stub
 		isShowOkBt();
 		super.onRestart();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		unregisterReceiver(broadcastReceiver);
 	}
 
 }

@@ -49,17 +49,20 @@ public class ImageFile extends Activity {
 		public void onClick(View v) {
 			//清空选择的图片
 			Bimp.tempSelectBitmap.clear();
-			Intent intent = new Intent();
-			intent.setClass(mContext, MainActivity.class);
-			startActivity(intent);
+//			Intent intent = new Intent();
+//			intent.setClass(mContext, MainActivity.class);
+//			startActivity(intent);
+			finish();
 		}
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			Intent intent = new Intent();
-			intent.setClass(mContext, MainActivity.class);
-			startActivity(intent);
+
+			System.out.println("--------------------1");
+			//Intent intent = new Intent();
+			//intent.setClass(mContext, MainActivity.class);
+			//startActivity(intent);
 		}
 		
 		return true;

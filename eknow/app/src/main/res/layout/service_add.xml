@@ -71,8 +71,8 @@
 
         <GridView
             android:id="@+id/service_upload_pictures"
-            android:layout_width="290dp"
-            android:layout_height="350dp"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
             android:layout_marginLeft="5dp"
             android:horizontalSpacing="3dp"
             android:numColumns="4"

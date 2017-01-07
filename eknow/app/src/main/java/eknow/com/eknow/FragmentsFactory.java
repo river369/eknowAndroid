@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import eknow.com.eknow.common.BaseFragment;
+import eknow.com.eknow.common.photo.activity.AlbumActivity;
+import eknow.com.eknow.common.photo.activity.AlbumSelectFragment;
 import eknow.com.eknow.home.HomeFragment;
 import eknow.com.eknow.service.ServiceAddFragment;
 import eknow.com.eknow.service.ServiceBuyFragment;
@@ -28,6 +30,8 @@ public class FragmentsFactory {
     static ServiceAddFragment saf;
     static SignInFragment signIn;
     static SignOnFragment signOn;
+    static AlbumSelectFragment asf;
+
     static int containerViewId = R.id.id_eknow_main_content;
 
     private static FragmentsFactory mInstance = null;
@@ -130,4 +134,10 @@ public class FragmentsFactory {
         setFragment(activity, oldFragment, saf, bundle);
     }
 
+    public static void setAlbumSelectFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
+        if (asf == null){
+            asf = new AlbumSelectFragment();
+        }
+        setFragment(activity, oldFragment, asf, bundle);
+    }
 }

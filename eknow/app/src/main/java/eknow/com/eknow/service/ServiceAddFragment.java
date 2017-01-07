@@ -34,6 +34,7 @@ import android.widget.RelativeLayout;
 
 import com.android.volley.RequestQueue;
 
+import eknow.com.eknow.FragmentsFactory;
 import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
@@ -80,7 +81,11 @@ public class ServiceAddFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((MainActivity)getActivity()).addTopReturnToolbar();
+        ((MainActivity)getActivity()).setTopReturnBarVisiability(View.VISIBLE);
         ((MainActivity) getActivity()).setToolbarTitle(R.string.serviceAdd);
+
+        bimap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused);
         view = inflater.inflate(R.layout.service_add, container, false);
         popView = inflater.inflate(R.layout.select_picture_popup, container, false);
 //        TagGroup mTagGroup = (TagGroup) view.findViewById(R.id.tag_group);
@@ -140,11 +145,7 @@ public class ServiceAddFragment extends BaseFragment {
     }
 
     public void InitPictures() {
-
         Res.init(getActivity());
-        PublicWay.activityList.add(getActivity());
-
-
         pop = new PopupWindow(getActivity());
         pop.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         pop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -155,21 +156,17 @@ public class ServiceAddFragment extends BaseFragment {
 
         RelativeLayout parent = (RelativeLayout) popView.findViewById(R.id.select_picture_popup_parent);
         ll_popup = (LinearLayout) popView.findViewById(R.id.select_picture_popup);
-        Button bt1 = (Button) popView
-                .findViewById(R.id.item_popupwindows_camera);
-        Button bt2 = (Button) popView
-                .findViewById(R.id.item_popupwindows_Photo);
-        Button bt3 = (Button) popView
-                .findViewById(R.id.item_popupwindows_cancel);
+        Button cameraButton = (Button) popView.findViewById(R.id.item_popupwindows_camera);
+        Button photoButton = (Button) popView.findViewById(R.id.item_popupwindows_Photo);
+        Button cancelButton = (Button) popView.findViewById(R.id.item_popupwindows_cancel);
         parent.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 pop.dismiss();
                 ll_popup.clearAnimation();
             }
         });
-        bt1.setOnClickListener(new View.OnClickListener() {
+        cameraButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -181,21 +178,22 @@ public class ServiceAddFragment extends BaseFragment {
                 ll_popup.clearAnimation();
             }
         });
-        bt2.setOnClickListener(new View.OnClickListener() {
+        photoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
                     locationpermission(READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST_LOCATION);
                 } else {
-                    Intent intent = new Intent(getActivity(), AlbumActivity.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(getActivity(), AlbumActivity.class);
+                    //startActivity(intent);
+                    FragmentsFactory.getInstance().setAlbumSelectFragment(getActivity(), ServiceAddFragment.this, null);
                 }
                 //overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
                 pop.dismiss();
                 ll_popup.clearAnimation();
             }
         });
-        bt3.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 pop.dismiss();
                 ll_popup.clearAnimation();
@@ -298,8 +296,8 @@ public class ServiceAddFragment extends BaseFragment {
         }
 
         public int getCount() {
-            if(Bimp.tempSelectBitmap.size() == 9){
-                return 9;
+            if(Bimp.tempSelectBitmap.size() == PublicWay.num){
+                return PublicWay.num;
             }
             return (Bimp.tempSelectBitmap.size() + 1);
         }
@@ -331,10 +329,9 @@ public class ServiceAddFragment extends BaseFragment {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            if (position ==Bimp.tempSelectBitmap.size()) {
-                holder.image.setImageBitmap(BitmapFactory.decodeResource(
-                        getResources(), R.drawable.icon_addpic_unfocused));
-                if (position == 9) {
+            if (position == Bimp.tempSelectBitmap.size()) {
+                holder.image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused));
+                if (position == PublicWay.num) {
                     holder.image.setVisibility(View.GONE);
                 }
             } else {

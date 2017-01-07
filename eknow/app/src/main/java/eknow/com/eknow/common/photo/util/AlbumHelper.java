@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 public class AlbumHelper {
 	final String TAG = getClass().getSimpleName();
 	Context context;
-	ContentResolver cr;
+	ContentResolver contentResolver;
 	
 	HashMap<String, String> thumbnailList = new HashMap<String, String>();
 
@@ -40,15 +40,13 @@ public class AlbumHelper {
 	public void init(Context context) {
 		if (this.context == null) {
 			this.context = context;
-			cr = context.getContentResolver();
+			contentResolver = context.getContentResolver();
 		}
 	}
 
 	private void getThumbnail() {
-		String[] projection = { Thumbnails._ID, Thumbnails.IMAGE_ID,
-				Thumbnails.DATA };
-		Cursor cursor = cr.query(Thumbnails.EXTERNAL_CONTENT_URI, projection,
-				null, null, null);
+		String[] projection = { Thumbnails._ID, Thumbnails.IMAGE_ID, Thumbnails.DATA };
+		Cursor cursor = contentResolver.query(Thumbnails.EXTERNAL_CONTENT_URI, projection, null, null, null);
 		getThumbnailColumnData(cursor);
 	}
 
@@ -82,7 +80,7 @@ public class AlbumHelper {
 	void getAlbum() {
 		String[] projection = { Albums._ID, Albums.ALBUM, Albums.ALBUM_ART,
 				Albums.ALBUM_KEY, Albums.ARTIST, Albums.NUMBER_OF_SONGS };
-		Cursor cursor = cr.query(Albums.EXTERNAL_CONTENT_URI, projection, null,
+		Cursor cursor = contentResolver.query(Albums.EXTERNAL_CONTENT_URI, projection, null,
 				null, null);
 		getAlbumColumnData(cursor);
 
@@ -114,9 +112,9 @@ public class AlbumHelper {
 				numOfSongs = cur.getInt(numOfSongsColumn);
 
 				// Do something with the values.
-				Log.i(TAG, _id + " album:" + album + " albumArt:" + albumArt
-						+ "albumKey: " + albumKey + " artist: " + artist
-						+ " numOfSongs: " + numOfSongs + "---");
+//				Log.i(TAG, _id + " album:" + album + " albumArt:" + albumArt
+//						+ "albumKey: " + albumKey + " artist: " + artist
+//						+ " numOfSongs: " + numOfSongs + "---");
 				HashMap<String, String> hash = new HashMap<String, String>();
 				hash.put("_id", _id + "");
 				hash.put("album", album);
@@ -141,8 +139,7 @@ public class AlbumHelper {
 		String columns[] = new String[] { Media._ID, Media.BUCKET_ID,
 				Media.PICASA_ID, Media.DATA, Media.DISPLAY_NAME, Media.TITLE,
 				Media.SIZE, Media.BUCKET_DISPLAY_NAME };
-		Cursor cur = cr.query(Media.EXTERNAL_CONTENT_URI, columns, null, null,
-				null);
+		Cursor cur = contentResolver.query(Media.EXTERNAL_CONTENT_URI, columns, null, null, null);
 		if (cur.moveToFirst()) {
 			int photoIDIndex = cur.getColumnIndexOrThrow(Media._ID);
 			int photoPathIndex = cur.getColumnIndexOrThrow(Media.DATA);
@@ -165,10 +162,10 @@ public class AlbumHelper {
 				String bucketId = cur.getString(bucketIdIndex);
 				String picasaId = cur.getString(picasaIdIndex);
 
-				Log.i(TAG, _id + ", bucketId: " + bucketId + ", picasaId: "
-						+ picasaId + " name:" + name + " path:" + path
-						+ " title: " + title + " size: " + size + " bucket: "
-						+ bucketName + "---");
+//				Log.i(TAG, _id + ", bucketId: " + bucketId + ", picasaId: "
+//						+ picasaId + " name:" + name + " path:" + path
+//						+ " title: " + title + " size: " + size + " bucket: "
+//						+ bucketName + "---");
 
 				ImageBucket bucket = bucketList.get(bucketId);
 				if (bucket == null) {
@@ -193,12 +190,10 @@ public class AlbumHelper {
 			Map.Entry<String, ImageBucket> entry = (Map.Entry<String, ImageBucket>) itr
 					.next();
 			ImageBucket bucket = entry.getValue();
-			Log.d(TAG, entry.getKey() + ", " + bucket.bucketName + ", "
-					+ bucket.count + " ---------- ");
+//			Log.d(TAG, entry.getKey() + ", " + bucket.bucketName + ", " + bucket.count + " ---------- ");
 			for (int i = 0; i < bucket.imageList.size(); ++i) {
 				ImageItem image = bucket.imageList.get(i);
-				Log.d(TAG, "----- " + image.imageId + ", " + image.imagePath
-						+ ", " + image.thumbnailPath);
+//				Log.d(TAG, "----- " + image.imageId + ", " + image.imagePath + ", " + image.thumbnailPath);
 			}
 		}
 		hasBuildImagesBucketList = true;
@@ -226,7 +221,7 @@ public class AlbumHelper {
 		String path = null;
 		Log.i(TAG, "---(^o^)----" + image_id);
 		String[] projection = { Media._ID, Media.DATA };
-		Cursor cursor = cr.query(Media.EXTERNAL_CONTENT_URI, projection,
+		Cursor cursor = contentResolver.query(Media.EXTERNAL_CONTENT_URI, projection,
 				Media._ID + "=" + image_id, null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();

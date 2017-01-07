@@ -73,11 +73,12 @@
             android:id="@+id/service_upload_pictures"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:layout_marginLeft="5dp"
             android:horizontalSpacing="3dp"
-            android:numColumns="4"
+            android:numColumns="3"
             android:scrollbars="none"
-            android:verticalSpacing="5dp" >
+            android:verticalSpacing="5dp"
+            android:layout_marginLeft="@dimen/content_margin_left"
+            android:layout_marginRight="@dimen/content_margin_right">
         </GridView>
 
         <TableLayout

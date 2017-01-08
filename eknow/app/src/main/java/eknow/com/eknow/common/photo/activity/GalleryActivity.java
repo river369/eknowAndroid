@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eknow.com.eknow.MainActivity;
-import eknow.com.eknow.common.photo.util.Bimp;
+import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.common.photo.util.PublicWay;
 import eknow.com.eknow.common.photo.util.Res;
 import eknow.com.eknow.common.photo.zoom.PhotoView;
@@ -80,8 +80,8 @@ public class GalleryActivity extends Activity {
 		// 为发送按钮设置文字
 		pager = (ViewPagerFixed) findViewById(Res.getWidgetID("gallery01"));
 		pager.setOnPageChangeListener(pageChangeListener);
-		for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
-			initListViews( Bimp.tempSelectBitmap.get(i).getBitmap() );
+		for (int i = 0; i < PhotoUtils.tempSelectBitmap.size(); i++) {
+			initListViews( PhotoUtils.tempSelectBitmap.get(i).getBitmap() );
 		}
 		
 		adapter = new MyPageAdapter(listViews);
@@ -131,19 +131,19 @@ public class GalleryActivity extends Activity {
 
 		public void onClick(View v) {
 			if (listViews.size() == 1) {
-				Bimp.tempSelectBitmap.clear();
-				Bimp.max = 0;
-				send_bt.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+				PhotoUtils.tempSelectBitmap.clear();
+				PhotoUtils.max = 0;
+				send_bt.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 				Intent intent = new Intent("data.broadcast.action");
                 sendBroadcast(intent);  
 				finish();
 			} else {
-				Bimp.tempSelectBitmap.remove(location);
-				Bimp.max--;
+				PhotoUtils.tempSelectBitmap.remove(location);
+				PhotoUtils.max--;
 				pager.removeAllViews();
 				listViews.remove(location);
 				adapter.setListViews(listViews);
-				send_bt.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+				send_bt.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 				adapter.notifyDataSetChanged();
 			}
 		}
@@ -160,8 +160,8 @@ public class GalleryActivity extends Activity {
 	}
 
 	public void isShowOkBt() {
-		if (Bimp.tempSelectBitmap.size() > 0) {
-			send_bt.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+		if (PhotoUtils.tempSelectBitmap.size() > 0) {
+			send_bt.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 			send_bt.setPressed(true);
 			send_bt.setClickable(true);
 			send_bt.setTextColor(Color.WHITE);

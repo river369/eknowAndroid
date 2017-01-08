@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +23,7 @@ import android.widget.ToggleButton;
 
 import eknow.com.eknow.common.photo.adapter.AlbumGridViewAdapter;
 import eknow.com.eknow.common.photo.util.AlbumHelper;
-import eknow.com.eknow.common.photo.util.Bimp;
+import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.common.photo.util.ImageBucket;
 import eknow.com.eknow.common.photo.util.ImageItem;
 import eknow.com.eknow.common.photo.util.PublicWay;
@@ -87,7 +86,7 @@ public class AlbumActivity extends Activity {
 	// 预览按钮的监听
 	private class PreviewListener implements OnClickListener {
 		public void onClick(View v) {
-			if (Bimp.tempSelectBitmap.size() > 0) {
+			if (PhotoUtils.tempSelectBitmap.size() > 0) {
 				intent.putExtra("position", "1");
 				intent.setClass(AlbumActivity.this, GalleryActivity.class);
 				startActivity(intent);
@@ -117,7 +116,7 @@ public class AlbumActivity extends Activity {
 	// 取消按钮的监听
 	private class CancelListener implements OnClickListener {
 		public void onClick(View v) {
-			Bimp.tempSelectBitmap.clear();
+			PhotoUtils.tempSelectBitmap.clear();
 			//intent.setClass(mContext, MainActivity.class);
 			//startActivity(intent);
 			finish();
@@ -146,12 +145,12 @@ public class AlbumActivity extends Activity {
 		intent = getIntent();
 		Bundle bundle = intent.getExtras();
 		gridView = (GridView) findViewById(Res.getWidgetID("myGrid"));
-		gridImageAdapter = new AlbumGridViewAdapter(this,dataList, Bimp.tempSelectBitmap);
+		gridImageAdapter = new AlbumGridViewAdapter(this,dataList, PhotoUtils.tempSelectBitmap);
 		gridView.setAdapter(gridImageAdapter);
 		tv = (TextView) findViewById(Res.getWidgetID("myText"));
 		gridView.setEmptyView(tv);
 		okButton = (Button) findViewById(Res.getWidgetID("ok_button"));
-		okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+		okButton.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 	}
 
 	private void initListener() {
@@ -160,7 +159,7 @@ public class AlbumActivity extends Activity {
 
 					@Override
 					public void onItemClick(final ToggleButton toggleButton, int position, boolean isChecked, Button chooseBt) {
-						if (Bimp.tempSelectBitmap.size() >= PublicWay.num) {
+						if (PhotoUtils.tempSelectBitmap.size() >= PhotoUtils.picture_max_num) {
 							toggleButton.setChecked(false);
 							chooseBt.setVisibility(View.GONE);
 							if (!removeOneData(dataList.get(position))) {
@@ -170,12 +169,12 @@ public class AlbumActivity extends Activity {
 						}
 						if (isChecked) {
 							chooseBt.setVisibility(View.VISIBLE);
-							Bimp.tempSelectBitmap.add(dataList.get(position));
-							okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+							PhotoUtils.tempSelectBitmap.add(dataList.get(position));
+							okButton.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 						} else {
-							Bimp.tempSelectBitmap.remove(dataList.get(position));
+							PhotoUtils.tempSelectBitmap.remove(dataList.get(position));
 							chooseBt.setVisibility(View.GONE);
-							okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+							okButton.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 						}
 						isShowOkBt();
 					}
@@ -186,17 +185,17 @@ public class AlbumActivity extends Activity {
 	}
 
 	private boolean removeOneData(ImageItem imageItem) {
-			if (Bimp.tempSelectBitmap.contains(imageItem)) {
-				Bimp.tempSelectBitmap.remove(imageItem);
-				okButton.setText(Res.getString("finish")+"(" +Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+			if (PhotoUtils.tempSelectBitmap.contains(imageItem)) {
+				PhotoUtils.tempSelectBitmap.remove(imageItem);
+				okButton.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 				return true;
 			}
 		return false;
 	}
 	
 	public void isShowOkBt() {
-		if (Bimp.tempSelectBitmap.size() > 0) {
-			okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+		if (PhotoUtils.tempSelectBitmap.size() > 0) {
+			okButton.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 			preview.setPressed(true);
 			okButton.setPressed(true);
 			preview.setClickable(true);
@@ -204,7 +203,7 @@ public class AlbumActivity extends Activity {
 			okButton.setTextColor(Color.WHITE);
 			preview.setTextColor(Color.WHITE);
 		} else {
-			okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+			okButton.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 			preview.setPressed(false);
 			preview.setClickable(false);
 			okButton.setPressed(false);

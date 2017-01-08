@@ -29,6 +29,5 @@ public class ServicesListViewHolder extends RecyclerView.ViewHolder {
         sellerName = (TextView) itemView.findViewById(R.id.sellerName);
         price = (TextView) itemView.findViewById(R.id.price);
         description = (TextView) itemView.findViewById(R.id.description);
-
     }
 }

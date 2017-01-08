@@ -3,7 +3,6 @@ package eknow.com.eknow.common.photo.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,9 +11,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.common.photo.adapter.FolderAdapter;
-import eknow.com.eknow.common.photo.util.Bimp;
+import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.common.photo.util.PublicWay;
 import eknow.com.eknow.common.photo.util.Res;
 
@@ -48,7 +46,7 @@ public class ImageFile extends Activity {
 	private class CancelListener implements OnClickListener {// 取消按钮的监听
 		public void onClick(View v) {
 			//清空选择的图片
-			Bimp.tempSelectBitmap.clear();
+			PhotoUtils.tempSelectBitmap.clear();
 //			Intent intent = new Intent();
 //			intent.setClass(mContext, MainActivity.class);
 //			startActivity(intent);

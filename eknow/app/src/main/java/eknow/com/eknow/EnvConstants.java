@@ -13,4 +13,11 @@ public class EnvConstants {
 
     public static String OSS_BASE_URL = "http://oss.clcentury.com/";
     public static String SERVIC_MAIN_PIC_URL = OSS_BASE_URL + "yzphoto/pics/";
+
+    public static String OSS_UPLOAD_URL = "http://clcentury.oss-cn-beijing-internal.aliyuncs.com";
+    public static String OSS_UPLOAD_BUCKET = "clcentury";
+    public static String OSS_PIC_OBJ = "yzphoto/pics/";
+    public static String ACCESS_KEY_ID = "xOgfnHEBfLAu7SLL";
+    public static String ACCESS_KEY_SECRET = "JbdXSyAwx8wuelHLabfxGIEIYS48F1";
+
 }

@@ -40,7 +40,7 @@ public class ImageItem implements Serializable {
 	public Bitmap getBitmap() {
 		if(bitmap == null){
 			try {
-				bitmap = Bimp.revitionImageSize(imagePath);
+				bitmap = PhotoUtils.revitionImageSize(imagePath);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

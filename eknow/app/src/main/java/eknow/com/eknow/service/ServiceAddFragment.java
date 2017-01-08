@@ -16,9 +16,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +25,12 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.NetworkImageView;
 
 import eknow.com.eknow.FragmentsFactory;
 import eknow.com.eknow.MainActivity;
@@ -40,7 +38,7 @@ import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.common.photo.activity.AlbumActivity;
 import eknow.com.eknow.common.photo.activity.GalleryActivity;
-import eknow.com.eknow.common.photo.util.Bimp;
+import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.common.photo.util.FileUtils;
 import eknow.com.eknow.common.photo.util.ImageItem;
 import eknow.com.eknow.common.photo.util.PublicWay;
@@ -59,13 +57,6 @@ public class ServiceAddFragment extends BaseFragment {
 
     View view;
     View popView;
-//    private GridView picturesGridView;
-//    private Bitmap pictureBitmap;
-//    private ArrayList<HashMap<String, Object>> imageItems;
-//    private SimpleAdapter simpleAdapter;
-//    private final int IMAGE_OPEN = 1;
-//    private String pathImage;
-
     private GridView noScrollgridview;
     private GridAdapter adapter;
     private PopupWindow pop = null;
@@ -92,60 +83,13 @@ public class ServiceAddFragment extends BaseFragment {
 //        mTagGroup.setTags(new String[]{"Tag1", "Tag2", "Tag3"});
 
         InitPictures();
-        /*
-        picturesGridView = (GridView) view.findViewById(R.id.service_upload_pictures);
-        pictureBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.addpic);
-        imageItems = new ArrayList<HashMap<String, Object>>();
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("itemImage", pictureBitmap);
-        imageItems.add(map);
-        simpleAdapter = new SimpleAdapter(getActivity(),
-                imageItems, R.layout.griditem_addpic,
-                new String[] { "itemImage"}, new int[] { R.id.imageView1});
-
-        simpleAdapter.setViewBinder(new ViewBinder() {
-            @Override
-            public boolean setViewValue(View view, Object data, String textRepresentation) {
-                if(view instanceof MLImageView && data instanceof Bitmap){
-                    ImageView i = (ImageView)view;
-                    i.setImageBitmap((Bitmap) data);
-                    return true;
-                }
-                return false;
-            }
-        });
-        picturesGridView.setAdapter(simpleAdapter);
-
-        picturesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-            {
-                System.out.println(position);
-                if( imageItems.size() == 6) {
-                    Toast.makeText(getActivity(), "no more than 5", Toast.LENGTH_SHORT).show();
-                }
-                else if(position == 0) {
-                    Toast.makeText(getActivity(), "start new ones", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, IMAGE_OPEN);
-                }
-                else {
-                    //dialog(position);
-                    Toast.makeText(getActivity(), position + 1,
-                    		Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-        */
-
-
         return view;
     }
 
     public void InitPictures() {
         Res.init(getActivity());
+
+        //popup
         pop = new PopupWindow(getActivity());
         pop.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         pop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -200,15 +144,15 @@ public class ServiceAddFragment extends BaseFragment {
             }
         });
 
+        // Grid view
         noScrollgridview = (GridView) view.findViewById(R.id.service_upload_pictures);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
         adapter = new GridAdapter(getActivity());
         adapter.update();
         noScrollgridview.setAdapter(adapter);
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                if (arg2 == Bimp.tempSelectBitmap.size()) {
+                if (arg2 == PhotoUtils.tempSelectBitmap.size()) {
                     //ll_popup.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.activity_translate_in));
                     pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 } else {
@@ -296,10 +240,10 @@ public class ServiceAddFragment extends BaseFragment {
         }
 
         public int getCount() {
-            if(Bimp.tempSelectBitmap.size() == PublicWay.num){
-                return PublicWay.num;
+            if(PhotoUtils.tempSelectBitmap.size() == PhotoUtils.picture_max_num){
+                return PhotoUtils.picture_max_num;
             }
-            return (Bimp.tempSelectBitmap.size() + 1);
+            return (PhotoUtils.tempSelectBitmap.size() + 1);
         }
 
         public Object getItem(int arg0) {
@@ -323,26 +267,27 @@ public class ServiceAddFragment extends BaseFragment {
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.item_published_grida, parent, false);
                 holder = new ViewHolder();
-                holder.image = (ImageView) convertView.findViewById(R.id.item_grida_image);
+                holder.image = (NetworkImageView) convertView.findViewById(R.id.item_grida_image);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            if (position == Bimp.tempSelectBitmap.size()) {
-                holder.image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused));
-                if (position == PublicWay.num) {
+            if (position == PhotoUtils.tempSelectBitmap.size()) {
+                //holder.image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused));
+                holder.image.setDefaultImageResId(R.drawable.icon_addpic_unfocused);
+                if (position == PhotoUtils.picture_max_num) {
                     holder.image.setVisibility(View.GONE);
                 }
             } else {
-                holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
+                holder.image.setImageBitmap(PhotoUtils.tempSelectBitmap.get(position).getBitmap());
             }
 
             return convertView;
         }
 
         public class ViewHolder {
-            public ImageView image;
+            public NetworkImageView image;
         }
 
         Handler handler = new Handler() {
@@ -360,13 +305,13 @@ public class ServiceAddFragment extends BaseFragment {
             new Thread(new Runnable() {
                 public void run() {
                     while (true) {
-                        if (Bimp.max == Bimp.tempSelectBitmap.size()) {
+                        if (PhotoUtils.max == PhotoUtils.tempSelectBitmap.size()) {
                             Message message = new Message();
                             message.what = 1;
                             handler.sendMessage(message);
                             break;
                         } else {
-                            Bimp.max += 1;
+                            PhotoUtils.max += 1;
                             Message message = new Message();
                             message.what = 1;
                             handler.sendMessage(message);
@@ -402,7 +347,7 @@ public class ServiceAddFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case TAKE_PICTURE:
-                if (Bimp.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK) {
+                if (PhotoUtils.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK) {
 
                     String fileName = String.valueOf(System.currentTimeMillis());
                     Bitmap bm = (Bitmap) data.getExtras().get("data");
@@ -410,23 +355,10 @@ public class ServiceAddFragment extends BaseFragment {
 
                     ImageItem takePhoto = new ImageItem();
                     takePhoto.setBitmap(bm);
-                    Bimp.tempSelectBitmap.add(takePhoto);
+                    PhotoUtils.tempSelectBitmap.add(takePhoto);
                 }
                 break;
         }
     }
-
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            for(int i = 0; i< PublicWay.activityList.size(); i++){
-                if (null != PublicWay.activityList.get(i)) {
-                    PublicWay.activityList.get(i).finish();
-                }
-            }
-            System.exit(0);
-        }
-        return true;
-    }
-
 
 }

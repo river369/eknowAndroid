@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.common.photo.adapter.AlbumGridViewAdapter;
-import eknow.com.eknow.common.photo.util.Bimp;
+import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.common.photo.util.ImageItem;
 import eknow.com.eknow.common.photo.util.PublicWay;
 import eknow.com.eknow.common.photo.util.Res;
@@ -86,7 +86,7 @@ public class ShowAllPhoto extends Activity {
 
 	private class PreviewListener implements OnClickListener {
 		public void onClick(View v) {
-			if (Bimp.tempSelectBitmap.size() > 0) {
+			if (PhotoUtils.tempSelectBitmap.size() > 0) {
 				intent.putExtra("position", "2");
 				intent.setClass(ShowAllPhoto.this, GalleryActivity.class);
 				startActivity(intent);
@@ -112,7 +112,7 @@ public class ShowAllPhoto extends Activity {
 	private class CancelListener implements OnClickListener {// 取消按钮的监听
 		public void onClick(View v) {
 			//清空选择的图片
-			Bimp.tempSelectBitmap.clear();
+			PhotoUtils.tempSelectBitmap.clear();
 			intent.setClass(mContext, MainActivity.class);
 			startActivity(intent);
 		}
@@ -124,7 +124,7 @@ public class ShowAllPhoto extends Activity {
 		progressBar = (ProgressBar) findViewById(Res.getWidgetID("showallphoto_progressbar"));
 		progressBar.setVisibility(View.GONE);
 		gridView = (GridView) findViewById(Res.getWidgetID("showallphoto_myGrid"));
-		gridImageAdapter = new AlbumGridViewAdapter(this,dataList, Bimp.tempSelectBitmap);
+		gridImageAdapter = new AlbumGridViewAdapter(this,dataList, PhotoUtils.tempSelectBitmap);
 		gridView.setAdapter(gridImageAdapter);
 		okButton = (Button) findViewById(Res.getWidgetID("showallphoto_ok_button"));
 	}
@@ -136,7 +136,7 @@ public class ShowAllPhoto extends Activity {
 					public void onItemClick(final ToggleButton toggleButton,
 							int position, boolean isChecked,
 							Button button) {
-						if (Bimp.tempSelectBitmap.size() >= PublicWay.num&&isChecked) {
+						if (PhotoUtils.tempSelectBitmap.size() >= PhotoUtils.picture_max_num&&isChecked) {
 							button.setVisibility(View.GONE);
 							toggleButton.setChecked(false);
 							Toast.makeText(ShowAllPhoto.this, Res.getString("only_choose_num"), Toast.LENGTH_LONG)
@@ -146,13 +146,13 @@ public class ShowAllPhoto extends Activity {
 
 						if (isChecked) {
 							button.setVisibility(View.VISIBLE);
-							Bimp.tempSelectBitmap.add(dataList.get(position));
-							okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size()
-									+ "/"+PublicWay.num+")");
+							PhotoUtils.tempSelectBitmap.add(dataList.get(position));
+							okButton.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size()
+									+ "/"+PhotoUtils.picture_max_num+")");
 						} else {
 							button.setVisibility(View.GONE);
-							Bimp.tempSelectBitmap.remove(dataList.get(position));
-							okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+							PhotoUtils.tempSelectBitmap.remove(dataList.get(position));
+							okButton.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 						}
 						isShowOkBt();
 					}
@@ -165,8 +165,8 @@ public class ShowAllPhoto extends Activity {
 				okButton.setClickable(false);
 
 //				if (PublicWay.photoService != null) {
-//					PublicWay.selectedDataList.addAll(Bimp.tempSelectBitmap);
-//					Bimp.tempSelectBitmap.clear();
+//					PublicWay.selectedDataList.addAll(PhotoUtils.tempSelectBitmap);
+//					PhotoUtils.tempSelectBitmap.clear();
 //					PublicWay.photoService.onActivityResult(0, -2,
 //							intent);
 //				}
@@ -188,8 +188,8 @@ public class ShowAllPhoto extends Activity {
 	}
 
 	public void isShowOkBt() {
-		if (Bimp.tempSelectBitmap.size() > 0) {
-			okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+		if (PhotoUtils.tempSelectBitmap.size() > 0) {
+			okButton.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 			preview.setPressed(true);
 			okButton.setPressed(true);
 			preview.setClickable(true);
@@ -197,7 +197,7 @@ public class ShowAllPhoto extends Activity {
 			okButton.setTextColor(Color.WHITE);
 			preview.setTextColor(Color.WHITE);
 		} else {
-			okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+			okButton.setText(Res.getString("finish")+"(" + PhotoUtils.tempSelectBitmap.size() + "/"+PhotoUtils.picture_max_num+")");
 			preview.setPressed(false);
 			preview.setClickable(false);
 			okButton.setPressed(false);

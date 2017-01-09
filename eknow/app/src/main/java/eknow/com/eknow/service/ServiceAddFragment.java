@@ -2,8 +2,10 @@ package eknow.com.eknow.service;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
@@ -25,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -32,17 +36,24 @@ import android.widget.RelativeLayout;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.NetworkImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
 import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.common.photo.activity.AlbumActivity;
 import eknow.com.eknow.common.photo.activity.GalleryActivity;
+import eknow.com.eknow.common.photo.util.FileUploadTask;
 import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.common.photo.util.FileUtils;
 import eknow.com.eknow.common.photo.util.ImageItem;
 import eknow.com.eknow.common.photo.util.PublicWay;
 import eknow.com.eknow.common.photo.util.Res;
+import eknow.com.eknow.utils.ImageSingleton;
+import eknow.com.eknow.utils.OSSUtil;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -58,10 +69,11 @@ public class ServiceAddFragment extends BaseFragment {
     View view;
     View popView;
     private GridView noScrollgridview;
-    private GridAdapter adapter;
+    private ServiceAddGridAdapter adapter;
     private PopupWindow pop = null;
     private LinearLayout ll_popup;
     public static Bitmap bimap ;
+    private List<String> remotePictures = new ArrayList<>();
 
     EditText serviceHourText;
     EditText servicePeopleText;
@@ -116,7 +128,7 @@ public class ServiceAddFragment extends BaseFragment {
                         != PackageManager.PERMISSION_GRANTED) {
                     locationpermission(CAMERA_PERMISSIONS_REQUEST_LOCATION);
                 } else {
-                    photo();
+                    camera();
                 }
                 pop.dismiss();
                 ll_popup.clearAnimation();
@@ -147,25 +159,28 @@ public class ServiceAddFragment extends BaseFragment {
         // Grid view
         noScrollgridview = (GridView) view.findViewById(R.id.service_upload_pictures);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        adapter = new GridAdapter(getActivity());
-        adapter.update();
+        adapter = new ServiceAddGridAdapter(getActivity(), remotePictures);
         noScrollgridview.setAdapter(adapter);
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                if (arg2 == PhotoUtils.tempSelectBitmap.size()) {
+                System.out.println();
+                if (arg2 == remotePictures.size()) {
                     //ll_popup.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.activity_translate_in));
                     pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 } else {
-                    Intent intent = new Intent(getActivity(), GalleryActivity.class);
-                    intent.putExtra("position", "1");
-                    intent.putExtra("ID", arg2);
-                    startActivity(intent);
+//                    Intent intent = new Intent(getActivity(), GalleryActivity.class);
+//                    intent.putExtra("position", "1");
+//                    intent.putExtra("ID", arg2);
+//                    startActivity(intent);
                 }
             }
         });
 
     }
 
+    /**
+     * Ask for perission
+      */
     final int CAMERA_PERMISSIONS_REQUEST_LOCATION = 0;
     final int READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST_LOCATION = 1;
     private void locationpermission(int PERMISSIONS_REQUEST_LOCATION) {
@@ -192,7 +207,7 @@ public class ServiceAddFragment extends BaseFragment {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    photo();
+                    camera();
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -217,129 +232,35 @@ public class ServiceAddFragment extends BaseFragment {
         }
     }
 
-    @SuppressLint("HandlerLeak")
-    public class GridAdapter extends BaseAdapter {
-        private LayoutInflater inflater;
-        private int selectedPosition = -1;
-        private boolean shape;
+    /**
+     * Register Receiver during crreate
+     */
 
-        public boolean isShape() {
-            return shape;
-        }
-
-        public void setShape(boolean shape) {
-            this.shape = shape;
-        }
-
-        public GridAdapter(Context context) {
-            inflater = LayoutInflater.from(context);
-        }
-
-        public void update() {
-            loading();
-        }
-
-        public int getCount() {
-            if(PhotoUtils.tempSelectBitmap.size() == PhotoUtils.picture_max_num){
-                return PhotoUtils.picture_max_num;
-            }
-            return (PhotoUtils.tempSelectBitmap.size() + 1);
-        }
-
-        public Object getItem(int arg0) {
-            return null;
-        }
-
-        public long getItemId(int arg0) {
-            return 0;
-        }
-
-        public void setSelectedPosition(int position) {
-            selectedPosition = position;
-        }
-
-        public int getSelectedPosition() {
-            return selectedPosition;
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.item_published_grida, parent, false);
-                holder = new ViewHolder();
-                holder.image = (NetworkImageView) convertView.findViewById(R.id.item_grida_image);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            if (position == PhotoUtils.tempSelectBitmap.size()) {
-                //holder.image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused));
-                holder.image.setDefaultImageResId(R.drawable.icon_addpic_unfocused);
-                if (position == PhotoUtils.picture_max_num) {
-                    holder.image.setVisibility(View.GONE);
-                }
-            } else {
-                holder.image.setImageBitmap(PhotoUtils.tempSelectBitmap.get(position).getBitmap());
-            }
-
-            return convertView;
-        }
-
-        public class ViewHolder {
-            public NetworkImageView image;
-        }
-
-        Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 1:
-                        adapter.notifyDataSetChanged();
-                        break;
-                }
-                super.handleMessage(msg);
-            }
-        };
-
-        public void loading() {
-            new Thread(new Runnable() {
-                public void run() {
-                    while (true) {
-                        if (PhotoUtils.max == PhotoUtils.tempSelectBitmap.size()) {
-                            Message message = new Message();
-                            message.what = 1;
-                            handler.sendMessage(message);
-                            break;
-                        } else {
-                            PhotoUtils.max += 1;
-                            Message message = new Message();
-                            message.what = 1;
-                            handler.sendMessage(message);
-                        }
-                    }
-                }
-            }).start();
-        }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        IntentFilter filter = new IntentFilter("data.broadcast.action");
+        getActivity().registerReceiver(broadcastReceiver, filter);
+        super.onCreate(savedInstanceState);
     }
 
-    public String getString(String s) {
-        String path = null;
-        if (s == null)
-            return "";
-        for (int i = s.length() - 1; i > 0; i++) {
-            s.charAt(i);
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            for(ImageItem imageItem : PhotoUtils.tempSelectBitmap){
+                String url = EnvConstants.OSS_UPLOAD_URL + EnvConstants.OSS_PIC_OBJ+"test/" + imageItem.getImageId();
+                remotePictures.add(url);
+                PhotoUtils.picture_available_num--;
+            }
+            PhotoUtils.tempSelectBitmap.clear();
+            noScrollgridview.setAdapter(adapter);
         }
-        return path;
-    }
+    };
 
-    protected void onRestart() {
-        adapter.update();
-        //super.onRestart();
-    }
-
+    /**
+     *  process photos
+     */
     private static final int TAKE_PICTURE = 0x000001;
-
-    public void photo() {
+    public void camera() {
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(openCameraIntent, TAKE_PICTURE);
     }
@@ -348,7 +269,6 @@ public class ServiceAddFragment extends BaseFragment {
         switch (requestCode) {
             case TAKE_PICTURE:
                 if (PhotoUtils.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK) {
-
                     String fileName = String.valueOf(System.currentTimeMillis());
                     Bitmap bm = (Bitmap) data.getExtras().get("data");
                     FileUtils.saveBitmap(bm, fileName);
@@ -356,6 +276,9 @@ public class ServiceAddFragment extends BaseFragment {
                     ImageItem takePhoto = new ImageItem();
                     takePhoto.setBitmap(bm);
                     PhotoUtils.tempSelectBitmap.add(takePhoto);
+
+                    FileUploadTask task = new FileUploadTask(getActivity(), getContext());
+                    task.execute();
                 }
                 break;
         }

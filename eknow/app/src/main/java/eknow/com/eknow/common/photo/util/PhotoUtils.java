@@ -13,6 +13,7 @@ public class PhotoUtils {
 	public static int max = 0;
 
 	public static int picture_max_num = 5;
+	public static int picture_available_num = picture_max_num;
 	
 	public static ArrayList<ImageItem> tempSelectBitmap = new ArrayList<ImageItem>();   //选择的图片的临时列表
 

@@ -82,12 +82,11 @@ public class AlbumSelectFragment extends BaseFragment {
 	private void init() {
 		helper = AlbumHelper.getHelper();
 		helper.init(getContext());
-		contentList = helper.getImagesBucketList(false);
+		contentList = helper.getImagesBucketList(true);
 		dataList = new ArrayList<ImageItem>();
 		for(int i = 0; i<contentList.size(); i++){
 			dataList.addAll( contentList.get(i).imageList );
 		}
-
 		cancelButton = (Button) view.findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(new CancelListener());
 		gridView = (GridView) view.findViewById(R.id.myGrid);

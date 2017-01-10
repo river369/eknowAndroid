@@ -133,7 +133,7 @@ public class AlbumHelper {
 
 	void buildImagesBucketList() {
 		long startTime = System.currentTimeMillis();
-
+		bucketList = new HashMap<String, ImageBucket>();
 		getThumbnail();
 
 		String columns[] = new String[] { Media._ID, Media.BUCKET_ID,
@@ -184,11 +184,9 @@ public class AlbumHelper {
 			} while (cur.moveToNext());
 		}
 
-		Iterator<Entry<String, ImageBucket>> itr = bucketList.entrySet()
-				.iterator();
+		Iterator<Entry<String, ImageBucket>> itr = bucketList.entrySet().iterator();
 		while (itr.hasNext()) {
-			Map.Entry<String, ImageBucket> entry = (Map.Entry<String, ImageBucket>) itr
-					.next();
+			Map.Entry<String, ImageBucket> entry = (Map.Entry<String, ImageBucket>) itr.next();
 			ImageBucket bucket = entry.getValue();
 //			Log.d(TAG, entry.getKey() + ", " + bucket.bucketName + ", " + bucket.count + " ---------- ");
 			for (int i = 0; i < bucket.imageList.size(); ++i) {
@@ -207,11 +205,9 @@ public class AlbumHelper {
 			buildImagesBucketList();
 		}
 		List<ImageBucket> tmpList = new ArrayList<ImageBucket>();
-		Iterator<Entry<String, ImageBucket>> itr = bucketList.entrySet()
-				.iterator();
+		Iterator<Entry<String, ImageBucket>> itr = bucketList.entrySet().iterator();
 		while (itr.hasNext()) {
-			Map.Entry<String, ImageBucket> entry = (Map.Entry<String, ImageBucket>) itr
-					.next();
+			Map.Entry<String, ImageBucket> entry = (Map.Entry<String, ImageBucket>) itr.next();
 			tmpList.add(entry.getValue());
 		}
 		return tmpList;

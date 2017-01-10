@@ -185,14 +185,15 @@ public class ServiceAddFragment extends BaseFragment {
     final int READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST_LOCATION = 1;
     private void locationpermission(int PERMISSIONS_REQUEST_LOCATION) {
         // Should we show an explanation?
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_LOCATION);
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            System.out.println(" should not, skip");
             // Show an expanation to the user *asynchronously* -- don't block
             // this thread waiting for the user's response! After the user
             // sees the explanation, try again to request the permission.
         } else {
             // No explanation needed, we can request the permission.
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_LOCATION);
             // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
             // app-defined int constant. The callback method gets the
             // result of the request.

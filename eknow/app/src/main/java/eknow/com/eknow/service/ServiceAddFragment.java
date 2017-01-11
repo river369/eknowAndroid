@@ -52,6 +52,7 @@ import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.common.photo.util.FileUtils;
 import eknow.com.eknow.common.photo.util.ImageItem;
 import eknow.com.eknow.common.photo.util.PublicWay;
+import eknow.com.eknow.common.photo.util.RemoteImageItem;
 import eknow.com.eknow.common.photo.util.Res;
 import eknow.com.eknow.utils.ImageSingleton;
 import eknow.com.eknow.utils.OSSUtil;
@@ -75,10 +76,10 @@ public class ServiceAddFragment extends BaseFragment {
     private LinearLayout ll_popup;
     public static Bitmap bimap ;
     private ArrayList<String> remotePictures = new ArrayList<>();
+    private ArrayList<RemoteImageItem> updatePictures = new ArrayList<>();
     EditText serviceHourText;
     EditText servicePeopleText;
     EditText totalPriceText;
-
 
     private RequestQueue queue;
 
@@ -86,7 +87,7 @@ public class ServiceAddFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((MainActivity)getActivity()).addTopReturnToolbar();
         ((MainActivity)getActivity()).setTopReturnBarVisiability(View.VISIBLE);
-        ((MainActivity) getActivity()).setToolbarTitle(R.string.serviceAdd);
+        ((MainActivity)getActivity()).setToolbarTitle(R.string.serviceAdd);
 
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused);
         view = inflater.inflate(R.layout.service_add, container, false);
@@ -235,6 +236,7 @@ public class ServiceAddFragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
+        System.out.println("onCreate===================");
         IntentFilter filter = new IntentFilter(KeyConstants.photoBroadcastAction);
         getActivity().registerReceiver(broadcastReceiver, filter);
         super.onCreate(savedInstanceState);
@@ -243,13 +245,23 @@ public class ServiceAddFragment extends BaseFragment {
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            for(ImageItem imageItem : PhotoUtils.tempSelectBitmap){
-                String url = EnvConstants.OSS_UPLOAD_URL + EnvConstants.OSS_PIC_OBJ_PREFIX+"test/" + imageItem.getImageId();
-                remotePictures.add(url);
-                PhotoUtils.picture_available_num--;
+            String action = intent.getStringExtra("action");
+            if ("add".equalsIgnoreCase(action)) {
+                updatePictures.clear();
+                for (ImageItem imageItem : PhotoUtils.tempSelectBitmap) {
+                    String obj = EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + imageItem.getImageId();
+                    RemoteImageItem remoteImageItem = new RemoteImageItem(obj, imageItem.getImagePath());
+                    remotePictures.add(obj);
+                    updatePictures.add(remoteImageItem);
+                    PhotoUtils.picture_available_num--;
+                }
+                PhotoUtils.tempSelectBitmap.clear();
+                FileUploadTask task = new FileUploadTask(getActivity(), getContext(), updatePictures);
+                task.execute();
             }
-            PhotoUtils.tempSelectBitmap.clear();
-            noScrollgridview.setAdapter(adapter);
+            if ("refresh".equalsIgnoreCase(action)) {
+                noScrollgridview.setAdapter(adapter);
+            }
         }
     };
 
@@ -269,16 +281,34 @@ public class ServiceAddFragment extends BaseFragment {
                     String fileName = String.valueOf(System.currentTimeMillis());
                     Bitmap bm = (Bitmap) data.getExtras().get("data");
                     FileUtils.saveBitmap(bm, fileName);
-
                     ImageItem takePhoto = new ImageItem();
                     takePhoto.setBitmap(bm);
-                    PhotoUtils.tempSelectBitmap.add(takePhoto);
-
-                    FileUploadTask task = new FileUploadTask(getActivity(), getContext());
+                    System.out.println(FileUtils.SDPATH + fileName + ".JPEG");
+                    //PhotoUtils.tempSelectBitmap.add(takePhoto);
+                    String obj = EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + "camera";
+                    remotePictures.add(obj);
+                    RemoteImageItem remoteImageItem = new RemoteImageItem(obj, FileUtils.SDPATH + fileName + ".JPEG");
+                    updatePictures.clear();
+                    updatePictures.add(remoteImageItem);
+                    FileUploadTask task = new FileUploadTask(getActivity(), getContext(), updatePictures);
                     task.execute();
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (hidden) {
+            //getActivity().unregisterReceiver(broadcastReceiver);
+        } else {
+        }
+        super.onHiddenChanged(hidden);
+    }
+    @Override
+    public void onStart(){
+        //System.out.println("onStart===================");
+        super.onStart();
     }
 
 }

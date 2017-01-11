@@ -11,8 +11,10 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.photo.util.PhotoUtils;
+import eknow.com.eknow.common.photo.util.RemoteImageItem;
 import eknow.com.eknow.utils.ImageSingleton;
 
 /**
@@ -59,7 +61,8 @@ public class ServiceAddGridAdapter extends BaseAdapter {
             }
         } else {
             System.out.println(remotePictures.get(position));
-            imageView.setImageUrl(remotePictures.get(position), ImageSingleton.getInstance().getImageLoader());
+            imageView.setImageUrl(EnvConstants.OSS_UPLOAD_URL + remotePictures.get(position),
+                    ImageSingleton.getInstance().getImageLoader());
         }
         return imageView;
     }

@@ -18,6 +18,7 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
@@ -65,8 +66,12 @@ public class AlbumSelectFragment extends BaseFragment {
 	// 完成按钮的监听
 	private class AlbumSendListener implements OnClickListener {
 		public void onClick(View v) {
-			FileUploadTask task = new FileUploadTask(getActivity(), getContext(), true);
-			task.execute();
+			Intent intent = new Intent(KeyConstants.photoBroadcastAction);
+			intent.putExtra("action", "add");
+			getActivity().sendBroadcast(intent);
+			getActivity().onBackPressed();
+//			FileUploadTask task = new FileUploadTask(getActivity(), getContext(), true);
+//			task.execute();
 		}
 	}
 

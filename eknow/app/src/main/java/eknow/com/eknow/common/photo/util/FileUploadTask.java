@@ -7,10 +7,11 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.KeyConstants;
-import eknow.com.eknow.common.photo.util.ImageItem;
-import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.utils.OSSUtil;
 
 /**
@@ -21,15 +22,12 @@ public class FileUploadTask extends AsyncTask<String, Integer, Void> {
 
     FragmentActivity activity;
     Context context;
-    boolean isBack;
+    ArrayList<RemoteImageItem> remoteImageItems;
 
-    public FileUploadTask(FragmentActivity activity, Context context) {
-        this(activity, context, false);
-    }
-    public FileUploadTask(FragmentActivity activity, Context context, boolean isBack) {
+    public FileUploadTask(FragmentActivity activity, Context context,  ArrayList<RemoteImageItem> remoteImageItems) {
         this.activity = activity;
         this.context = context;
-        this.isBack = isBack;
+        this.remoteImageItems = remoteImageItems;
     }
 
     //显示上传进度的进度条
@@ -48,19 +46,15 @@ public class FileUploadTask extends AsyncTask<String, Integer, Void> {
     protected Void doInBackground(String... arg) {
         try{
             int i = 0;
-            for(ImageItem imageItem : PhotoUtils.tempSelectBitmap){
-                //System.out.println(imageItem.getImagePath() + "   " + imageItem.getThumbnailPath());
-                //asyncPutObjectFromLocalFile( imageItem.getImageId(),  imageItem.getImagePath());
-                OSSUtil ossUtil = new OSSUtil(context, EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + imageItem.getImageId(), imageItem.getImagePath() );
+            for(RemoteImageItem imageItem : remoteImageItems){
+                OSSUtil ossUtil = new OSSUtil(context, imageItem.getOssObj(), imageItem.getLocalPath());
                 ossUtil.putObjectFromLocalFile();
                 i++;
-                dialog.setProgress((int)(100*i/ PhotoUtils.tempSelectBitmap.size()));
+                dialog.setProgress((int)(100*i/ remoteImageItems.size()));
             }
             dialog.dismiss();
-            if(isBack) {
-                activity.onBackPressed();
-            }
             Intent intent = new Intent(KeyConstants.photoBroadcastAction);
+            intent.putExtra("action", "refresh");
             activity.sendBroadcast(intent);
         } catch (Exception ex) {
             dialog.dismiss();

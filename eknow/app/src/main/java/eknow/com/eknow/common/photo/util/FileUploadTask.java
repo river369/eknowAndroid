@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import eknow.com.eknow.EnvConstants;
+import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.common.photo.util.ImageItem;
 import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.utils.OSSUtil;
@@ -50,7 +51,7 @@ public class FileUploadTask extends AsyncTask<String, Integer, Void> {
             for(ImageItem imageItem : PhotoUtils.tempSelectBitmap){
                 //System.out.println(imageItem.getImagePath() + "   " + imageItem.getThumbnailPath());
                 //asyncPutObjectFromLocalFile( imageItem.getImageId(),  imageItem.getImagePath());
-                OSSUtil ossUtil = new OSSUtil(context, EnvConstants.OSS_PIC_OBJ + "test/" + imageItem.getImageId(), imageItem.getImagePath() );
+                OSSUtil ossUtil = new OSSUtil(context, EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + imageItem.getImageId(), imageItem.getImagePath() );
                 ossUtil.putObjectFromLocalFile();
                 i++;
                 dialog.setProgress((int)(100*i/ PhotoUtils.tempSelectBitmap.size()));
@@ -59,7 +60,7 @@ public class FileUploadTask extends AsyncTask<String, Integer, Void> {
             if(isBack) {
                 activity.onBackPressed();
             }
-            Intent intent = new Intent("data.broadcast.action");
+            Intent intent = new Intent(KeyConstants.photoBroadcastAction);
             activity.sendBroadcast(intent);
         } catch (Exception ex) {
             dialog.dismiss();

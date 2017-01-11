@@ -82,7 +82,9 @@
     <string name="world">地球</string>
 
     <!-- 图片浏览 --><!--String from upload image plugin-->
+
     <string name="selectPicture">选择图片</string>
+    <string name="viewPicture">查看图片</string>
     <string name="only_choose_num">超出可选图片张数</string>
     <string name="finish">完成</string>
     <string name="invalidSD">sdcard无效或没有插入！</string>
@@ -91,5 +93,6 @@
     <string name="preview">预览</string>
     <string name="unfinished">完成</string>
     <string name="camera_cancel">取消</string>
+    <string name="deletePicture">删除</string>
     <string name="no_photo">相册没有图片</string>
 </resources>

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.common.photo.activity.AlbumActivity;
 import eknow.com.eknow.common.photo.activity.AlbumSelectFragment;
+import eknow.com.eknow.common.photo.activity.GalleryFragment;
 import eknow.com.eknow.home.HomeFragment;
 import eknow.com.eknow.service.ServiceAddFragment;
 import eknow.com.eknow.service.ServiceBuyFragment;
@@ -31,6 +32,7 @@ public class FragmentsFactory {
     static SignInFragment signIn;
     static SignOnFragment signOn;
     static AlbumSelectFragment asf;
+    static GalleryFragment gf;
 
     static int containerViewId = R.id.id_eknow_main_content;
 
@@ -139,5 +141,12 @@ public class FragmentsFactory {
             asf = new AlbumSelectFragment();
         }
         setFragment(activity, oldFragment, asf, bundle);
+    }
+
+    public static void setGalaryFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
+        if (gf == null){
+            gf = new GalleryFragment();
+        }
+        setFragment(activity, oldFragment, gf, bundle);
     }
 }

@@ -41,6 +41,7 @@ import java.util.List;
 
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
+import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
@@ -73,8 +74,7 @@ public class ServiceAddFragment extends BaseFragment {
     private PopupWindow pop = null;
     private LinearLayout ll_popup;
     public static Bitmap bimap ;
-    private List<String> remotePictures = new ArrayList<>();
-
+    private ArrayList<String> remotePictures = new ArrayList<>();
     EditText serviceHourText;
     EditText servicePeopleText;
     EditText totalPriceText;
@@ -140,8 +140,6 @@ public class ServiceAddFragment extends BaseFragment {
                         != PackageManager.PERMISSION_GRANTED) {
                     locationpermission(READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST_LOCATION);
                 } else {
-                    //Intent intent = new Intent(getActivity(), AlbumActivity.class);
-                    //startActivity(intent);
                     FragmentsFactory.getInstance().setAlbumSelectFragment(getActivity(), ServiceAddFragment.this, null);
                 }
                 //overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
@@ -163,15 +161,15 @@ public class ServiceAddFragment extends BaseFragment {
         noScrollgridview.setAdapter(adapter);
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                System.out.println();
                 if (arg2 == remotePictures.size()) {
                     //ll_popup.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.activity_translate_in));
                     pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 } else {
-//                    Intent intent = new Intent(getActivity(), GalleryActivity.class);
-//                    intent.putExtra("position", "1");
-//                    intent.putExtra("ID", arg2);
-//                    startActivity(intent);
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList(KeyConstants.remotePictures, remotePictures);
+                    //bundle.putString(KeyConstants.imageURL, remotePictures.get(arg2));
+                    bundle.putInt(KeyConstants.reviewPosition, arg2);
+                    FragmentsFactory.getInstance().setGalaryFragment(getActivity(), ServiceAddFragment.this, bundle);
                 }
             }
         });
@@ -188,7 +186,6 @@ public class ServiceAddFragment extends BaseFragment {
         ActivityCompat.requestPermissions(getActivity(),
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_LOCATION);
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            System.out.println(" should not, skip");
             // Show an expanation to the user *asynchronously* -- don't block
             // this thread waiting for the user's response! After the user
             // sees the explanation, try again to request the permission.
@@ -219,8 +216,7 @@ public class ServiceAddFragment extends BaseFragment {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    Intent intent = new Intent(getActivity(), AlbumActivity.class);
-                    startActivity(intent);
+                    FragmentsFactory.getInstance().setAlbumSelectFragment(getActivity(), ServiceAddFragment.this, null);
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -239,7 +235,7 @@ public class ServiceAddFragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
-        IntentFilter filter = new IntentFilter("data.broadcast.action");
+        IntentFilter filter = new IntentFilter(KeyConstants.photoBroadcastAction);
         getActivity().registerReceiver(broadcastReceiver, filter);
         super.onCreate(savedInstanceState);
     }
@@ -248,7 +244,7 @@ public class ServiceAddFragment extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             for(ImageItem imageItem : PhotoUtils.tempSelectBitmap){
-                String url = EnvConstants.OSS_UPLOAD_URL + EnvConstants.OSS_PIC_OBJ+"test/" + imageItem.getImageId();
+                String url = EnvConstants.OSS_UPLOAD_URL + EnvConstants.OSS_PIC_OBJ_PREFIX+"test/" + imageItem.getImageId();
                 remotePictures.add(url);
                 PhotoUtils.picture_available_num--;
             }

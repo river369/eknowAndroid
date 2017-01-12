@@ -24,7 +24,6 @@ import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.common.photo.adapter.AlbumGridViewAdapter;
 import eknow.com.eknow.common.photo.util.AlbumHelper;
-import eknow.com.eknow.common.photo.util.FileUploadTask;
 import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.common.photo.util.ImageBucket;
 import eknow.com.eknow.common.photo.util.ImageItem;
@@ -67,11 +66,9 @@ public class AlbumSelectFragment extends BaseFragment {
 	private class AlbumSendListener implements OnClickListener {
 		public void onClick(View v) {
 			Intent intent = new Intent(KeyConstants.photoBroadcastAction);
-			intent.putExtra("action", "add");
+			intent.putExtra("action", "upload");
 			getActivity().sendBroadcast(intent);
 			getActivity().onBackPressed();
-//			FileUploadTask task = new FileUploadTask(getActivity(), getContext(), true);
-//			task.execute();
 		}
 	}
 

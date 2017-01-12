@@ -1,5 +1,6 @@
 package eknow.com.eknow.common.photo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.ArrayList;
 
+import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
@@ -49,7 +51,7 @@ public class GalleryFragment extends BaseFragment {
 
 		remotePictures =  getArguments().getStringArrayList(KeyConstants.remotePictures);
 		reviewPosition = getArguments().getInt(KeyConstants.removePosition);
-		String imageUrl = remotePictures.get(reviewPosition);
+		String imageUrl = EnvConstants.OSS_UPLOAD_URL + remotePictures.get(reviewPosition);
 		reviewImage = (NetworkImageView) view.findViewById(Res.getWidgetID("review_image"));
 		reviewImage.setImageUrl(imageUrl, ImageSingleton.getInstance().getImageLoader() );
 
@@ -60,6 +62,10 @@ public class GalleryFragment extends BaseFragment {
 	// 删除按钮添加的监听器
 	private class DelListener implements OnClickListener {
 		public void onClick(View v) {
+			Intent intent = new Intent(KeyConstants.photoBroadcastAction);
+			intent.putExtra("action", "delete");
+			intent.putExtra("position", reviewPosition);
+			getActivity().sendBroadcast(intent);
 			getActivity().onBackPressed();
 		}
 	}

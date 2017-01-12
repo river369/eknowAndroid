@@ -18,16 +18,27 @@ import eknow.com.eknow.utils.OSSUtil;
  * Created by jianguog on 17/1/9.
  */
 
-public class FileUploadTask extends AsyncTask<String, Integer, Void> {
+public class AsyncFileTask extends AsyncTask<String, Integer, Void> {
 
     FragmentActivity activity;
     Context context;
     ArrayList<RemoteImageItem> remoteImageItems;
+    String action;
+    String objToDelete;
 
-    public FileUploadTask(FragmentActivity activity, Context context,  ArrayList<RemoteImageItem> remoteImageItems) {
+    public AsyncFileTask(FragmentActivity activity, Context context) {
         this.activity = activity;
         this.context = context;
+    }
+
+    public void upload(ArrayList<RemoteImageItem> remoteImageItems) {
         this.remoteImageItems = remoteImageItems;
+        this.action = "upload";
+    }
+
+    public void delete(String obj) {
+        this.objToDelete = obj;
+        this.action = "delete";
     }
 
     //显示上传进度的进度条
@@ -45,12 +56,18 @@ public class FileUploadTask extends AsyncTask<String, Integer, Void> {
     @Override
     protected Void doInBackground(String... arg) {
         try{
-            int i = 0;
-            for(RemoteImageItem imageItem : remoteImageItems){
-                OSSUtil ossUtil = new OSSUtil(context, imageItem.getOssObj(), imageItem.getLocalPath());
-                ossUtil.putObjectFromLocalFile();
-                i++;
-                dialog.setProgress((int)(100*i/ remoteImageItems.size()));
+            if ("upload".equalsIgnoreCase(action)) {
+                int i = 0;
+                for (RemoteImageItem imageItem : remoteImageItems) {
+                    OSSUtil ossUtil = new OSSUtil(context, imageItem.getOssObj(), imageItem.getLocalPath());
+                    ossUtil.putObjectFromLocalFile();
+                    i++;
+                    dialog.setProgress((int) (100 * i / remoteImageItems.size()));
+                }
+            }
+            if ("delete".equalsIgnoreCase(action)) {
+                OSSUtil ossUtil = new OSSUtil(context);
+                ossUtil.deleteObject(objToDelete);
             }
             dialog.dismiss();
             Intent intent = new Intent(KeyConstants.photoBroadcastAction);

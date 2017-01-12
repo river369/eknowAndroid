@@ -5,6 +5,7 @@ package eknow.com.eknow.utils;
  */
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
@@ -29,24 +30,30 @@ import java.util.HashMap;
 import java.util.Random;
 
 import eknow.com.eknow.EnvConstants;
+import eknow.com.eknow.MainActivity;
 
 public class OSSUtil {
 
     private OSS oss;
-    private String testBucket;
-    private String testObject;
+    private String bucket;
+    private String object;
     private String uploadFilePath;
+    Context context;
 
     public OSSUtil(){}
 
-    public OSSUtil(Context context, String testObject, String uploadFilePath) {
-        this.oss = getClient(context);
-        this.testBucket = EnvConstants.OSS_UPLOAD_BUCKET;
-        this.testObject = testObject;
+    public OSSUtil(Context context, String object, String uploadFilePath) {
+        this(context);
+        this.object = object;
         this.uploadFilePath = uploadFilePath;
     }
+    public OSSUtil(Context context) {
+        this.context = context;
+        this.oss = getClient();
+        this.bucket = EnvConstants.OSS_UPLOAD_BUCKET;
+    }
 
-    public OSSClient getClient(Context context){
+    public OSSClient getClient(){
         String endpoint = EnvConstants.OSS_BASE_URL;
 
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(
@@ -56,23 +63,40 @@ public class OSSUtil {
         return oss;
     }
 
-    // 从本地文件上传，采用阻塞的同步接口
-    public void putObjectFromLocalFile() {
-        // 构造上传请求
-        PutObjectRequest put = new PutObjectRequest(testBucket, testObject, uploadFilePath);
-
+    public void deleteObject(String obj) {
+        DeleteObjectRequest request = new DeleteObjectRequest(bucket, obj);
         try {
-            PutObjectResult putResult = oss.putObject(put);
-
-            Log.d("PutObject", "UploadSuccess");
-
-            Log.d("ETag", putResult.getETag());
-            Log.d("RequestId", putResult.getRequestId());
+            DeleteObjectResult delResult = oss.deleteObject(request);
+            Log.d("DeleteObject", "DeleteSuccess");
         } catch (ClientException e) {
+            //Toast.makeText(context, e.getMessage() , Toast.LENGTH_SHORT).show();
             // 本地异常如网络异常等
             e.printStackTrace();
         } catch (ServiceException e) {
             // 服务异常
+            //Toast.makeText(context, e.getMessage() , Toast.LENGTH_SHORT).show();
+            Log.e("RequestId", e.getRequestId());
+            Log.e("ErrorCode", e.getErrorCode());
+            Log.e("HostId", e.getHostId());
+            Log.e("RawMessage", e.getRawMessage());
+        }
+    }
+
+    // 从本地文件上传，采用阻塞的同步接口
+    public void putObjectFromLocalFile() {
+        // 构造上传请求
+        PutObjectRequest put = new PutObjectRequest(bucket, object, uploadFilePath);
+
+        try {
+            PutObjectResult putResult = oss.putObject(put);
+            Log.d("PutObject", "UploadSuccess");
+        } catch (ClientException e) {
+            // 本地异常如网络异常等
+            //Toast.makeText(context, e.getMessage() , Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            // 服务异常
+            //Toast.makeText(context, e.getMessage() , Toast.LENGTH_SHORT).show();
             Log.e("RequestId", e.getRequestId());
             Log.e("ErrorCode", e.getErrorCode());
             Log.e("HostId", e.getHostId());
@@ -83,7 +107,7 @@ public class OSSUtil {
     // 从本地文件上传，使用非阻塞的异步接口
     public void asyncPutObjectFromLocalFile() {
         // 构造上传请求
-        PutObjectRequest put = new PutObjectRequest(testBucket, testObject, uploadFilePath);
+        PutObjectRequest put = new PutObjectRequest(bucket, object, uploadFilePath);
 
         // 异步上传时可以设置进度回调
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
@@ -127,7 +151,7 @@ public class OSSUtil {
         new Random().nextBytes(uploadData);
 
         // 构造上传请求
-        PutObjectRequest put = new PutObjectRequest(testBucket, testObject, uploadData);
+        PutObjectRequest put = new PutObjectRequest(bucket, object, uploadData);
 
         try {
             PutObjectResult putResult = oss.putObject(put);
@@ -151,7 +175,7 @@ public class OSSUtil {
     // 上传时设置ContentType等，也可以添加自定义meta信息
     public void putObjectWithMetadataSetting() {
         // 构造上传请求
-        PutObjectRequest put = new PutObjectRequest(testBucket, testObject, uploadFilePath);
+        PutObjectRequest put = new PutObjectRequest(bucket, object, uploadFilePath);
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType("application/octet-stream");
@@ -197,7 +221,7 @@ public class OSSUtil {
     // 上传文件可以设置server回调
     public void asyncPutObjectWithServerCallback() {
         // 构造上传请求
-        final PutObjectRequest put = new PutObjectRequest(testBucket, testObject, uploadFilePath);
+        final PutObjectRequest put = new PutObjectRequest(bucket, object, uploadFilePath);
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType("application/octet-stream");
@@ -250,7 +274,7 @@ public class OSSUtil {
 
     public void asyncPutObjectWithMD5Verify() {
         // 构造上传请求
-        PutObjectRequest put = new PutObjectRequest(testBucket, testObject, uploadFilePath);
+        PutObjectRequest put = new PutObjectRequest(bucket, object, uploadFilePath);
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType("application/octet-stream");
@@ -302,7 +326,7 @@ public class OSSUtil {
     public void appendObject() {
         // 如果bucket中objectKey存在，将其删除
         try {
-            DeleteObjectRequest delete = new DeleteObjectRequest(testBucket, testObject);
+            DeleteObjectRequest delete = new DeleteObjectRequest(bucket, object);
             DeleteObjectResult result = oss.deleteObject(delete);
         }
         catch (ClientException clientException) {
@@ -314,7 +338,7 @@ public class OSSUtil {
             Log.e("HostId", serviceException.getHostId());
             Log.e("RawMessage", serviceException.getRawMessage());
         }
-        AppendObjectRequest append = new AppendObjectRequest(testBucket, testObject, uploadFilePath);
+        AppendObjectRequest append = new AppendObjectRequest(bucket, object, uploadFilePath);
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType("application/octet-stream");

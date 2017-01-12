@@ -1,7 +1,6 @@
 package eknow.com.eknow.service;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +12,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -24,20 +21,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
@@ -45,17 +38,12 @@ import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
-import eknow.com.eknow.common.photo.activity.AlbumActivity;
-import eknow.com.eknow.common.photo.activity.GalleryActivity;
-import eknow.com.eknow.common.photo.util.FileUploadTask;
+import eknow.com.eknow.common.photo.util.AsyncFileTask;
 import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.common.photo.util.FileUtils;
 import eknow.com.eknow.common.photo.util.ImageItem;
-import eknow.com.eknow.common.photo.util.PublicWay;
 import eknow.com.eknow.common.photo.util.RemoteImageItem;
 import eknow.com.eknow.common.photo.util.Res;
-import eknow.com.eknow.utils.ImageSingleton;
-import eknow.com.eknow.utils.OSSUtil;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -236,7 +224,6 @@ public class ServiceAddFragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
-        System.out.println("onCreate===================");
         IntentFilter filter = new IntentFilter(KeyConstants.photoBroadcastAction);
         getActivity().registerReceiver(broadcastReceiver, filter);
         super.onCreate(savedInstanceState);
@@ -246,7 +233,7 @@ public class ServiceAddFragment extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getStringExtra("action");
-            if ("add".equalsIgnoreCase(action)) {
+            if ("upload".equalsIgnoreCase(action)) {
                 updatePictures.clear();
                 for (ImageItem imageItem : PhotoUtils.tempSelectBitmap) {
                     String obj = EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + imageItem.getImageId();
@@ -256,8 +243,18 @@ public class ServiceAddFragment extends BaseFragment {
                     PhotoUtils.picture_available_num--;
                 }
                 PhotoUtils.tempSelectBitmap.clear();
-                FileUploadTask task = new FileUploadTask(getActivity(), getContext(), updatePictures);
+                AsyncFileTask task = new AsyncFileTask(getActivity(), getContext());
+                task.upload(updatePictures);
                 task.execute();
+            }
+            if ("delete".equalsIgnoreCase(action)) {
+                int position = intent.getIntExtra("position", -1);
+                if (position >= 0){
+                    String obj = remotePictures.remove(position);
+                    AsyncFileTask task = new AsyncFileTask(getActivity(), getContext());
+                    task.delete(obj);
+                    task.execute();
+                }
             }
             if ("refresh".equalsIgnoreCase(action)) {
                 noScrollgridview.setAdapter(adapter);
@@ -290,7 +287,8 @@ public class ServiceAddFragment extends BaseFragment {
                     RemoteImageItem remoteImageItem = new RemoteImageItem(obj, FileUtils.SDPATH + fileName + ".JPEG");
                     updatePictures.clear();
                     updatePictures.add(remoteImageItem);
-                    FileUploadTask task = new FileUploadTask(getActivity(), getContext(), updatePictures);
+                    AsyncFileTask task = new AsyncFileTask(getActivity(), getContext());
+                    task.upload(updatePictures);
                     task.execute();
                 }
                 break;
@@ -307,7 +305,6 @@ public class ServiceAddFragment extends BaseFragment {
     }
     @Override
     public void onStart(){
-        //System.out.println("onStart===================");
         super.onStart();
     }
 

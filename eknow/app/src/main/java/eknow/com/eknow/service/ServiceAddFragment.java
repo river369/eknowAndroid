@@ -29,6 +29,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ import eknow.com.eknow.common.photo.util.FileUtils;
 import eknow.com.eknow.common.photo.util.ImageItem;
 import eknow.com.eknow.common.photo.util.RemoteImageItem;
 import eknow.com.eknow.common.photo.util.Res;
+import eknow.com.eknow.utils.ImageSingleton;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -58,6 +60,8 @@ public class ServiceAddFragment extends BaseFragment {
 
     View view;
     View popView;
+    NetworkImageView headImageView;
+    String headImageURL = "";
     private GridView noScrollgridview;
     private ServiceAddGridAdapter adapter;
     private PopupWindow pop = null;
@@ -82,15 +86,13 @@ public class ServiceAddFragment extends BaseFragment {
         popView = inflater.inflate(R.layout.select_picture_popup, container, false);
 //        TagGroup mTagGroup = (TagGroup) view.findViewById(R.id.tag_group);
 //        mTagGroup.setTags(new String[]{"Tag1", "Tag2", "Tag3"});
-
+        Res.init(getActivity());
+        InitPopup();
+        InitMainImage();
         InitPictures();
         return view;
     }
-
-    public void InitPictures() {
-        Res.init(getActivity());
-
-        //popup
+    public void InitPopup() {
         pop = new PopupWindow(getActivity());
         pop.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         pop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -98,12 +100,11 @@ public class ServiceAddFragment extends BaseFragment {
         pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setContentView(popView);
-
-        RelativeLayout parent = (RelativeLayout) popView.findViewById(R.id.select_picture_popup_parent);
         ll_popup = (LinearLayout) popView.findViewById(R.id.select_picture_popup);
         Button cameraButton = (Button) popView.findViewById(R.id.item_popupwindows_camera);
         Button photoButton = (Button) popView.findViewById(R.id.item_popupwindows_Photo);
         Button cancelButton = (Button) popView.findViewById(R.id.item_popupwindows_cancel);
+        RelativeLayout parent = (RelativeLayout) popView.findViewById(R.id.select_picture_popup_parent);
         parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +132,7 @@ public class ServiceAddFragment extends BaseFragment {
                 } else {
                     FragmentsFactory.getInstance().setAlbumSelectFragment(getActivity(), ServiceAddFragment.this, null);
                 }
-                //overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
+                //getActivity().overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
                 pop.dismiss();
                 ll_popup.clearAnimation();
             }
@@ -142,8 +143,20 @@ public class ServiceAddFragment extends BaseFragment {
                 ll_popup.clearAnimation();
             }
         });
+    }
 
-        // Grid view
+    public void InitMainImage() {
+        headImageView = (NetworkImageView) view.findViewById(R.id.serviceMainImage);
+        headImageView.setDefaultImageResId(R.drawable.icon_addpic_unfocused);
+        headImageView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                PhotoUtils.setSelectFor("head");
+                pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+            }
+        });
+    }
+
+    public void InitPictures() {
         noScrollgridview = (GridView) view.findViewById(R.id.service_upload_pictures);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
         adapter = new ServiceAddGridAdapter(getActivity(), remotePictures);
@@ -152,17 +165,16 @@ public class ServiceAddFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 if (arg2 == remotePictures.size()) {
                     //ll_popup.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.activity_translate_in));
+                    PhotoUtils.setSelectFor("picture");
                     pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 } else {
                     Bundle bundle = new Bundle();
                     bundle.putStringArrayList(KeyConstants.remotePictures, remotePictures);
-                    //bundle.putString(KeyConstants.imageURL, remotePictures.get(arg2));
                     bundle.putInt(KeyConstants.reviewPosition, arg2);
                     FragmentsFactory.getInstance().setGalaryFragment(getActivity(), ServiceAddFragment.this, bundle);
                 }
             }
         });
-
     }
 
     /**
@@ -212,16 +224,12 @@ public class ServiceAddFragment extends BaseFragment {
                 }
                 return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
     /**
      * Register Receiver during crreate
      */
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         IntentFilter filter = new IntentFilter(KeyConstants.photoBroadcastAction);
@@ -233,31 +241,57 @@ public class ServiceAddFragment extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getStringExtra("action");
-            if ("upload".equalsIgnoreCase(action)) {
-                updatePictures.clear();
-                for (ImageItem imageItem : PhotoUtils.tempSelectBitmap) {
-                    String obj = EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + imageItem.getImageId();
-                    RemoteImageItem remoteImageItem = new RemoteImageItem(obj, imageItem.getImagePath());
-                    remotePictures.add(obj);
+            switch (action){
+                case "upload":
+                    if (PhotoUtils.selectFor.equalsIgnoreCase("picture")) {
+                        updatePictures.clear();
+                        for (ImageItem imageItem : PhotoUtils.tempSelectBitmap) {
+                            String obj = EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + imageItem.getImageId();
+                            RemoteImageItem remoteImageItem = new RemoteImageItem(obj, imageItem.getImagePath());
+                            remotePictures.add(obj);
+                            updatePictures.add(remoteImageItem);
+                            PhotoUtils.picture_available_num--;
+                        }
+                        AsyncFileTask task = new AsyncFileTask(getActivity(), getContext());
+                        task.upload(updatePictures);
+                        task.execute();
+                    } else if (PhotoUtils.selectFor.equalsIgnoreCase("head")) {
+                        Bundle bundle = new Bundle();
+                        Bitmap bm =  PhotoUtils.tempSelectBitmap.get(0).getBitmap();
+                        bundle.putParcelable("bmp", bm);
+                        FragmentsFactory.getInstance().setCropperFragment(getActivity(), ServiceAddFragment.this, bundle);
+                    }
+                    PhotoUtils.tempSelectBitmap.clear();
+                    break;
+                case "delete":
+                    int position = intent.getIntExtra("position", -1);
+                    if (position >= 0){
+                        String obj = remotePictures.remove(position);
+                        AsyncFileTask task = new AsyncFileTask(getActivity(), getContext());
+                        task.delete(obj);
+                        task.execute();
+                    }
+                    break;
+                case "refresh":
+                    noScrollgridview.setAdapter(adapter);
+                    String tempUrl = headImageURL+"?t="+Math.random();
+                    System.out.println(tempUrl);
+                    headImageView.setImageUrl(tempUrl, ImageSingleton.getInstance().getImageLoader());
+                    break;
+                case "head":
+                    String fileName = String.valueOf(System.currentTimeMillis());
+                    Bitmap bm = (Bitmap) intent.getExtras().get("data");
+                    FileUtils.saveBitmap(bm, fileName);
+                    ImageItem takePhoto = new ImageItem();
+                    takePhoto.setBitmap(bm);
+                    String obj = EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + "head";
+                    RemoteImageItem remoteImageItem = new RemoteImageItem(obj, FileUtils.SDPATH + fileName + ".JPEG");
+                    updatePictures.clear();
                     updatePictures.add(remoteImageItem);
-                    PhotoUtils.picture_available_num--;
-                }
-                PhotoUtils.tempSelectBitmap.clear();
-                AsyncFileTask task = new AsyncFileTask(getActivity(), getContext());
-                task.upload(updatePictures);
-                task.execute();
-            }
-            if ("delete".equalsIgnoreCase(action)) {
-                int position = intent.getIntExtra("position", -1);
-                if (position >= 0){
-                    String obj = remotePictures.remove(position);
                     AsyncFileTask task = new AsyncFileTask(getActivity(), getContext());
-                    task.delete(obj);
+                    task.upload(updatePictures);
                     task.execute();
-                }
-            }
-            if ("refresh".equalsIgnoreCase(action)) {
-                noScrollgridview.setAdapter(adapter);
+                    headImageURL = EnvConstants.OSS_UPLOAD_URL +obj;
             }
         }
     };
@@ -274,22 +308,27 @@ public class ServiceAddFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case TAKE_PICTURE:
-                if (PhotoUtils.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK) {
-                    String fileName = String.valueOf(System.currentTimeMillis());
+                if (PhotoUtils.selectFor.equalsIgnoreCase("picture")) {
+                    if (PhotoUtils.tempSelectBitmap.size() == 1 && resultCode == RESULT_OK) {
+                        String fileName = String.valueOf(System.currentTimeMillis());
+                        Bitmap bm = (Bitmap) data.getExtras().get("data");
+                        FileUtils.saveBitmap(bm, fileName);
+                        ImageItem takePhoto = new ImageItem();
+                        takePhoto.setBitmap(bm);
+                        String obj = EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + "camera";
+                        remotePictures.add(obj);
+                        RemoteImageItem remoteImageItem = new RemoteImageItem(obj, FileUtils.SDPATH + fileName + ".JPEG");
+                        updatePictures.clear();
+                        updatePictures.add(remoteImageItem);
+                        AsyncFileTask task = new AsyncFileTask(getActivity(), getContext());
+                        task.upload(updatePictures);
+                        task.execute();
+                    }
+                } else if (PhotoUtils.selectFor.equalsIgnoreCase("head")) {
+                    Bundle bundle = new Bundle();
                     Bitmap bm = (Bitmap) data.getExtras().get("data");
-                    FileUtils.saveBitmap(bm, fileName);
-                    ImageItem takePhoto = new ImageItem();
-                    takePhoto.setBitmap(bm);
-                    System.out.println(FileUtils.SDPATH + fileName + ".JPEG");
-                    //PhotoUtils.tempSelectBitmap.add(takePhoto);
-                    String obj = EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + "camera";
-                    remotePictures.add(obj);
-                    RemoteImageItem remoteImageItem = new RemoteImageItem(obj, FileUtils.SDPATH + fileName + ".JPEG");
-                    updatePictures.clear();
-                    updatePictures.add(remoteImageItem);
-                    AsyncFileTask task = new AsyncFileTask(getActivity(), getContext());
-                    task.upload(updatePictures);
-                    task.execute();
+                    bundle.putParcelable("bmp", bm);
+                    FragmentsFactory.getInstance().setCropperFragment(getActivity(), ServiceAddFragment.this, bundle);
                 }
                 break;
         }

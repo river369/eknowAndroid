@@ -38,11 +38,13 @@
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/serviceMainImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_addpic_focused" />
 
         <TextView
             android:layout_width="match_parent"
@@ -54,20 +56,6 @@
             android:gravity="center_vertical|left"
             android:layout_marginLeft="@dimen/content_margin_left"
             android:layout_marginRight="@dimen/content_margin_right" />
-
-        <!--<GridView-->
-            <!--android:id="@+id/service_upload_pictures"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="230dp"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:background="@color/White"-->
-            <!--android:horizontalSpacing="5dp"-->
-            <!--android:verticalSpacing="5dp"-->
-            <!--android:numColumns="4"-->
-            <!--android:columnWidth="110dp"-->
-            <!--android:stretchMode="columnWidth"-->
-            <!--android:gravity="center" >-->
-        <!--</GridView>-->
 
         <GridView
             android:id="@+id/service_upload_pictures"

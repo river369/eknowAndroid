@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@color/albumback">
+
+    <TextView
+        android:id="@+id/headview"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignParentTop="true"
+        />
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/plugin_camera_bottom_bar"
+        android:layout_marginTop="3dp">
+
+ 		<Button
+            android:id="@+id/cancel_button"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:clickable="true"
+            android:textColor="@color/White"
+            android:text="@string/camera_cancel"
+            android:background="@drawable/plugin_camera_ok_btn_state" />
+        <Button
+            android:id="@+id/select_button"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:textColor="@color/White"
+            android:text="@string/phote_cropper"
+            android:background="@drawable/plugin_camera_ok_btn_state" />
+    </RelativeLayout>
+
+    <com.theartofdev.edmodo.cropper.CropImageView
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cropImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/bottom_layout"
+        android:layout_below="@id/headview"
+        android:background="@color/plugin_camera_black"/>
+
+</RelativeLayout>

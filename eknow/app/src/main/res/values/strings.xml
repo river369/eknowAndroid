@@ -63,7 +63,7 @@
     <string name="serviceStatus">服务状态</string>
     <string name="serviceUploadMainPic">请点击图标上传服务主图片, 主图片显示于求易知列表.</string>
     <string name="serviceUploadPics">请点击图标上传服务详情图片, 最多上传5张.</string>
-
+    <string name="croperServiceMainImage">选取服务主图片</string>
 
     <!-- Users Pages -->
     <string name="signIn">登录</string>
@@ -95,4 +95,5 @@
     <string name="camera_cancel">取消</string>
     <string name="deletePicture">删除</string>
     <string name="no_photo">相册没有图片</string>
+    <string name="phote_cropper">截取图片</string>
 </resources>

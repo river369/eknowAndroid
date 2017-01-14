@@ -14,9 +14,22 @@ public class PhotoUtils {
 
 	public static int picture_max_num = 5;
 	public static int picture_available_num = picture_max_num;
-	
+	public static String selectFor = "";
+	public static void setSelectFor(String sf){
+		PhotoUtils.selectFor = sf;
+		switch (sf){
+			case "head" :
+				PhotoUtils.picture_max_num = 1;
+				PhotoUtils.picture_available_num = picture_max_num;
+				break;
+			case "picture" :
+				PhotoUtils.picture_max_num = 5;
+				PhotoUtils.picture_available_num = picture_max_num;
+				break;
+		}
+	}
+
 	public static ArrayList<ImageItem> tempSelectBitmap = new ArrayList<ImageItem>();   //选择的图片的临时列表
-	public static int removePosition = -1;
 
 	public static Bitmap revitionImageSize(String path) throws IOException {
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(new File(path)));

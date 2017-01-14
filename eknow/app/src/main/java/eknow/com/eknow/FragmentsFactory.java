@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.common.photo.activity.AlbumActivity;
 import eknow.com.eknow.common.photo.activity.AlbumSelectFragment;
+import eknow.com.eknow.common.photo.activity.CropperFragment;
 import eknow.com.eknow.common.photo.activity.GalleryFragment;
 import eknow.com.eknow.home.HomeFragment;
 import eknow.com.eknow.service.ServiceAddFragment;
@@ -33,6 +34,7 @@ public class FragmentsFactory {
     static SignOnFragment signOn;
     static AlbumSelectFragment asf;
     static GalleryFragment gf;
+    static CropperFragment cf;
 
     static int containerViewId = R.id.id_eknow_main_content;
 
@@ -149,4 +151,13 @@ public class FragmentsFactory {
         }
         setFragment(activity, oldFragment, gf, bundle);
     }
+
+    public static void setCropperFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
+        if (cf == null){
+            cf = new CropperFragment();
+        }
+        setFragment(activity, oldFragment, cf, bundle);
+    }
+
+
 }

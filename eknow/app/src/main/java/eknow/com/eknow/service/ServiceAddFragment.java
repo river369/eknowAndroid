@@ -30,6 +30,8 @@ import android.widget.RelativeLayout;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.NetworkImageView;
+import com.ns.developer.tagview.entity.Tag;
+import com.ns.developer.tagview.widget.TagCloudLinkView;
 
 import java.util.ArrayList;
 
@@ -46,6 +48,7 @@ import eknow.com.eknow.common.photo.util.ImageItem;
 import eknow.com.eknow.common.photo.util.RemoteImageItem;
 import eknow.com.eknow.common.photo.util.Res;
 import eknow.com.eknow.utils.ImageSingleton;
+import me.gujun.android.taggroup.TagGroup;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -84,12 +87,20 @@ public class ServiceAddFragment extends BaseFragment {
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused);
         view = inflater.inflate(R.layout.service_add, container, false);
         popView = inflater.inflate(R.layout.select_picture_popup, container, false);
-//        TagGroup mTagGroup = (TagGroup) view.findViewById(R.id.tag_group);
-//        mTagGroup.setTags(new String[]{"Tag1", "Tag2", "Tag3"});
+
         Res.init(getActivity());
         InitPopup();
         InitMainImage();
         InitPictures();
+
+//        TagGroup mTagGroup = (TagGroup) view.findViewById(R.id.tag_group);
+//        mTagGroup.setTags(new String[]{"Tag1", "Tag2", "Tag3"});
+        TagCloudLinkView tagView = (TagCloudLinkView) view.findViewById(R.id.tag_group);
+        tagView.add(new Tag(1,"TAG TEXT 1"));
+        tagView.add(new Tag(1,"TAG TEXT 2"));
+        tagView.add(new Tag(1,"TAG TEXT 3"));
+        tagView.drawTags();
+
         return view;
     }
     public void InitPopup() {

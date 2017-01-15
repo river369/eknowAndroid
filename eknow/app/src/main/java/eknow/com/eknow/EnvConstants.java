@@ -18,4 +18,5 @@ public class EnvConstants {
     public static String OSS_UPLOAD_BUCKET = "clcentury";
     public static String OSS_PIC_OBJ_PREFIX = "yzphoto/pics/";
 
+
 }

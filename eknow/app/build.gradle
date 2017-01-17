@@ -37,6 +37,8 @@ dependencies {
     compile 'eu.inmite.android.lib:android-validation-komensky:0.9.4@aar'
     compile 'me.gujun.android.taggroup:library:1.4@aar'
     compile 'com.ns-developer:tagcloudview:0.1.0'
+    compile 'com.github.kingideayou:tagcloudview:1.0.2'
+
     compile files('libs/okhttp-3.4.1.jar')
     compile files('libs/okio-1.10.0.jar')
     compile files('libs/aliyun-oss-sdk-android-2.3.0.jar')

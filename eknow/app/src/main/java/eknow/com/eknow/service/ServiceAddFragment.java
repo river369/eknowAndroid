@@ -27,6 +27,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.NetworkImageView;
@@ -34,6 +35,7 @@ import com.ns.developer.tagview.entity.Tag;
 import com.ns.developer.tagview.widget.TagCloudLinkView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
@@ -49,6 +51,7 @@ import eknow.com.eknow.common.photo.util.RemoteImageItem;
 import eknow.com.eknow.common.photo.util.Res;
 import eknow.com.eknow.utils.ImageSingleton;
 import me.gujun.android.taggroup.TagGroup;
+import me.next.tagview.TagCloudView;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -95,11 +98,43 @@ public class ServiceAddFragment extends BaseFragment {
 
 //        TagGroup mTagGroup = (TagGroup) view.findViewById(R.id.tag_group);
 //        mTagGroup.setTags(new String[]{"Tag1", "Tag2", "Tag3"});
-        TagCloudLinkView tagView = (TagCloudLinkView) view.findViewById(R.id.tag_group);
-        tagView.add(new Tag(1,"TAG TEXT 1"));
-        tagView.add(new Tag(1,"TAG TEXT 2"));
-        tagView.add(new Tag(1,"TAG TEXT 3"));
-        tagView.drawTags();
+
+//        TagCloudLinkView tagView = (TagCloudLinkView) view.findViewById(R.id.tag_group);
+//        tagView.add(new Tag(1,"TAG TEXT 1"));
+//        tagView.add(new Tag(1,"TAG TEXT 2"));
+//        tagView.add(new Tag(1,"TAG TEXT 3"));
+//        tagView.drawTags();
+
+        List<String> tags = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            tags.add("标签" + i);
+        }
+
+        TagCloudView tagCloudView1 = (TagCloudView) view.findViewById(R.id.tag_group);
+        tagCloudView1.setTags(tags);
+        tagCloudView1.setOnTagClickListener(
+                new TagCloudView.OnTagClickListener(){
+                    @Override
+                    public void onTagClick(int position) {
+                        if (position == -1) {
+                            Toast.makeText(getActivity().getApplicationContext(), "点击末尾文字",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity().getApplicationContext(), "点击 position : " + position,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        );
+        tagCloudView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity().getApplicationContext(), "TagView onClick",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
         return view;
     }

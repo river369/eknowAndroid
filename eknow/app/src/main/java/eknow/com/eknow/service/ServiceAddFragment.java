@@ -1,6 +1,7 @@
 package eknow.com.eknow.service;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -49,6 +50,7 @@ import eknow.com.eknow.common.photo.util.FileUtils;
 import eknow.com.eknow.common.photo.util.ImageItem;
 import eknow.com.eknow.common.photo.util.RemoteImageItem;
 import eknow.com.eknow.common.photo.util.Res;
+import eknow.com.eknow.user.SelectPhoneRegionDialog;
 import eknow.com.eknow.utils.ImageSingleton;
 import me.gujun.android.taggroup.TagGroup;
 import me.next.tagview.TagCloudView;
@@ -96,44 +98,14 @@ public class ServiceAddFragment extends BaseFragment {
         InitMainImage();
         InitPictures();
 
-//        TagGroup mTagGroup = (TagGroup) view.findViewById(R.id.tag_group);
-//        mTagGroup.setTags(new String[]{"Tag1", "Tag2", "Tag3"});
-
-//        TagCloudLinkView tagView = (TagCloudLinkView) view.findViewById(R.id.tag_group);
-//        tagView.add(new Tag(1,"TAG TEXT 1"));
-//        tagView.add(new Tag(1,"TAG TEXT 2"));
-//        tagView.add(new Tag(1,"TAG TEXT 3"));
-//        tagView.drawTags();
-
-        List<String> tags = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            tags.add("标签" + i);
-        }
-
-        TagCloudView tagCloudView1 = (TagCloudView) view.findViewById(R.id.tag_group);
-        tagCloudView1.setTags(tags);
-        tagCloudView1.setOnTagClickListener(
-                new TagCloudView.OnTagClickListener(){
-                    @Override
-                    public void onTagClick(int position) {
-                        if (position == -1) {
-                            Toast.makeText(getActivity().getApplicationContext(), "点击末尾文字",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity().getApplicationContext(), "点击 position : " + position,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
-        tagCloudView1.setOnClickListener(new View.OnClickListener() {
+        EditText tagsCountText = (EditText) view.findViewById(R.id.service_select_tag_count);
+        tagsCountText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity().getApplicationContext(), "TagView onClick",
-                        Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                Dialog dialog = new SelectTagDialog(getActivity(), R.style.MyFrameDialog);
+                dialog.show();
             }
         });
-
 
 
         return view;

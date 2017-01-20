@@ -34,6 +34,13 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="MyFrameDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
     <!--自定义MLImageView的属性 加上了自己的前缀，防止和其他自定义控件冲突-->
     <declare-styleable name="MLImageView">
         <attr name="ml_border_color" format="color" />

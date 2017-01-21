@@ -12,6 +12,7 @@ import eknow.com.eknow.common.photo.activity.AlbumSelectFragment;
 import eknow.com.eknow.common.photo.activity.CropperFragment;
 import eknow.com.eknow.common.photo.activity.GalleryFragment;
 import eknow.com.eknow.home.HomeFragment;
+import eknow.com.eknow.service.SelectTagFragment;
 import eknow.com.eknow.service.ServiceAddFragment;
 import eknow.com.eknow.service.ServiceBuyFragment;
 import eknow.com.eknow.service.ServiceDetailsFragment;
@@ -35,6 +36,7 @@ public class FragmentsFactory {
     static AlbumSelectFragment asf;
     static GalleryFragment gf;
     static CropperFragment cf;
+    static SelectTagFragment stf;
 
     static int containerViewId = R.id.id_eknow_main_content;
 
@@ -158,6 +160,13 @@ public class FragmentsFactory {
         }
         setFragment(activity, oldFragment, cf, bundle);
     }
+    public static void setSelectTagFragment(FragmentActivity activity, Fragment oldFragment, Bundle bundle){
+        if (stf == null){
+            stf = new SelectTagFragment();
+        }
+        setFragment(activity, oldFragment, stf, bundle);
+    }
+
 
 
 }

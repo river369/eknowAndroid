@@ -1,43 +1,25 @@
 package eknow.com.eknow.service;
 
-/**
- * Created by jianguog on 16/12/31.
- */
-
-import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import android.view.ViewGroup;
+import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
-import eknow.com.eknow.user.SelectPhoneRegionListAdaptor;
+import eknow.com.eknow.common.BaseFragment;
 import me.gujun.android.taggroup.TagGroup;
 
-public class SelectTagDialog extends Dialog {
+public class SelectTagFragment extends BaseFragment {
 
-    Context context;
+    View view;
 
-    public SelectTagDialog(Context context) {
-        super(context);
-        this.context = context;
-    }
-    public SelectTagDialog(Context context, int theme){
-        super(context, theme);
-        this.context = context;
-    }
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.select_tag_dialog);
-
-        final TagGroup mTagGroup = (TagGroup) findViewById(R.id.tag_group);
-        mTagGroup.setTags(new String[]{"Tag1", "Tag2", "Tag3"});
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((MainActivity) getActivity()).setToolbarTitle(R.string.serviceEditTags);
+        view = inflater.inflate(R.layout.select_tag_fragment, container, false);
+        final TagGroup mTagGroup = (TagGroup) view.findViewById(R.id.tag_group);
+        String[] tags = getArguments().getStringArray("tags");
+        mTagGroup.setTags(tags);
         mTagGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,5 +65,6 @@ public class SelectTagDialog extends Dialog {
 //            }
 //        });
 
+        return view;
     }
 }

@@ -64,6 +64,9 @@
     <string name="serviceUploadMainPic">请点击图标上传服务主图片, 主图片显示于求易知列表.</string>
     <string name="serviceUploadPics">请点击图标上传服务详情图片, 最多上传5张.</string>
     <string name="croperServiceMainImage">选取服务主图片</string>
+    <string name="serviceEditTags">编辑标签</string>
+    <string name="serviceTags">标签</string>
+
 
     <!-- Users Pages -->
     <string name="signIn">登录</string>

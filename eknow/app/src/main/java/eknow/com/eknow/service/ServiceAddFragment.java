@@ -1,7 +1,6 @@
 package eknow.com.eknow.service;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,18 +24,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.NetworkImageView;
-import com.ns.developer.tagview.entity.Tag;
-import com.ns.developer.tagview.widget.TagCloudLinkView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
@@ -50,10 +44,7 @@ import eknow.com.eknow.common.photo.util.FileUtils;
 import eknow.com.eknow.common.photo.util.ImageItem;
 import eknow.com.eknow.common.photo.util.RemoteImageItem;
 import eknow.com.eknow.common.photo.util.Res;
-import eknow.com.eknow.user.SelectPhoneRegionDialog;
 import eknow.com.eknow.utils.ImageSingleton;
-import me.gujun.android.taggroup.TagGroup;
-import me.next.tagview.TagCloudView;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -67,19 +58,21 @@ import static android.app.Activity.RESULT_OK;
 public class ServiceAddFragment extends BaseFragment {
 
     View view;
-    View popView;
     NetworkImageView headImageView;
     String headImageURL = "";
     private GridView noScrollgridview;
     private ServiceAddGridAdapter adapter;
-    private PopupWindow pop = null;
-    private LinearLayout ll_popup;
+
+    private PopupWindow selectImageTypePopWindow = null;
+    View selectImageTypePopView;
+    //private LinearLayout ll_popup;
+
+    private PopupWindow selectTagPopWindow = null;
+    View selectTagPopView;
+
     public static Bitmap bimap ;
     private ArrayList<String> remotePictures = new ArrayList<>();
     private ArrayList<RemoteImageItem> updatePictures = new ArrayList<>();
-    EditText serviceHourText;
-    EditText servicePeopleText;
-    EditText totalPriceText;
 
     private RequestQueue queue;
 
@@ -91,43 +84,37 @@ public class ServiceAddFragment extends BaseFragment {
 
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused);
         view = inflater.inflate(R.layout.service_add, container, false);
-        popView = inflater.inflate(R.layout.select_picture_popup, container, false);
 
         Res.init(getActivity());
-        InitPopup();
+        selectImageTypePopView = inflater.inflate(R.layout.select_picture_popup, container, false);
+        InitPopupSelectImageType();
         InitMainImage();
         InitPictures();
 
-        EditText tagsCountText = (EditText) view.findViewById(R.id.service_select_tag_count);
-        tagsCountText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialog dialog = new SelectTagDialog(getActivity(), R.style.MyFrameDialog);
-                dialog.show();
-            }
-        });
-
+        selectTagPopView = inflater.inflate(R.layout.select_tag_fragment, container, false);
+        InitPopupTag();
 
         return view;
     }
-    public void InitPopup() {
-        pop = new PopupWindow(getActivity());
-        pop.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        pop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        pop.setBackgroundDrawable(new BitmapDrawable());
-        pop.setFocusable(true);
-        pop.setOutsideTouchable(true);
-        pop.setContentView(popView);
-        ll_popup = (LinearLayout) popView.findViewById(R.id.select_picture_popup);
-        Button cameraButton = (Button) popView.findViewById(R.id.item_popupwindows_camera);
-        Button photoButton = (Button) popView.findViewById(R.id.item_popupwindows_Photo);
-        Button cancelButton = (Button) popView.findViewById(R.id.item_popupwindows_cancel);
-        RelativeLayout parent = (RelativeLayout) popView.findViewById(R.id.select_picture_popup_parent);
+
+    public void InitPopupSelectImageType() {
+        selectImageTypePopWindow = new PopupWindow(getActivity());
+        selectImageTypePopWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        selectImageTypePopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        selectImageTypePopWindow.setBackgroundDrawable(new BitmapDrawable());
+        selectImageTypePopWindow.setFocusable(true);
+        selectImageTypePopWindow.setOutsideTouchable(true);
+        selectImageTypePopWindow.setContentView(selectImageTypePopView);
+        //ll_popup = (LinearLayout) selectImageTypePopView.findViewById(R.id.select_picture_popup);
+        Button cameraButton = (Button) selectImageTypePopView.findViewById(R.id.item_popupwindows_camera);
+        Button photoButton = (Button) selectImageTypePopView.findViewById(R.id.item_popupwindows_Photo);
+        Button cancelButton = (Button) selectImageTypePopView.findViewById(R.id.item_popupwindows_cancel);
+        RelativeLayout parent = (RelativeLayout) selectImageTypePopView.findViewById(R.id.select_picture_popup_parent);
         parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pop.dismiss();
-                ll_popup.clearAnimation();
+                selectImageTypePopWindow.dismiss();
+                //ll_popup.clearAnimation();
             }
         });
         cameraButton.setOnClickListener(new View.OnClickListener() {
@@ -138,8 +125,8 @@ public class ServiceAddFragment extends BaseFragment {
                 } else {
                     camera();
                 }
-                pop.dismiss();
-                ll_popup.clearAnimation();
+                selectImageTypePopWindow.dismiss();
+                //ll_popup.clearAnimation();
             }
         });
         photoButton.setOnClickListener(new View.OnClickListener() {
@@ -151,17 +138,31 @@ public class ServiceAddFragment extends BaseFragment {
                     FragmentsFactory.getInstance().setAlbumSelectFragment(getActivity(), ServiceAddFragment.this, null);
                 }
                 //getActivity().overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
-                pop.dismiss();
-                ll_popup.clearAnimation();
+                selectImageTypePopWindow.dismiss();
+                //ll_popup.clearAnimation();
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                pop.dismiss();
-                ll_popup.clearAnimation();
+                selectImageTypePopWindow.dismiss();
+                //ll_popup.clearAnimation();
             }
         });
     }
+
+    public void InitPopupTag() {
+        EditText tagsCountText = (EditText) view.findViewById(R.id.service_select_tag_count);
+        tagsCountText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putStringArray("tags", new String[]{"111", "22222"});
+                FragmentsFactory.getInstance().setSelectTagFragment(getActivity(), ServiceAddFragment.this, bundle);
+                //selectTagPopWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+            }
+        });
+    }
+
 
     public void InitMainImage() {
         headImageView = (NetworkImageView) view.findViewById(R.id.serviceMainImage);
@@ -169,7 +170,7 @@ public class ServiceAddFragment extends BaseFragment {
         headImageView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 PhotoUtils.setSelectFor("head");
-                pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                selectImageTypePopWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
             }
         });
     }
@@ -184,7 +185,7 @@ public class ServiceAddFragment extends BaseFragment {
                 if (arg2 == remotePictures.size()) {
                     //ll_popup.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.activity_translate_in));
                     PhotoUtils.setSelectFor("picture");
-                    pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                    selectImageTypePopWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 } else {
                     Bundle bundle = new Bundle();
                     bundle.putStringArrayList(KeyConstants.remotePictures, remotePictures);

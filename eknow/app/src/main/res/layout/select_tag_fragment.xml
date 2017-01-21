@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:id="@+id/headview"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"/>
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/plugin_camera_bottom_bar" >
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:clickable="true"
+            android:textColor="@color/White"
+            android:text="@string/deletePicture"
+            android:background="@drawable/plugin_camera_ok_btn_state"
+            />
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:textColor="@color/White"
+            android:text="@string/camera_cancel"
+            android:background="@drawable/plugin_camera_ok_btn_state" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tags_text"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/serviceTags"
+        android:textSize="12sp"
+        android:textColor="@color/eknowTitle"
+        android:gravity="center_vertical|left"
+        android:layout_below="@id/headview"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_marginRight="@dimen/content_margin_right" />
+
+    <me.gujun.android.taggroup.TagGroup
+        android:id="@+id/tag_group"
+        style="@style/TagGroup"
+        android:layout_marginRight="@dimen/content_margin_right"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_marginBottom="@dimen/content_margin_bottom"
+        app:atg_isAppendMode="true"
+        android:layout_above="@id/bottom_layout"
+        android:layout_below="@id/tags_text"
+        android:layout_centerHorizontal="true" />
+    <!--https://github.com/2dxgujun/AndroidTagGroup-->
+    <!--<com.ns.developer.tagview.widget.TagCloudLinkView-->
+    <!--android:id="@+id/tag_group"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:padding="4dp"-->
+    <!--android:background="#ffffff"-->
+    <!--app:isDeletable="true"-->
+    <!--app:tagLayoutColor="@color/LightSkyBlue"-->
+    <!--app:tagTextSize="8sp"-->
+    <!--app:tagTextColor="@color/White"-->
+    <!--app:deletableTextSize="8sp"-->
+    <!--app:deletableTextColor="@color/White"-->
+    <!--android:layout_marginRight="@dimen/content_margin_right"-->
+    <!--android:layout_marginLeft="@dimen/content_margin_left"-->
+    <!--android:layout_marginBottom="@dimen/content_margin_bottom"/>-->
+    <!--https://github.com/namito/TagCloudLinkView-->
+
+    <!--<me.next.tagview.TagCloudView-->
+    <!--android:id="@+id/tag_group"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:tcvItemBorderHorizontal="8dp"-->
+    <!--app:tcvItemBorderVertical="6dp"-->
+    <!--app:tcvBorder="8dp"-->
+    <!--app:tcvTextColor="#123455"-->
+    <!--app:tcvSingleLine="false"-->
+    <!--app:tcvCanTagClick="true" />-->
+    <!--https://github.com/kingideayou/TagCloudView-->
+
+</RelativeLayout>

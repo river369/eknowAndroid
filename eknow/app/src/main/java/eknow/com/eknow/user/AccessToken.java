@@ -1,5 +1,7 @@
 package eknow.com.eknow.user;
 
+import android.util.Base64;
+
 /**
  * Created by jianguog on 16/12/27.
  */
@@ -30,6 +32,12 @@ public class AccessToken {
         return true;
     }
 
+    public static String parseUserId (String tokenString) {
+        if (tokenString == null) return null;
+        String decodedTokenString = new String(Base64.decode(tokenString, Base64.DEFAULT));
+        String[] tokenArray = decodedTokenString.split("_");
+        return tokenArray[1];
+    }
     @Override
     public String toString() {
         return time + "," + expireAfter + "," + Math.random() * 100 +"," + token + "," + Math.random() * 10000 ;

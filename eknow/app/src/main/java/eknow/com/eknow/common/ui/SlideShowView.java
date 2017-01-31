@@ -33,6 +33,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.R;
 
 public class SlideShowView extends FrameLayout {
@@ -120,7 +121,7 @@ public class SlideShowView extends FrameLayout {
         // 热点个数与图片特殊相等
         for (int i = 0; i < imageUrls.length; i++) {
             ImageView view =  new ImageView(context);
-            view.setTag(imageUrls[i]);
+            view.setTag(EnvConstants.OSS_BASE_URL + imageUrls[i]);
             if(i==0)//给一个默认图
                 view.setBackgroundResource(R.drawable.tourism);
             view.setScaleType(ScaleType.FIT_XY);

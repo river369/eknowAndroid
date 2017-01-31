@@ -40,4 +40,10 @@ public class ServicesRequestBuilder extends RequestBuilderBase {
         return buildRequestParameters();
     }
 
+    public Map<String, String>  buildAggregatedCreateOrUpdatePublishingService(String sellerId, String serviceId){
+        getRequestData().put("sellerId", sellerId);
+        getRequestData().put("serviceId", serviceId);
+        setMethod("createOrUpdatePublishingService");
+        return buildRequestParameters();
+    }
 }

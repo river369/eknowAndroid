@@ -62,7 +62,7 @@ public class ServicesListAdapter extends
         String servicePriceType = service.getService_price_type() ==1 ? "/小时" : "/次";
         holder.price.setText(String.valueOf(service.getService_price()) + servicePriceType);
         holder.description.setText(service.getServiceBrief());
-        String url = EnvConstants.SERVIC_MAIN_PIC_URL + service.getSellerId() + "/" + service.getServiceId() + "/main.png";
+        String url = EnvConstants.getServicesMainPictureURL(service.getSellerId(), service.getServiceId());
         holder.mainImage.setImageUrl(url, ImageSingleton.getInstance().getImageLoader());
         holder.mainImage.setErrorImageResId(R.drawable.head_default);
     }

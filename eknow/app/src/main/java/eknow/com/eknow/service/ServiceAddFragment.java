@@ -1,6 +1,7 @@
 package eknow.com.eknow.service;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,11 +27,20 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import eknow.com.eknow.EnvConstants;
 import eknow.com.eknow.FragmentsFactory;
@@ -38,6 +48,7 @@ import eknow.com.eknow.KeyConstants;
 import eknow.com.eknow.MainActivity;
 import eknow.com.eknow.R;
 import eknow.com.eknow.common.BaseFragment;
+import eknow.com.eknow.common.EknowException;
 import eknow.com.eknow.common.photo.util.AsyncFileTask;
 import eknow.com.eknow.common.photo.util.PhotoUtils;
 import eknow.com.eknow.common.photo.util.FileUtils;
@@ -59,6 +70,8 @@ public class ServiceAddFragment extends BaseFragment {
 
     View view;
     NetworkImageView headImageView;
+    private ProgressDialog dialog = null;
+
     String headImageURL = "";
     private GridView noScrollgridview;
     private ServiceAddGridAdapter adapter;
@@ -75,26 +88,38 @@ public class ServiceAddFragment extends BaseFragment {
     private ArrayList<RemoteImageItem> updatePictures = new ArrayList<>();
 
     private RequestQueue queue;
+    ServiceInfo serviceInfo = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((MainActivity)getActivity()).addTopReturnToolbar();
         ((MainActivity)getActivity()).setTopReturnBarVisiability(View.VISIBLE);
         ((MainActivity)getActivity()).setToolbarTitle(R.string.serviceAdd);
-
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused);
         view = inflater.inflate(R.layout.service_add, container, false);
-
-        Res.init(getActivity());
         selectImageTypePopView = inflater.inflate(R.layout.select_picture_popup, container, false);
+        selectTagPopView = inflater.inflate(R.layout.select_tag_fragment, container, false);
+
+        String sellerId = getArguments().getString("userId");
+        getAggregatedServiceDetails(sellerId);
+        showDialog();
+        return view;
+    }
+    void showDialog(){
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("正在加载...");
+        dialog.setIndeterminate(false);
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.setProgress(0);
+        dialog.show();
+    }
+
+    void init(){
+        Res.init(getActivity());
         InitPopupSelectImageType();
         InitMainImage();
         InitPictures();
-
-        selectTagPopView = inflater.inflate(R.layout.select_tag_fragment, container, false);
         InitPopupTag();
-
-        return view;
     }
 
     public void InitPopupSelectImageType() {
@@ -364,6 +389,58 @@ public class ServiceAddFragment extends BaseFragment {
     @Override
     public void onStart(){
         super.onStart();
+    }
+
+    public void getAggregatedServiceDetails(final String sellerId) {
+        queue = Volley.newRequestQueue(getActivity());
+        String url = EnvConstants.API_URL;
+        ServicesRequestBuilder srb = new ServicesRequestBuilder();
+        Map<String, String> params = srb.buildAggregatedCreateOrUpdatePublishingService(sellerId, "");
+
+        // Request a string response from the provided URL.
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(
+                Request.Method.POST, url,
+                new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //System.out.println(response.toString());
+                        try {
+                            ServicesResponseJsonParser sjp = new ServicesResponseJsonParser(response);
+                            AggregatedNewServiceInfo aggregatedNewServiceInfo = sjp.getAggregatedCreateOrUpdatePublishingService();
+                            try {
+                                init();
+                                dialog.dismiss();
+                            } catch (Exception e) {
+                            }
+                            setViewData(aggregatedNewServiceInfo);
+                        } catch (EknowException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+        queue.add(jsonRequest);
+    }
+
+    void setViewData(AggregatedNewServiceInfo aggregatedNewServiceInfo){
+        serviceInfo = aggregatedNewServiceInfo.getServiceInfo();
+        String headImageUrl = EnvConstants.getServicesMainPictureURL(serviceInfo.getSellerId(), serviceInfo.getServiceId());
+        headImageView.setImageUrl(headImageUrl, ImageSingleton.getInstance().getImageLoader());
+
+        String[] imageUrls = aggregatedNewServiceInfo.getImageUrls();
+        remotePictures.clear();
+        for (int i = 0; i < imageUrls.length; i++) {
+            remotePictures.add(imageUrls[i]);
+        }
+        noScrollgridview.setAdapter(adapter);
     }
 
 }

@@ -28,9 +28,16 @@
     <string name="serviceInfo">服务信息</string>
     <string name="serviceRating">服务等级</string>
     <string name="serviceType">服务类型</string>
+    <string name="tourism">旅游</string>
+    <string name="overseasStudy">留学</string>
     <string name="serviceArea">服务地点</string>
     <string name="serviceLanguage">服务语言</string>
+    <string name="languageChinese">中文普通话</string>
+    <string name="languageEnglish">英语</string>
+    <string name="languageLocal">当地语言</string>
     <string name="servicePriceType">收费类型</string>
+    <string name="servicePriceByHour">按小时(￥/小时)</string>
+    <string name="servicePriceByCount">按次数(￥/次)</string>
     <string name="servicePrice">服务价格</string>
     <string name="serviceUnitPrice">费用单价</string>
     <string name="serviceTag">服务标签</string>

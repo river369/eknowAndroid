@@ -60,7 +60,6 @@ public class ServiceAddGridAdapter extends BaseAdapter {
                 imageView.setVisibility(View.GONE);
             }
         } else {
-            System.out.println(remotePictures.get(position));
             imageView.setImageUrl(EnvConstants.OSS_UPLOAD_URL + remotePictures.get(position),
                     ImageSingleton.getInstance().getImageLoader());
         }

@@ -5,7 +5,6 @@ package eknow.com.eknow.utils;
  */
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
@@ -30,7 +29,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 import eknow.com.eknow.EnvConstants;
-import eknow.com.eknow.MainActivity;
 
 public class OSSUtil {
 
@@ -50,7 +48,7 @@ public class OSSUtil {
     public OSSUtil(Context context) {
         this.context = context;
         this.oss = getClient();
-        this.bucket = EnvConstants.OSS_UPLOAD_BUCKET;
+        this.bucket = EnvConstants.OSS_CLCENTURY_BUCKET;
     }
 
     public OSSClient getClient(){

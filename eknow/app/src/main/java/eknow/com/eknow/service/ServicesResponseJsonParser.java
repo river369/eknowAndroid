@@ -36,27 +36,61 @@ public class ServicesResponseJsonParser extends ResponseJsonParserBase {
         try {
             for (int i = 0; i < getDataArray().length(); i++) {
                 JSONObject jo = (JSONObject) getDataArray().get(i);
-                ServiceInfo si = new ServiceInfo();
-                si.setServiceId(jo.getString("service_id"));
-                si.setServiceName(jo.getString("service_name"));
-                si.setServiceType(jo.getInt("service_type"));
-                si.setSellerId(jo.getString("seller_id"));
-                si.setSellerName(jo.getString("seller_name"));
-                si.setServiceArea(jo.getString("service_area"));
-                si.setServiceBrief(jo.getString("service_brief"));
-                si.setService_price_type(jo.getInt("service_price_type"));
-                si.setService_price(jo.getDouble("service_price"));
-                si.setStars((float)jo.getDouble("stars"));
-                si.setServiceTag(jo.getString("tag"));
-                si.setServiceDescription(jo.getString("description"));
-                si.setServiceLanguage(jo.getString("service_language"));
-                services.add(si);
+                ServiceInfo serviceInfo = getServiceInfoFromJSONObject(jo);
+                services.add(serviceInfo);
             }
         } catch (JSONException e) {
             e.printStackTrace();
             throw reportError(Thread.currentThread().getStackTrace()[1].getMethodName(), e.getMessage());
         }
         return services;
+    }
+
+    /**
+     * get one service info
+     * @return
+     * @throws EknowException
+     */
+    public ServiceInfo getServiceInfo() throws EknowException {
+        setDataTag("serviceInfo");
+        ServiceInfo serviceInfo;
+        try {
+            JSONObject jo = getDataObject();
+            serviceInfo = getServiceInfoFromJSONObject(jo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw reportError(Thread.currentThread().getStackTrace()[1].getMethodName(), e.getMessage());
+        }
+        return serviceInfo;
+    }
+
+    ServiceInfo getServiceInfoFromJSONObject(JSONObject jo) throws JSONException {
+        ServiceInfo serviceInfo = new ServiceInfo();
+        serviceInfo.setServiceId(jo.getString("service_id"));
+        serviceInfo.setServiceName(jo.getString("service_name"));
+        serviceInfo.setServiceType(jo.getInt("service_type"));
+        serviceInfo.setSellerId(jo.getString("seller_id"));
+        serviceInfo.setSellerName(jo.getString("seller_name"));
+        serviceInfo.setServiceArea(jo.getString("service_area"));
+        serviceInfo.setServiceBrief(jo.getString("service_brief"));
+        serviceInfo.setService_price_type(jo.getInt("service_price_type"));
+        serviceInfo.setService_price(jo.getDouble("service_price"));
+        serviceInfo.setStars((float)jo.getDouble("stars"));
+        serviceInfo.setServiceTag(jo.getString("tag"));
+        serviceInfo.setServiceDescription(jo.getString("description"));
+        serviceInfo.setServiceLanguage(jo.getString("service_language"));
+        return serviceInfo;
+    }
+
+    /**
+     * get the service info, currently not used since it has already be got from list.
+     * May be can be used in future.
+     *
+     * @return
+     * @throws EknowException
+     */
+    public ServiceInfo getServiceInfoById() throws EknowException {
+        return getServiceInfo();
     }
 
     /**
@@ -73,43 +107,14 @@ public class ServicesResponseJsonParser extends ResponseJsonParserBase {
         try {
             for (int i = 0; i < getDataArray().length(); i++) {
                 String path = (String) getDataArray().get(i);
-                //System.out.println(EnvConstants.OSS_BASE_URL + path);
-                servicePictures[i] = EnvConstants.OSS_BASE_URL + path;
+                //servicePictures[i] = EnvConstants.OSS_BASE_URL + path;
+                servicePictures[i] = path;
             }
         } catch (JSONException e) {
             e.printStackTrace();
             throw reportError(Thread.currentThread().getStackTrace()[1].getMethodName(), e.getMessage());
         }
         return servicePictures;
-    }
-
-    /**
-     * get the service info, currently not used since it has already be got from list.
-     * May be can be used in future.
-     *
-     * @return
-     * @throws EknowException
-     */
-    public ServiceInfo getServiceInfoById() throws EknowException {
-        setDataTag("serviceInfo");
-        ServiceInfo si;
-        try {
-            JSONObject jo = getDataObject();
-            si = new ServiceInfo();
-            si.setServiceId(jo.getString("service_id"));
-            si.setServiceName(jo.getString("service_name"));
-            si.setSellerId(jo.getString("seller_id"));
-            si.setSellerName(jo.getString("seller_name"));
-            si.setServiceArea(jo.getString("service_area"));
-            si.setServiceBrief(jo.getString("service_brief"));
-            si.setService_price_type(jo.getInt("service_price_type"));
-            si.setService_price(jo.getDouble("service_price"));
-            si.setStars((float)jo.getDouble("stars"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-            throw reportError(Thread.currentThread().getStackTrace()[1].getMethodName(), e.getMessage());
-        }
-        return si;
     }
 
     /**
@@ -150,4 +155,9 @@ public class ServicesResponseJsonParser extends ResponseJsonParserBase {
         return new AggregatedServiceDetailInfo(seller, comments);
     }
 
+    public AggregatedNewServiceInfo getAggregatedCreateOrUpdatePublishingService() throws EknowException {
+        ServiceInfo serviceInfo = getServiceInfo();
+        String[] imageUrls = getServicePictures();
+        return new AggregatedNewServiceInfo(serviceInfo, imageUrls);
+    }
 }

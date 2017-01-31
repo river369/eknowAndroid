@@ -17,6 +17,7 @@ import android.widget.Toast;
 import eknow.com.eknow.common.BackHandlerHelper;
 import eknow.com.eknow.common.BaseFragment;
 import eknow.com.eknow.home.HomeFragment;
+import eknow.com.eknow.user.AccessToken;
 import eknow.com.eknow.utils.SharedPreferenceUtil;
 
 /**
@@ -150,7 +151,9 @@ public class MainActivity extends FragmentActivity{
                 } else {
                     unsetAllSelected();
                     tabCreate.setSelected(true);
-                    FragmentsFactory.getInstance().setServiceAddFragment(MainActivity.this, currentFragment, null);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userId", AccessToken.parseUserId(token));
+                    FragmentsFactory.getInstance().setServiceAddFragment(MainActivity.this, currentFragment, bundle);
                 }
             }
         });

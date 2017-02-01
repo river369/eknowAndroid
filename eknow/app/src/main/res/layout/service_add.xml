@@ -22,7 +22,6 @@
             android:textColor="@color/eknowTitle"
             android:gravity="center_vertical|left"
             android:paddingLeft="@dimen/content_margin_left"
-            android:layout_marginRight="@dimen/content_margin_right"
             android:background="@color/gray_bright" />
 
         <TextView
@@ -93,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
                     <RadioButton
-                        android:id="@+id/btn_0"
+                        android:id="@+id/service_type_tourism"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/tourism"
@@ -105,7 +104,7 @@
                         android:button="@null"
                         android:background="@drawable/ratio" />
                     <RadioButton
-                        android:id="@+id/btn_1"
+                        android:id="@+id/service_type_overseasStudy"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/overseasStudy"

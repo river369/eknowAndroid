@@ -58,7 +58,6 @@ public class AlbumSelectFragment extends BaseFragment {
 		init();
 		initListener();
 		isShowOkBt();
-
 		return view;
 	}
 

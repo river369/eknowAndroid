@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -67,25 +68,29 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class ServiceAddFragment extends BaseFragment {
-
+    // All the view
     View view;
-    NetworkImageView headImageView;
+    //dialog to wait network
     private ProgressDialog dialog = null;
-
+    // head image view
+    NetworkImageView headImageView;
     String headImageURL = "";
+    // Service pictures view
     private GridView noScrollgridview;
     private ServiceAddGridAdapter adapter;
+    public static Bitmap bimap ;
+    private ArrayList<String> remotePictures = new ArrayList<>();
+    private ArrayList<RemoteImageItem> updatePictures = new ArrayList<>();
 
+    // select camera or gallary window and it's view
     private PopupWindow selectImageTypePopWindow = null;
     View selectImageTypePopView;
     //private LinearLayout ll_popup;
 
-    private PopupWindow selectTagPopWindow = null;
-    View selectTagPopView;
 
-    public static Bitmap bimap ;
-    private ArrayList<String> remotePictures = new ArrayList<>();
-    private ArrayList<RemoteImageItem> updatePictures = new ArrayList<>();
+    // Service infos
+    RadioButton serviceTypeTourismButton = null;
+    RadioButton serviceTypeOverseasStudyButton = null;
 
     private RequestQueue queue;
     ServiceInfo serviceInfo = null;
@@ -98,10 +103,13 @@ public class ServiceAddFragment extends BaseFragment {
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused);
         view = inflater.inflate(R.layout.service_add, container, false);
         selectImageTypePopView = inflater.inflate(R.layout.select_picture_popup, container, false);
-        selectTagPopView = inflater.inflate(R.layout.select_tag_fragment, container, false);
+
+        serviceTypeTourismButton = (RadioButton)view.findViewById(R.id.service_type_tourism);
+        serviceTypeOverseasStudyButton = (RadioButton)view.findViewById(R.id.service_type_overseasStudy);;
 
         String sellerId = getArguments().getString("userId");
-        getAggregatedServiceDetails(sellerId);
+        String serviceId = getArguments().getString("serviceId");
+        getAggregatedServiceDetails(sellerId, serviceId);
         showDialog();
         return view;
     }
@@ -175,27 +183,15 @@ public class ServiceAddFragment extends BaseFragment {
         });
     }
 
-    public void InitPopupTag() {
-        EditText tagsCountText = (EditText) view.findViewById(R.id.service_select_tag_count);
-        tagsCountText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putStringArray("tags", new String[]{"111", "22222"});
-                FragmentsFactory.getInstance().setSelectTagFragment(getActivity(), ServiceAddFragment.this, bundle);
-                //selectTagPopWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-            }
-        });
-    }
-
-
     public void InitMainImage() {
         headImageView = (NetworkImageView) view.findViewById(R.id.serviceMainImage);
         headImageView.setDefaultImageResId(R.drawable.icon_addpic_unfocused);
         headImageView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                PhotoUtils.setSelectFor("head");
-                selectImageTypePopWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                if (serviceInfo != null) {
+                    PhotoUtils.setSelectFor("head", 0 );
+                    selectImageTypePopWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                }
             }
         });
     }
@@ -207,9 +203,10 @@ public class ServiceAddFragment extends BaseFragment {
         noScrollgridview.setAdapter(adapter);
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                if (serviceInfo == null) return;
                 if (arg2 == remotePictures.size()) {
                     //ll_popup.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.activity_translate_in));
-                    PhotoUtils.setSelectFor("picture");
+                    PhotoUtils.setSelectFor("picture", remotePictures.size());
                     selectImageTypePopWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 } else {
                     Bundle bundle = new Bundle();
@@ -290,7 +287,7 @@ public class ServiceAddFragment extends BaseFragment {
                     if (PhotoUtils.selectFor.equalsIgnoreCase("picture")) {
                         updatePictures.clear();
                         for (ImageItem imageItem : PhotoUtils.tempSelectBitmap) {
-                            String obj = EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + imageItem.getImageId();
+                            String obj = EnvConstants.getServicesPictureObjPrefix(serviceInfo.getSellerId(), serviceInfo.getServiceId()) + imageItem.getImageId();
                             RemoteImageItem remoteImageItem = new RemoteImageItem(obj, imageItem.getImagePath());
                             remotePictures.add(obj);
                             updatePictures.add(remoteImageItem);
@@ -319,7 +316,6 @@ public class ServiceAddFragment extends BaseFragment {
                 case "refresh":
                     noScrollgridview.setAdapter(adapter);
                     String tempUrl = headImageURL+"?t="+Math.random();
-                    System.out.println(tempUrl);
                     headImageView.setImageUrl(tempUrl, ImageSingleton.getInstance().getImageLoader());
                     break;
                 case "head":
@@ -328,14 +324,14 @@ public class ServiceAddFragment extends BaseFragment {
                     FileUtils.saveBitmap(bm, fileName);
                     ImageItem takePhoto = new ImageItem();
                     takePhoto.setBitmap(bm);
-                    String obj = EnvConstants.OSS_PIC_OBJ_PREFIX + "test/" + "head";
+                    String obj = EnvConstants.getServicesMainPictureObj(serviceInfo.getSellerId(), serviceInfo.getServiceId());
                     RemoteImageItem remoteImageItem = new RemoteImageItem(obj, FileUtils.SDPATH + fileName + ".JPEG");
                     updatePictures.clear();
                     updatePictures.add(remoteImageItem);
                     AsyncFileTask task = new AsyncFileTask(getActivity(), getContext());
                     task.upload(updatePictures);
                     task.execute();
-                    headImageURL = EnvConstants.OSS_UPLOAD_URL +obj;
+                    headImageURL =  EnvConstants.getServicesMainPictureURL(serviceInfo.getSellerId(), serviceInfo.getServiceId());
             }
         }
     };
@@ -391,7 +387,19 @@ public class ServiceAddFragment extends BaseFragment {
         super.onStart();
     }
 
-    public void getAggregatedServiceDetails(final String sellerId) {
+    public void InitPopupTag() {
+        EditText tagsCountText = (EditText) view.findViewById(R.id.service_select_tag_count);
+        tagsCountText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putStringArray("tags", new String[]{"111", "22222"});
+                FragmentsFactory.getInstance().setSelectTagFragment(getActivity(), ServiceAddFragment.this, bundle);
+            }
+        });
+    }
+
+    public void getAggregatedServiceDetails(final String sellerId, final String serviceId) {
         queue = Volley.newRequestQueue(getActivity());
         String url = EnvConstants.API_URL;
         ServicesRequestBuilder srb = new ServicesRequestBuilder();
@@ -432,15 +440,32 @@ public class ServiceAddFragment extends BaseFragment {
 
     void setViewData(AggregatedNewServiceInfo aggregatedNewServiceInfo){
         serviceInfo = aggregatedNewServiceInfo.getServiceInfo();
+        // head image
         String headImageUrl = EnvConstants.getServicesMainPictureURL(serviceInfo.getSellerId(), serviceInfo.getServiceId());
         headImageView.setImageUrl(headImageUrl, ImageSingleton.getInstance().getImageLoader());
 
+        // service pictures
         String[] imageUrls = aggregatedNewServiceInfo.getImageUrls();
-        remotePictures.clear();
-        for (int i = 0; i < imageUrls.length; i++) {
-            remotePictures.add(imageUrls[i]);
+        if (null != imageUrls) {
+            remotePictures.clear();
+            for (int i = 0; i < imageUrls.length; i++) {
+                remotePictures.add(imageUrls[i]);
+            }
+            noScrollgridview.setAdapter(adapter);
         }
-        noScrollgridview.setAdapter(adapter);
+
+        System.out.println(serviceInfo.getServiceType());
+        switch (serviceInfo.getServiceType()){
+            case 1 :
+                serviceTypeTourismButton.setChecked(true);
+                serviceTypeOverseasStudyButton.setChecked(false);
+                break;
+            case 2:
+                serviceTypeTourismButton.setChecked(false);
+                serviceTypeOverseasStudyButton.setChecked(true);
+                break;
+        }
+
     }
 
 }

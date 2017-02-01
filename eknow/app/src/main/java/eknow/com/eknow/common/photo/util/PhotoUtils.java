@@ -15,7 +15,7 @@ public class PhotoUtils {
 	public static int picture_max_num = 5;
 	public static int picture_available_num = picture_max_num;
 	public static String selectFor = "";
-	public static void setSelectFor(String sf){
+	public static void setSelectFor(String sf, int picture_uploaded_num){
 		PhotoUtils.selectFor = sf;
 		switch (sf){
 			case "head" :
@@ -24,7 +24,7 @@ public class PhotoUtils {
 				break;
 			case "picture" :
 				PhotoUtils.picture_max_num = 5;
-				PhotoUtils.picture_available_num = picture_max_num;
+				PhotoUtils.picture_available_num = picture_max_num - picture_uploaded_num;
 				break;
 		}
 	}

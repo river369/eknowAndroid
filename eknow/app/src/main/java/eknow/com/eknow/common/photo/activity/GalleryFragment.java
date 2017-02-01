@@ -50,7 +50,7 @@ public class GalleryFragment extends BaseFragment {
 		del_bt.setOnClickListener(new DelListener());
 
 		remotePictures =  getArguments().getStringArrayList(KeyConstants.remotePictures);
-		reviewPosition = getArguments().getInt(KeyConstants.removePosition);
+		reviewPosition = getArguments().getInt(KeyConstants.reviewPosition);
 		String imageUrl = EnvConstants.OSS_UPLOAD_URL + remotePictures.get(reviewPosition);
 		reviewImage = (NetworkImageView) view.findViewById(Res.getWidgetID("review_image"));
 		reviewImage.setImageUrl(imageUrl, ImageSingleton.getInstance().getImageLoader() );
